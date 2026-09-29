@@ -1,6 +1,6 @@
 # Components Documentation
 
-## Phase 2: MVP Components (6 of 10)
+## Phase 2: MVP Components (7 of 10)
 
 Interactive components with animations, gestures, and accessibility support.
 
@@ -279,6 +279,55 @@ const tabs = [
 - Labels used for accessibility
 - Proper focus management
 - Screen reader support
+
+### SegmentedControl
+
+Compact multi-option selector with animated background indicator.
+
+```tsx
+import { SegmentedControl } from 'react-x2-native';
+
+const options = [
+  { id: 'small', label: 'Small' },
+  { id: 'medium', label: 'Medium' },
+  { id: 'large', label: 'Large' },
+];
+
+<SegmentedControl
+  options={options}
+  selectedId={selected}
+  onSelect={setSelected}
+  selectedBackgroundColor={colors.primary}
+/>
+```
+
+#### Props
+
+- `options`: Array<{ id, label }> - Segment options
+- `selectedId`: string - Currently selected option ID
+- `onSelect`: callback - Called on selection
+- `backgroundColor`: string - Container background color
+- `selectedBackgroundColor`: string - Indicator background color
+- `tintColor`: string - Optional tint color
+- `disabled`: boolean - Disable interactions (default: false)
+- `testID`: string
+
+#### Behavior
+
+- Animated background indicator (spring, damping: 15)
+- Equal-width segments
+- Smooth motion transitions
+- Respects reduce motion preferences
+- Radio-button semantics (single selection)
+- Touch feedback via opacity
+
+#### Accessibility
+
+- Radio group semantics
+- `accessibilityRole: 'radio'` per segment
+- `accessibilityState: { selected }` for active
+- Labels used for accessibility
+- Full keyboard navigation support
 
 ## Upcoming Components
 Expandable/collapsible content card with smooth height animations.

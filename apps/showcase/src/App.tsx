@@ -20,8 +20,9 @@ import { ProfileCardShowcase } from './screens/ProfileCardShowcase';
 import { ExpandableCardShowcase } from './screens/ExpandableCardShowcase';
 import { DockShowcase } from './screens/DockShowcase';
 import { AnimatedTabsShowcase } from './screens/AnimatedTabsShowcase';
+import { SegmentedControlShowcase } from './screens/SegmentedControlShowcase';
 
-type Section = 'typography' | 'surfaces' | 'buttons' | 'colors' | 'spotlight' | 'tilted' | 'profile' | 'expandable' | 'dock' | 'tabs';
+type Section = 'typography' | 'surfaces' | 'buttons' | 'colors' | 'spotlight' | 'tilted' | 'profile' | 'expandable' | 'dock' | 'tabs' | 'segmented';
 
 function AppContent() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -39,6 +40,7 @@ function AppContent() {
     { id: 'expandable', label: 'Expandable' },
     { id: 'dock', label: 'Dock' },
     { id: 'tabs', label: 'Tabs' },
+    { id: 'segmented', label: 'Segmented' },
   ];
 
   return (
@@ -150,6 +152,7 @@ function AppContent() {
         {activeSection === 'expandable' && <ExpandableCardShowcase />}
         {activeSection === 'dock' && <DockShowcase />}
         {activeSection === 'tabs' && <AnimatedTabsShowcase />}
+        {activeSection === 'segmented' && <SegmentedControlShowcase />}
 
         {/* Footer */}
         <X2Surface
@@ -164,7 +167,7 @@ function AppContent() {
             color={colors.textSecondary}
             style={{ textAlign: 'center' }}
           >
-            Phase 2: MVP Components (6 of 10 complete)
+            Phase 2: MVP Components (7 of 10 complete)
           </X2Text>
         </X2Surface>
       </ScrollView>

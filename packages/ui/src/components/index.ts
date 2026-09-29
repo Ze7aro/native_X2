@@ -10,3 +10,5 @@ export { Dock } from './Dock';
 export type { DockProps, DockItem } from './Dock';
 export { AnimatedTabs } from './AnimatedTabs';
 export type { AnimatedTabsProps, TabItem } from './AnimatedTabs';
+export { SegmentedControl } from './SegmentedControl';
+export type { SegmentedControlProps, SegmentOption } from './SegmentedControl';
