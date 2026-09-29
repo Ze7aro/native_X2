@@ -14,8 +14,11 @@ import { TypographyShowcase } from './screens/TypographyShowcase';
 import { SurfacesShowcase } from './screens/SurfacesShowcase';
 import { ButtonsShowcase } from './screens/ButtonsShowcase';
 import { ColorShowcase } from './screens/ColorShowcase';
+import { SpotlightCardShowcase } from './screens/SpotlightCardShowcase';
+import { TiltedCardShowcase } from './screens/TiltedCardShowcase';
+import { ProfileCardShowcase } from './screens/ProfileCardShowcase';
 
-type Section = 'typography' | 'surfaces' | 'buttons' | 'colors';
+type Section = 'typography' | 'surfaces' | 'buttons' | 'colors' | 'spotlight' | 'tilted' | 'profile';
 
 function AppContent() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -27,6 +30,9 @@ function AppContent() {
     { id: 'surfaces', label: 'Surfaces' },
     { id: 'buttons', label: 'Buttons' },
     { id: 'colors', label: 'Colors' },
+    { id: 'spotlight', label: 'Spotlight' },
+    { id: 'tilted', label: 'Tilted' },
+    { id: 'profile', label: 'Profile' },
   ];
 
   return (
@@ -132,6 +138,9 @@ function AppContent() {
         {activeSection === 'surfaces' && <SurfacesShowcase />}
         {activeSection === 'buttons' && <ButtonsShowcase />}
         {activeSection === 'colors' && <ColorShowcase />}
+        {activeSection === 'spotlight' && <SpotlightCardShowcase />}
+        {activeSection === 'tilted' && <TiltedCardShowcase />}
+        {activeSection === 'profile' && <ProfileCardShowcase />}
 
         {/* Footer */}
         <X2Surface
@@ -146,7 +155,7 @@ function AppContent() {
             color={colors.textSecondary}
             style={{ textAlign: 'center' }}
           >
-            Phase 1: Tokens & Primitives Complete
+            Phase 2: MVP Components (3 of 10 complete)
           </X2Text>
         </X2Surface>
       </ScrollView>
