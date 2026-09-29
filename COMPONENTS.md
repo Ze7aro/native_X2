@@ -1,6 +1,6 @@
 # Components Documentation
 
-## Phase 2: MVP Components (3 of 10)
+## Phase 2: MVP Components (5 of 10)
 
 Interactive components with animations, gestures, and accessibility support.
 
@@ -136,9 +136,99 @@ import { ProfileCard, X2Icon, X2Surface } from 'react-x2-native';
 - Buttons accessible with labels
 - Custom content inherits theme colors
 
+### ExpandableCard
+
+Expandable/collapsible content card with smooth height animations.
+
+```tsx
+import { ExpandableCard } from 'react-x2-native';
+
+<ExpandableCard
+  defaultExpanded={false}
+  onToggle={(expanded) => console.log(expanded)}
+  header={<X2Text>Click to expand</X2Text>}
+>
+  <X2Text>Content shown when expanded</X2Text>
+</ExpandableCard>
+```
+
+#### Props
+
+- `header`: ReactNode - Header element (always visible)
+- `children`: ReactNode - Content to expand/collapse
+- `expanded`: boolean - Controlled expansion state
+- `defaultExpanded`: boolean - Initial state for uncontrolled (default: false)
+- `onToggle`: callback - Called when toggling, returns boolean
+- `disabled`: boolean - Disable interactions (default: false)
+- `testID`: string
+
+#### Behavior
+
+- Smooth height animation with spring physics (damping: 15)
+- Automatic height measurement via layout events
+- Supports both controlled and uncontrolled modes
+- Respects reduce motion preferences (instant state change)
+- Divider between header and content
+- Automatic content measurement on layout
+
+#### Accessibility
+
+- `accessibilityRole: 'button'` for header
+- `accessibilityState: { expanded }` broadcasts state
+- Screen reader announces expanded/collapsed status
+- Proper semantic structure
+
+### Dock
+
+Horizontal navigation dock with animated active indicator and safe area support.
+
+```tsx
+import { Dock } from 'react-x2-native';
+
+const items = [
+  { id: 'home', label: 'Home', icon: <X2Icon name="🏠" /> },
+  { id: 'search', label: 'Search', icon: <X2Icon name="🔍" /> },
+  { id: 'add', label: 'Add', icon: <X2Icon name="➕" /> },
+];
+
+<Dock
+  items={items.map(item => ({
+    ...item,
+    onPress: () => navigate(item.id)
+  }))}
+  activeId={activeId}
+  showLabels={true}
+/>
+```
+
+#### Props
+
+- `items`: Array<{ id, label, icon, onPress }> - Navigation items
+- `activeId`: string - Currently active item ID
+- `backgroundColor`: string - Dock background color
+- `indicatorColor`: string - Active indicator color
+- `showLabels`: boolean - Show item labels (default: false)
+- `testID`: string
+
+#### Behavior
+
+- Horizontal flex layout centered
+- Animated indicator follows active item (spring, damping: 15)
+- Respects safe area bottom inset
+- Optional labels displayed below icons
+- Touch feedback via opacity change
+- 48px height without labels, 70px with labels
+
+#### Accessibility
+
+- Each item is a tab with `accessibilityRole: 'tab'`
+- `accessibilityState: { selected }` for active item
+- Item labels used as accessibility labels
+- Proper semantic tab group structure
+
 ## Upcoming Components
 
-### ExpandableCard (Phase 2 - #4)
+### AnimatedTabs (Phase 2 - #6)
 Expandable/collapsible content card with smooth height animations.
 
 ### Dock (Phase 2 - #5)

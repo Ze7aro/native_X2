@@ -4,3 +4,7 @@ export { TiltedCard } from './TiltedCard';
 export type { TiltedCardProps } from './TiltedCard';
 export { ProfileCard } from './ProfileCard';
 export type { ProfileCardProps } from './ProfileCard';
+export { ExpandableCard } from './ExpandableCard';
+export type { ExpandableCardProps } from './ExpandableCard';
+export { Dock } from './Dock';
+export type { DockProps, DockItem } from './Dock';

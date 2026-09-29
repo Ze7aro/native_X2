@@ -148,13 +148,13 @@ export function MyApp() {
 
 See [PRIMITIVES.md](PRIMITIVES.md) for detailed API documentation.
 
-## Phase 2 Progress (MVP Components — 3 of 10)
+## Phase 2 Progress (MVP Components — 5 of 10)
 
 - [x] **SpotlightCard**: Interactive glow following touch, spring animations
 - [x] **TiltedCard**: 3D perspective tilt effect, customizable intensity
 - [x] **ProfileCard**: Composable profile with avatar, metadata, actions
-- [ ] ExpandableCard: Expandable content with smooth height transitions
-- [ ] Dock: Navigation dock with active indicator
+- [x] **ExpandableCard**: Expandable content with smooth height transitions
+- [x] **Dock**: Navigation dock with active indicator & safe areas
 - [ ] AnimatedTabs: Tabbed navigation with animated indicator
 - [ ] SegmentedControl: Compact multi-option selector
 - [ ] Carousel: Touch-paginated carousel with indicators
