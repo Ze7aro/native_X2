@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.pnpm-debug.log
+*.pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+.turbo/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Expo
+.expo/
+.expo-shared/
+
+# React Native
+.gradle/
+.watchman-ignore
+*.jks
+*.keystore
+
+# Testing
+coverage/
+.nyc_output/
+
+# Env
+.env
+.env.local
+.env.*.local

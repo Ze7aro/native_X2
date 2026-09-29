@@ -1,0 +1,26 @@
+{
+  "name": "react-x2-native-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "React Native components library with modern UI patterns for Android and iOS",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r --parallel build",
+    "lint": "pnpm -r --parallel lint",
+    "format": "pnpm -r --parallel format",
+    "type-check": "pnpm -r --parallel type-check",
+    "test": "pnpm -r --parallel test"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}
