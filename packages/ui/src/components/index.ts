@@ -12,3 +12,5 @@ export { AnimatedTabs } from './AnimatedTabs';
 export type { AnimatedTabsProps, TabItem } from './AnimatedTabs';
 export { SegmentedControl } from './SegmentedControl';
 export type { SegmentedControlProps, SegmentOption } from './SegmentedControl';
+export { Carousel } from './Carousel';
+export type { CarouselProps, CarouselPage } from './Carousel';

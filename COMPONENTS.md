@@ -1,6 +1,6 @@
 # Components Documentation
 
-## Phase 2: MVP Components (7 of 10)
+## Phase 2: MVP Components (8 of 10)
 
 Interactive components with animations, gestures, and accessibility support.
 
@@ -329,7 +329,58 @@ const options = [
 - Labels used for accessibility
 - Full keyboard navigation support
 
-## Upcoming Components
+### Carousel
+
+Touch-paginated carousel with indicators and page tracking.
+
+```tsx
+import { Carousel } from 'react-x2-native';
+
+const pages = [
+  { id: 'page1', content: <YourContent1 /> },
+  { id: 'page2', content: <YourContent2 /> },
+  { id: 'page3', content: <YourContent3 /> },
+];
+
+<Carousel
+  pages={pages}
+  height={300}
+  showIndicators={true}
+  onPageChange={(index, id) => console.log(index, id)}
+/>
+```
+
+#### Props
+
+- `pages`: Array<{ id, content }> - Carousel pages
+- `initialPage`: number - Starting page (default: 0)
+- `height`: number - Carousel height in pixels (default: 300)
+- `showIndicators`: boolean - Show page indicators (default: true)
+- `indicatorColor`: string - Inactive indicator color
+- `activeIndicatorColor`: string - Active indicator color
+- `onPageChange`: callback - Called on page change
+- `loop`: boolean - Enable infinite loop (default: false)
+- `disabled`: boolean - Disable interactions (default: false)
+- `testID`: string
+
+#### Behavior
+
+- Horizontal swipe for page navigation
+- Page snapping with paging enabled
+- Animated indicator dots
+- Page counter display (e.g., "1 / 5")
+- Indicator tap to jump to page
+- Smooth scroll animations
+- Efficient rendering (no re-renders on swipe)
+
+#### Accessibility
+
+- Radio role for indicators
+- Page labels and navigation hints
+- Full screen reader support
+- Keyboard accessible
+
+## Upcoming Components (2 remaining)
 Expandable/collapsible content card with smooth height animations.
 
 ### Dock (Phase 2 - #5)
