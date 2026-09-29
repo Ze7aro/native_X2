@@ -1,6 +1,6 @@
 # Components Documentation
 
-## Phase 2: MVP Components (5 of 10)
+## Phase 2: MVP Components (6 of 10)
 
 Interactive components with animations, gestures, and accessibility support.
 
@@ -226,9 +226,61 @@ const items = [
 - Item labels used as accessibility labels
 - Proper semantic tab group structure
 
-## Upcoming Components
+### AnimatedTabs
 
-### AnimatedTabs (Phase 2 - #6)
+Tabbed navigation with animated indicator underline.
+
+```tsx
+import { AnimatedTabs } from 'react-x2-native';
+
+const tabs = [
+  { id: 'home', label: 'Home', icon: <X2Icon name="🏠" /> },
+  { id: 'search', label: 'Search', icon: <X2Icon name="🔍" /> },
+  { id: 'profile', label: 'Profile', icon: <X2Icon name="👤" /> },
+];
+
+<AnimatedTabs
+  tabs={tabs}
+  activeTabId={activeTab}
+  onTabPress={setActiveTab}
+  showIcons={true}
+  indicatorColor={colors.primary}
+  indicatorHeight={3}
+>
+  {/* Tab content here */}
+</AnimatedTabs>
+```
+
+#### Props
+
+- `tabs`: Array<{ id, label, icon? }> - Tab items
+- `activeTabId`: string - Currently active tab
+- `onTabPress`: callback - Called on tab selection
+- `indicatorColor`: string - Indicator underline color
+- `indicatorHeight`: number - Indicator height in pixels (default: 3)
+- `showIcons`: boolean - Show tab icons (default: false)
+- `disabled`: boolean - Disable interactions (default: false)
+- `children`: ReactNode - Tab content area
+- `testID`: string
+
+#### Behavior
+
+- Animated underline indicator (spring, damping: 15)
+- Horizontal scrolling for many tabs
+- Auto-scrolls active tab into view
+- Optional icon support with labels
+- Spring physics for smooth motion
+- Respects reduce motion (instant state change)
+
+#### Accessibility
+
+- Tab role with proper semantics
+- `accessibilityState: { selected }` for active tab
+- Labels used for accessibility
+- Proper focus management
+- Screen reader support
+
+## Upcoming Components
 Expandable/collapsible content card with smooth height animations.
 
 ### Dock (Phase 2 - #5)

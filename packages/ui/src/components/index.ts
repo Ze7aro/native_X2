@@ -8,3 +8,5 @@ export { ExpandableCard } from './ExpandableCard';
 export type { ExpandableCardProps } from './ExpandableCard';
 export { Dock } from './Dock';
 export type { DockProps, DockItem } from './Dock';
+export { AnimatedTabs } from './AnimatedTabs';
+export type { AnimatedTabsProps, TabItem } from './AnimatedTabs';
