@@ -6,6 +6,9 @@ export interface X2IconProps extends TextProps {
   size?: number;
   color?: string;
   name: string;
+  testID?: string;
+  accessible?: boolean;
+  accessibilityLabel?: string;
 }
 
 export function X2Icon({
@@ -13,6 +16,9 @@ export function X2Icon({
   color,
   name,
   style,
+  testID,
+  accessible = false,
+  accessibilityLabel,
   ...props
 }: X2IconProps) {
   const { colors } = useTheme();
@@ -20,14 +26,19 @@ export function X2Icon({
   return (
     <Text
       {...props}
+      testID={testID}
+      accessible={accessible}
+      accessibilityLabel={accessibilityLabel}
       style={[
         {
           fontSize: size,
           color: color ?? colors.text,
           textAlign: 'center',
+          lineHeight: size,
         },
         style,
       ]}
+      allowFontScaling={false}
     >
       {name}
     </Text>

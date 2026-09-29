@@ -6,9 +6,10 @@ type SpacingValue = keyof typeof spacing;
 
 export interface X2StackProps extends ViewProps {
   direction?: 'row' | 'column';
-  gap?: SpacingValue;
+  gap?: SpacingValue | number;
   align?: 'flex-start' | 'center' | 'flex-end' | 'stretch';
-  justify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
+  justify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
+  testID?: string;
 }
 
 export function X2Stack({
@@ -17,13 +18,15 @@ export function X2Stack({
   align = 'center',
   justify = 'flex-start',
   style,
+  testID,
   ...props
 }: X2StackProps) {
-  const gapValue = spacing[gap];
+  const gapValue = typeof gap === 'number' ? gap : spacing[gap];
 
   return (
     <View
       {...props}
+      testID={testID}
       style={[
         {
           flexDirection: direction,

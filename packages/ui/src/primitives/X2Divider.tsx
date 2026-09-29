@@ -5,12 +5,16 @@ import { useTheme } from '../theme/ThemeContext';
 export interface X2DividerProps extends ViewProps {
   orientation?: 'horizontal' | 'vertical';
   thickness?: number;
+  color?: string;
+  testID?: string;
 }
 
 export function X2Divider({
   orientation = 'horizontal',
   thickness = 1,
+  color,
   style,
+  testID,
   ...props
 }: X2DividerProps) {
   const { colors } = useTheme();
@@ -18,9 +22,10 @@ export function X2Divider({
   return (
     <View
       {...props}
+      testID={testID}
       style={[
         {
-          backgroundColor: colors.divider,
+          backgroundColor: color ?? colors.divider,
           ...(orientation === 'horizontal' && {
             height: thickness,
             width: '100%',

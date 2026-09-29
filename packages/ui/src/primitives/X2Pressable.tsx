@@ -12,6 +12,8 @@ export interface X2PressableProps extends PressableProps, AccessibilityProps {
   backgroundColor?: string;
   borderColor?: string;
   disabled?: boolean;
+  testID?: string;
+  activeOpacity?: number;
 }
 
 export function X2Pressable({
@@ -23,6 +25,10 @@ export function X2Pressable({
   accessibilityRole = 'button',
   children,
   style,
+  testID,
+  activeOpacity = 0.8,
+  accessibilityLabel,
+  accessibilityHint,
   ...props
 }: X2PressableProps) {
   const { colors } = useTheme();
@@ -34,7 +40,7 @@ export function X2Pressable({
 
   const getOpacity = (pressed: boolean): number => {
     if (disabled) return 0.5;
-    return pressed ? 0.8 : 1;
+    return pressed ? activeOpacity : 1;
   };
 
   return (
@@ -42,7 +48,10 @@ export function X2Pressable({
       {...props}
       disabled={disabled}
       onPress={onPress}
+      testID={testID}
       accessibilityRole={getAccessibilityRole(accessibilityRole as string)}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled }}
       style={({ pressed }) => {
         const baseStyle: ViewStyle = {

@@ -8,12 +8,16 @@ type TypographyStyle = keyof typeof typography;
 export interface X2TextProps extends RNTextProps {
   variant?: TypographyStyle;
   color?: string;
+  testID?: string;
+  weight?: 'normal' | 'bold';
 }
 
 export function X2Text({
   variant = 'bodyM',
   color,
   style,
+  testID,
+  weight,
   ...props
 }: X2TextProps) {
   const { colors } = useTheme();
@@ -22,13 +26,17 @@ export function X2Text({
   return (
     <Text
       {...props}
+      testID={testID}
       style={[
         typographyStyle,
         {
           color: color ?? colors.text,
+          fontWeight: weight,
         },
         style,
       ]}
+      allowFontScaling={false}
+      maxFontSizeMultiplier={1.2}
     />
   );
 }

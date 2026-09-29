@@ -14,14 +14,17 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({
   children,
   theme = 'light',
+  colors: customColors,
 }: {
   children: React.ReactNode;
   theme?: Theme;
+  colors?: Partial<ColorScheme>;
 }) {
-  const colors = theme === 'dark' ? darkColors : lightColors;
+  const baseColors = theme === 'dark' ? darkColors : lightColors;
+  const mergedColors = customColors ? { ...baseColors, ...customColors } : baseColors;
 
   return (
-    <ThemeContext.Provider value={{ theme, colors }}>
+    <ThemeContext.Provider value={{ theme, colors: mergedColors }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -36,4 +39,8 @@ export function useTheme(): ThemeContextType {
     };
   }
   return context;
+}
+
+export function useThemeColors(): ColorScheme {
+  return useTheme().colors;
 }

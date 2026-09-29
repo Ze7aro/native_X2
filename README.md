@@ -118,20 +118,38 @@ export function MyApp() {
 - [x] Create base TypeScript configuration
 - [x] Implement design tokens package
 - [x] Implement core utilities package
-- [x] Create UI package with primitives:
-  - [x] X2Text (typography)
-  - [x] X2Surface (surfaces with elevation)
-  - [x] X2Pressable (button base)
-  - [x] X2Stack (layout)
-  - [x] X2Divider (divider)
-  - [x] X2Icon (icon adapter)
+- [x] Create UI package with primitives
 - [x] Create Expo showcase app
 - [x] Configure ESLint and Prettier
 - [x] Theme provider with light/dark modes
 
+## Phase 1 Progress
+
+- [x] Enhanced design tokens with motion/easing
+- [x] Refined primitive APIs:
+  - [x] testID support on all primitives
+  - [x] Improved X2Text with weight & font scaling
+  - [x] Enhanced X2Surface with borders & custom radius
+  - [x] Better X2Pressable with activeOpacity & hints
+  - [x] Flexible X2Stack with numeric gap support
+  - [x] Enhanced X2Icon with accessibility
+  - [x] Improved X2Divider with custom color
+- [x] Core utilities:
+  - [x] useSpacing hook
+  - [x] useThemeColors hook
+  - [x] Improved useReducedMotion
+  - [x] useSafeAreaPadding
+- [x] Expanded showcase with section navigation:
+  - [x] Typography showcase
+  - [x] Surfaces & elevation showcase
+  - [x] Buttons showcase
+  - [x] Color palette showcase
+- [x] Comprehensive primitives documentation
+
+See [PRIMITIVES.md](PRIMITIVES.md) for detailed API documentation.
+
 ## Roadmap
 
-- **Phase 1:** Tokens refinement and additional primitives
 - **Phase 2:** MVP components (SpotlightCard, TiltedCard, ProfileCard, etc.)
 - **Phase 3:** Extended families (cards, navigation, collections, overlays)
 - **Phase 4:** Animations and advanced interactions
