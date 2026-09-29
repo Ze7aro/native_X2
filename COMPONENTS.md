@@ -1,6 +1,6 @@
 # Components Documentation
 
-## Phase 2: MVP Components (8 of 10)
+## Phase 2: MVP Components (10 of 10) ✅ COMPLETE
 
 Interactive components with animations, gestures, and accessibility support.
 
@@ -380,7 +380,85 @@ const pages = [
 - Full screen reader support
 - Keyboard accessible
 
-## Upcoming Components (2 remaining)
+### AnimatedList
+
+List with animated entry/exit animations for items.
+
+```tsx
+import { AnimatedList } from 'react-x2-native';
+
+const items = [
+  { id: '1', content: 'Item 1' },
+  { id: '2', content: 'Item 2' },
+];
+
+<AnimatedList
+  items={items}
+  gap={16}
+  animationDuration={300}
+  renderItem={(item) => <YourItemComponent item={item} />}
+/>
+```
+
+#### Props
+
+- `items`: Array<{ id, content }> - List items
+- `renderItem`: function - Custom item renderer
+- `gap`: number - Gap between items (default: 12)
+- `animationDuration`: number - Animation duration in ms (default: 300)
+- `onItemPress`: callback - Item press handler
+- `testID`: string
+
+#### Behavior
+
+- Fade in/up animation on entry
+- Fade out/down animation on exit
+- Staggered animations (50ms delay per item)
+- Spring layout transitions
+- Efficient rendering with no extra re-renders
+
+### Accordion
+
+Expandable sections with smooth animations and keyboard support.
+
+```tsx
+import { Accordion } from 'react-x2-native';
+
+const sections = [
+  {
+    id: 'section1',
+    title: 'Section 1',
+    icon: <X2Icon name="▶" />,
+    content: <X2Text>Content here</X2Text>,
+  },
+];
+
+<Accordion
+  sections={sections}
+  expandedIds={expanded}
+  onExpandChange={setExpanded}
+  allowMultiple={true}
+/>
+```
+
+#### Props
+
+- `sections`: Array<{ id, title, content, icon? }> - Accordion sections
+- `expandedIds`: string[] - Currently expanded sections
+- `onExpandChange`: callback - Called when expansion changes
+- `allowMultiple`: boolean - Allow multiple open sections (default: true)
+- `disabled`: boolean - Disable all interactions
+- `testID`: string
+
+#### Behavior
+
+- Smooth height animations for expand/collapse
+- Optional section icons with rotation
+- Single or multiple open sections mode
+- Keyboard accessible
+- Built on ExpandableCard for smooth animations
+
+## Phase 2 Complete ✅
 Expandable/collapsible content card with smooth height animations.
 
 ### Dock (Phase 2 - #5)

@@ -22,8 +22,10 @@ import { DockShowcase } from './screens/DockShowcase';
 import { AnimatedTabsShowcase } from './screens/AnimatedTabsShowcase';
 import { SegmentedControlShowcase } from './screens/SegmentedControlShowcase';
 import { CarouselShowcase } from './screens/CarouselShowcase';
+import { AnimatedListShowcase } from './screens/AnimatedListShowcase';
+import { AccordionShowcase } from './screens/AccordionShowcase';
 
-type Section = 'typography' | 'surfaces' | 'buttons' | 'colors' | 'spotlight' | 'tilted' | 'profile' | 'expandable' | 'dock' | 'tabs' | 'segmented' | 'carousel';
+type Section = 'typography' | 'surfaces' | 'buttons' | 'colors' | 'spotlight' | 'tilted' | 'profile' | 'expandable' | 'dock' | 'tabs' | 'segmented' | 'carousel' | 'list' | 'accordion';
 
 function AppContent() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -43,6 +45,8 @@ function AppContent() {
     { id: 'tabs', label: 'Tabs' },
     { id: 'segmented', label: 'Segmented' },
     { id: 'carousel', label: 'Carousel' },
+    { id: 'list', label: 'List' },
+    { id: 'accordion', label: 'Accordion' },
   ];
 
   return (
@@ -156,6 +160,8 @@ function AppContent() {
         {activeSection === 'tabs' && <AnimatedTabsShowcase />}
         {activeSection === 'segmented' && <SegmentedControlShowcase />}
         {activeSection === 'carousel' && <CarouselShowcase />}
+        {activeSection === 'list' && <AnimatedListShowcase />}
+        {activeSection === 'accordion' && <AccordionShowcase />}
 
         {/* Footer */}
         <X2Surface
@@ -170,7 +176,7 @@ function AppContent() {
             color={colors.textSecondary}
             style={{ textAlign: 'center' }}
           >
-            Phase 2: MVP Components (8 of 10 complete)
+            Phase 2: MVP Components (10 of 10 complete) 🎉
           </X2Text>
         </X2Surface>
       </ScrollView>

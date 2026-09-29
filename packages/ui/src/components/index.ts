@@ -14,3 +14,7 @@ export { SegmentedControl } from './SegmentedControl';
 export type { SegmentedControlProps, SegmentOption } from './SegmentedControl';
 export { Carousel } from './Carousel';
 export type { CarouselProps, CarouselPage } from './Carousel';
+export { AnimatedList } from './AnimatedList';
+export type { AnimatedListProps, ListItem } from './AnimatedList';
+export { Accordion } from './Accordion';
+export type { AccordionProps, AccordionSection } from './Accordion';
