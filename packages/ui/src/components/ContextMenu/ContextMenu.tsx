@@ -1,13 +1,9 @@
-import React, { useRef, useState, useCallback } from 'react';
-import {
-  View,
-  Pressable,
-  useWindowDimensions,
-} from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Pressable } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius, elevation } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
-import { computeOverlayPosition, Rect, Size } from '../../utils/overlayPosition';
+import { useAnchoredOverlay } from '../../hooks/useAnchoredOverlay';
 import type { ContextMenuProps } from './ContextMenu.types';
 import { OverlayLayer } from '../../overlay/OverlayLayer';
 import { OverlayBackdrop } from '../OverlayBackdrop/OverlayBackdrop';
@@ -26,26 +22,23 @@ export function ContextMenu({
   const openLabel = openLabelProp ?? strings.openMenu;
   const closeLabel = closeLabelProp ?? strings.closeMenu;
   const { colors } = useTheme();
-  const screen = useWindowDimensions();
-  const anchorRef = useRef<View>(null);
+  const { screen, anchorRef, measureAnchor, onContentLayout, resetSize, positionStyle } =
+    useAnchoredOverlay({ placement: 'bottom', offset: spacing.xs });
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [anchorRect, setAnchorRect] = useState<Rect | null>(null);
-  const [menuSize, setMenuSize] = useState<Size | null>(null);
 
   const handleOpen = useCallback(() => {
-    anchorRef.current?.measureInWindow((x, y, width, height) => {
-      setAnchorRect({ x, y, width, height });
+    measureAnchor(() => {
       setMenuOpen(true);
       onOpen?.();
     });
-  }, [onOpen]);
+  }, [measureAnchor, onOpen]);
 
   const handleClose = useCallback(() => {
     setMenuOpen(false);
-    setMenuSize(null);
+    resetSize();
     onClose?.();
-  }, [onClose]);
+  }, [resetSize, onClose]);
 
   const handleAction = useCallback(
     (onPress: () => void) => {
@@ -54,11 +47,6 @@ export function ContextMenu({
     },
     [handleClose],
   );
-
-  const coords =
-    anchorRect && menuSize
-      ? computeOverlayPosition(anchorRect, menuSize, 'bottom', spacing.xs, screen)
-      : null;
 
   return (
     <>
@@ -84,16 +72,10 @@ export function ContextMenu({
         <OverlayBackdrop onPress={handleClose} accessibilityLabel={closeLabel} />
         <View
           accessibilityRole="menu"
-          onLayout={(event) => {
-            const { width, height } = event.nativeEvent.layout;
-            setMenuSize({ width, height });
-          }}
+          onLayout={onContentLayout}
           style={[
             {
-              position: 'absolute',
-              left: coords?.left ?? 0,
-              top: coords?.top ?? 0,
-              opacity: coords ? 1 : 0,
+              ...positionStyle,
               backgroundColor: colors.surface,
               borderRadius: radius.md,
               minWidth: 200,

@@ -1,14 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  View,
-  useWindowDimensions,
-} from 'react-native';
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius, elevation } from '@react-x2-native/tokens';
 import { useAnimatedPresence } from '../../hooks/useAnimatedPresence';
-import { computeOverlayPosition, Rect, Size } from '../../utils/overlayPosition';
+import { useAnchoredOverlay } from '../../hooks/useAnchoredOverlay';
 import { OverlayLayer } from '../../overlay/OverlayLayer';
 import { OverlayBackdrop } from '../OverlayBackdrop/OverlayBackdrop';
 import type { PopoverProps } from './Popover.types';
@@ -28,24 +25,14 @@ export function Popover({
   const closeLabel = closeLabelProp ?? strings.closePopover;
   const { colors } = useTheme();
   const reducedMotion = useReducedMotion();
-  const screen = useWindowDimensions();
-  const anchorRef = useRef<View>(null);
-
-  const [anchorRect, setAnchorRect] = useState<Rect | null>(null);
-  const [contentSize, setContentSize] = useState<Size | null>(null);
+  const { screen, anchorRef, measureAnchor, onContentLayout, coords, positionStyle } =
+    useAnchoredOverlay({ placement: position, offset });
   const { mounted, progress } = useAnimatedPresence(isOpen, { duration: 180, reducedMotion });
 
   useEffect(() => {
     if (!isOpen) return;
-    anchorRef.current?.measureInWindow((x, y, width, height) => {
-      setAnchorRect({ x, y, width, height });
-    });
-  }, [isOpen]);
-
-  const coords =
-    anchorRect && contentSize
-      ? computeOverlayPosition(anchorRect, contentSize, position, offset, screen)
-      : null;
+    measureAnchor();
+  }, [isOpen, measureAnchor]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: progress.value,
@@ -65,21 +52,14 @@ export function Popover({
       >
         <OverlayBackdrop onPress={onClose} accessibilityLabel={closeLabel} />
         <Animated.View
-          onLayout={(event) => {
-            const { width, height } = event.nativeEvent.layout;
-            setContentSize({ width, height });
-          }}
+          onLayout={onContentLayout}
           style={[
             {
-              position: 'absolute',
-              left: coords?.left ?? 0,
-              top: coords?.top ?? 0,
+              ...positionStyle,
               maxWidth: screen.width - spacing.lg * 2,
               backgroundColor: colors.surface,
               borderRadius: radius.lg,
               padding: spacing.lg,
-              // Stay invisible until measured so it never flashes at (0, 0).
-              opacity: coords ? 1 : 0,
             },
             elevation.lg,
             coords ? animatedStyle : null,

@@ -1,16 +1,12 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import {
-  View,
-  Pressable,
-  useWindowDimensions,
-} from 'react-native';
+import { Pressable } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius, elevation } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
 import { useAnimatedPresence } from '../../hooks/useAnimatedPresence';
-import { computeOverlayPosition, Rect, Size } from '../../utils/overlayPosition';
+import { useAnchoredOverlay } from '../../hooks/useAnchoredOverlay';
 import type { TooltipProps } from './Tooltip.types';
 import { OverlayLayer } from '../../overlay/OverlayLayer';
 import { OverlayBackdrop } from '../OverlayBackdrop/OverlayBackdrop';
@@ -31,13 +27,11 @@ export function Tooltip({
   const dismissLabel = dismissLabelProp ?? strings.dismissTooltip;
   const { colors } = useTheme();
   const reducedMotion = useReducedMotion();
-  const screen = useWindowDimensions();
-  const anchorRef = useRef<View>(null);
+  const { screen, anchorRef, measureAnchor, onContentLayout, coords, positionStyle } =
+    useAnchoredOverlay({ placement: position, offset: spacing.sm });
   const hideTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const [visible, setVisible] = useState(false);
-  const [anchorRect, setAnchorRect] = useState<Rect | null>(null);
-  const [tooltipSize, setTooltipSize] = useState<Size | null>(null);
   const { mounted, progress } = useAnimatedPresence(visible, { duration: 150, reducedMotion });
 
   useEffect(() => () => clearTimeout(hideTimer.current), []);
@@ -48,18 +42,12 @@ export function Tooltip({
   }, []);
 
   const show = useCallback(() => {
-    anchorRef.current?.measureInWindow((x, y, width, height) => {
-      setAnchorRect({ x, y, width, height });
+    measureAnchor(() => {
       setVisible(true);
       clearTimeout(hideTimer.current);
       hideTimer.current = setTimeout(() => setVisible(false), AUTO_HIDE_MS);
     });
-  }, []);
-
-  const coords =
-    anchorRect && tooltipSize
-      ? computeOverlayPosition(anchorRect, tooltipSize, position, spacing.sm, screen)
-      : null;
+  }, [measureAnchor]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: progress.value,
@@ -90,21 +78,15 @@ export function Tooltip({
           pointerEvents="none"
           accessibilityRole="text"
           accessibilityLiveRegion="polite"
-          onLayout={(event) => {
-            const { width, height } = event.nativeEvent.layout;
-            setTooltipSize({ width, height });
-          }}
+          onLayout={onContentLayout}
           style={[
             {
-              position: 'absolute',
-              left: coords?.left ?? 0,
-              top: coords?.top ?? 0,
+              ...positionStyle,
               maxWidth: Math.min(280, screen.width - spacing.lg * 2),
               backgroundColor: backgroundColor ?? colors.primary,
               paddingHorizontal: spacing.md,
               paddingVertical: spacing.sm,
               borderRadius: radius.sm,
-              opacity: coords ? 1 : 0,
             },
             elevation.md,
             coords ? animatedStyle : null,
