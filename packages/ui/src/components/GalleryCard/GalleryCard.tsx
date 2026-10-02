@@ -1,9 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  View,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
+import { View, Pressable, ViewStyle } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
@@ -31,22 +27,14 @@ export function GalleryCard({
     () => ({
       opacity: disabled ? 0.5 : 1,
     }),
-    [disabled],
+    [disabled]
   );
 
   return (
-    <View
-      style={[cardStyle, style]}
-      testID={testID}
-      {...props}
-    >
+    <View style={[cardStyle, style]} testID={testID} {...props}>
       {/* Title */}
       {title && (
-        <X2Text
-          variant="labelL"
-          color={colors.text}
-          style={{ marginBottom: spacing.md }}
-        >
+        <X2Text variant="labelL" color={colors.text} style={{ marginBottom: spacing.md }}>
           {title}
         </X2Text>
       )}
@@ -106,16 +94,10 @@ export function GalleryCard({
             }}
           >
             <View style={{ gap: spacing.sm, alignItems: 'center' }}>
-              <X2Text
-                variant="headingM"
-                color={colors.primary}
-              >
+              <X2Text variant="headingM" color={colors.primary}>
                 +{hiddenCount}
               </X2Text>
-              <X2Text
-                variant="labelS"
-                color={colors.textSecondary}
-              >
+              <X2Text variant="labelS" color={colors.textSecondary}>
                 {strings.more}
               </X2Text>
             </View>

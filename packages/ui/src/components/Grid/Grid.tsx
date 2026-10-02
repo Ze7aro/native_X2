@@ -23,7 +23,7 @@ export function Grid<T>({
       // flex: 1 / numColumns keeps a partially filled last row from stretching.
       <View style={{ flex: 1 / numColumns }}>{renderItem(item, index)}</View>
     ),
-    [numColumns, renderItem],
+    [numColumns, renderItem]
   );
 
   return (

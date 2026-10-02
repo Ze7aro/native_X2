@@ -1,10 +1,5 @@
 import React, { useCallback } from 'react';
-import {
-  FlatList,
-  ListRenderItemInfo,
-  View,
-  ActivityIndicator,
-} from 'react-native';
+import { FlatList, ListRenderItemInfo, View, ActivityIndicator } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing } from '@react-x2-native/tokens';
 import { defaultKeyExtractor } from '../../utils/keyExtractor';
@@ -55,7 +50,7 @@ export function InfiniteList<T>({
 
   const renderListItem = useCallback(
     ({ item, index }: ListRenderItemInfo<T>) => <>{renderItem(item, index)}</>,
-    [renderItem],
+    [renderItem]
   );
 
   // FlatList fires onEndReached repeatedly while the footer spinner is shown.

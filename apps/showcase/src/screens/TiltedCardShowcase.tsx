@@ -37,18 +37,10 @@ export function TiltedCardShowcase() {
               <X2Text variant="headingM" style={{ textAlign: 'center' }}>
                 Tilted Card
               </X2Text>
-              <X2Text
-                variant="bodyM"
-                color={colors.textSecondary}
-                style={{ textAlign: 'center' }}
-              >
+              <X2Text variant="bodyM" color={colors.textSecondary} style={{ textAlign: 'center' }}>
                 Move to tilt
               </X2Text>
-              <X2Text
-                variant="bodyS"
-                color={colors.primary}
-                style={{ textAlign: 'center' }}
-              >
+              <X2Text variant="bodyS" color={colors.primary} style={{ textAlign: 'center' }}>
                 Pressed {pressCount} times
               </X2Text>
             </X2Stack>
@@ -56,10 +48,7 @@ export function TiltedCardShowcase() {
         </X2Stack>
 
         {/* Tilt Values */}
-        <X2Surface
-          backgroundColor={colors.surfaceVariant}
-          style={{ padding: spacing.md }}
-        >
+        <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.md }}>
           <X2Text variant="labelM" color={colors.primary}>
             Current Tilt Values
           </X2Text>

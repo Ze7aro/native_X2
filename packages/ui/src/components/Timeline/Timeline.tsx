@@ -1,9 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  View,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
+import { View, Pressable, ViewStyle } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
@@ -37,15 +33,11 @@ export function Timeline({
       flexDirection: 'column',
       gap: spacing.lg,
     }),
-    [],
+    []
   );
 
   return (
-    <View
-      style={[containerStyle, style]}
-      testID={testID}
-      {...props}
-    >
+    <View style={[containerStyle, style]} testID={testID} {...props}>
       {items.map((item, index) => {
         const statusColor = getStatusColor(item.status);
         const isLast = index === items.length - 1;
@@ -108,7 +100,8 @@ export function Timeline({
                   style={{
                     width: 2,
                     flex: 1,
-                    backgroundColor: item.status === 'completed' ? colors.primary : colors.surfaceVariant,
+                    backgroundColor:
+                      item.status === 'completed' ? colors.primary : colors.surfaceVariant,
                   }}
                 />
               )}
@@ -120,10 +113,7 @@ export function Timeline({
                 renderItem(item, index)
               ) : (
                 <>
-                  <X2Text
-                    variant="labelL"
-                    color={colors.text}
-                  >
+                  <X2Text variant="labelL" color={colors.text}>
                     {item.title}
                   </X2Text>
                   {item.description && (

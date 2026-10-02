@@ -25,7 +25,7 @@ describe('DataTable', () => {
         ]}
         columns={columns}
         filterable
-      />,
+      />
     );
 
     expect(getByText('Alice')).toBeTruthy();
@@ -39,7 +39,7 @@ describe('DataTable', () => {
 
   it('renders the empty state when no rows are available', () => {
     const { getByText } = renderWithTheme(
-      <DataTable data={[]} columns={columns} emptyMessage="No users" />,
+      <DataTable data={[]} columns={columns} emptyMessage="No users" />
     );
 
     expect(getByText('No users')).toBeTruthy();

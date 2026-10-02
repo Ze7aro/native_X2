@@ -8,11 +8,7 @@ import {
   Pressable,
   LayoutChangeEvent,
 } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { X2Text } from '../../primitives';
@@ -84,7 +80,7 @@ export function Carousel({
       setCurrentPage(index);
       onPageChange?.(index, pages[index].id);
     },
-    [pages, onPageChange],
+    [pages, onPageChange]
   );
 
   const handleLayout = useCallback(
@@ -97,7 +93,7 @@ export function Carousel({
         scrollViewRef.current?.scrollTo({ x: currentPageRef.current * width, animated: false });
       });
     },
-    [pageWidth],
+    [pageWidth]
   );
 
   const handleMomentumScrollEnd = useCallback(
@@ -105,7 +101,7 @@ export function Carousel({
       if (pageWidth === 0) return;
       goToPage(Math.round(event.nativeEvent.contentOffset.x / pageWidth));
     },
-    [pageWidth, goToPage],
+    [pageWidth, goToPage]
   );
 
   const handleIndicatorPress = useCallback(
@@ -114,7 +110,7 @@ export function Carousel({
       scrollViewRef.current?.scrollTo({ x: index * pageWidth, animated: !reducedMotion });
       goToPage(index);
     },
-    [disabled, pageWidth, reducedMotion, goToPage],
+    [disabled, pageWidth, reducedMotion, goToPage]
   );
 
   const carouselContainerStyle: ViewStyle = useMemo(
@@ -125,16 +121,12 @@ export function Carousel({
       backgroundColor: colors.surface,
       opacity: disabled ? 0.5 : 1,
     }),
-    [height, colors.surface, disabled],
+    [height, colors.surface, disabled]
   );
 
   return (
     <View {...props} style={style}>
-      <View
-        style={carouselContainerStyle}
-        onLayout={handleLayout}
-        testID={testID}
-      >
+      <View style={carouselContainerStyle} onLayout={handleLayout} testID={testID}>
         <ScrollView
           ref={scrollViewRef}
           horizontal

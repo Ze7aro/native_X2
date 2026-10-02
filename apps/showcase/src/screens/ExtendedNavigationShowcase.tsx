@@ -22,7 +22,9 @@ export function ExtendedNavigationShowcase() {
   const [snapIndex, setSnapIndex] = useState(0);
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const [activeTabVariant, setActiveTabVariant] = useState<'underline' | 'pill' | 'background' | 'icon-only' | 'archivero'>('underline');
+  const [activeTabVariant, setActiveTabVariant] = useState<
+    'underline' | 'pill' | 'background' | 'icon-only' | 'archivero'
+  >('underline');
 
   const breadcrumbItems = [
     { id: 'home', label: 'Home', onPress: () => console.log('Home') },
@@ -45,10 +47,30 @@ export function ExtendedNavigationShowcase() {
   ];
 
   const menuItems = [
-    { id: 'home', label: 'Home', icon: <X2Icon name="🏠" size={16} />, onPress: () => setSideMenuOpen(false) },
-    { id: 'profile', label: 'Profile', icon: <X2Icon name="👤" size={16} />, onPress: () => setSideMenuOpen(false) },
-    { id: 'settings', label: 'Settings', icon: <X2Icon name="⚙️" size={16} />, onPress: () => setSideMenuOpen(false) },
-    { id: 'logout', label: 'Logout', icon: <X2Icon name="🚪" size={16} />, onPress: () => setSideMenuOpen(false) },
+    {
+      id: 'home',
+      label: 'Home',
+      icon: <X2Icon name="🏠" size={16} />,
+      onPress: () => setSideMenuOpen(false),
+    },
+    {
+      id: 'profile',
+      label: 'Profile',
+      icon: <X2Icon name="👤" size={16} />,
+      onPress: () => setSideMenuOpen(false),
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: <X2Icon name="⚙️" size={16} />,
+      onPress: () => setSideMenuOpen(false),
+    },
+    {
+      id: 'logout',
+      label: 'Logout',
+      icon: <X2Icon name="🚪" size={16} />,
+      onPress: () => setSideMenuOpen(false),
+    },
   ];
 
   return (
@@ -187,7 +209,10 @@ export function ExtendedNavigationShowcase() {
               />
 
               {/* Current Variant Demo */}
-              <X2Surface backgroundColor={colors.surfaceVariant} style={{ paddingVertical: spacing.lg }}>
+              <X2Surface
+                backgroundColor={colors.surfaceVariant}
+                style={{ paddingVertical: spacing.lg }}
+              >
                 <Tabs
                   testID={`tabs-${activeTabVariant}`}
                   tabs={tabs}
@@ -195,13 +220,17 @@ export function ExtendedNavigationShowcase() {
                   onTabPress={(id: string) => console.log(`Tab selected: ${id}`)}
                   variant={activeTabVariant}
                 >
-                  <X2Stack gap="md" style={{ paddingHorizontal: spacing.lg, paddingVertical: spacing.lg }}>
+                  <X2Stack
+                    gap="md"
+                    style={{ paddingHorizontal: spacing.lg, paddingVertical: spacing.lg }}
+                  >
                     <X2Text variant="bodyM">
                       {activeTabVariant === 'underline' && 'Underline indicator style'}
                       {activeTabVariant === 'pill' && 'Pill-shaped tab buttons'}
                       {activeTabVariant === 'background' && 'Background fill style'}
                       {activeTabVariant === 'icon-only' && 'Icon-only circular tabs'}
-                      {activeTabVariant === 'archivero' && 'File cabinet tabs with active folder treatment'}
+                      {activeTabVariant === 'archivero' &&
+                        'File cabinet tabs with active folder treatment'}
                     </X2Text>
                   </X2Stack>
                 </Tabs>

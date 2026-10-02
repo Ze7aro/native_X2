@@ -20,7 +20,7 @@ type CollectionItem = {
 export function ExtendedCollectionsShowcase() {
   const colors = useThemeColors();
   const [infiniteItems, setInfiniteItems] = useState<CollectionItem[]>(
-    Array.from({ length: 10 }, (_, i) => ({ id: i, title: `Item ${i + 1}` })),
+    Array.from({ length: 10 }, (_, i) => ({ id: i, title: `Item ${i + 1}` }))
   );
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
@@ -141,7 +141,11 @@ export function ExtendedCollectionsShowcase() {
             renderItem={(item: string) => (
               <X2Surface
                 backgroundColor={colors.primary}
-                style={{ paddingHorizontal: spacing.lg, paddingVertical: spacing.md, borderRadius: 8 }}
+                style={{
+                  paddingHorizontal: spacing.lg,
+                  paddingVertical: spacing.md,
+                  borderRadius: 8,
+                }}
               >
                 <X2Text variant="labelM" color={colors.onPrimary}>
                   {item}

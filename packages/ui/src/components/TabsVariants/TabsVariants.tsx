@@ -1,10 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import {
-  View,
-  ScrollView,
-  Pressable,
-  StyleSheet,
-} from 'react-native';
+import { View, ScrollView, Pressable, StyleSheet } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
@@ -42,7 +37,7 @@ export function TabsVariants({
       if (disabled) return;
       onTabPress(tabId);
     },
-    [disabled, onTabPress],
+    [disabled, onTabPress]
   );
 
   // Render based on variant
@@ -95,7 +90,7 @@ export function TabsVariants({
                 {tab.icon}
                 <X2Text
                   variant="labelM"
-                  color={isActive ? indicatorColor ?? colors.primary : colors.textSecondary}
+                  color={isActive ? (indicatorColor ?? colors.primary) : colors.textSecondary}
                 >
                   {tab.label}
                 </X2Text>
@@ -112,11 +107,7 @@ export function TabsVariants({
 
   const renderPill = () => (
     <View style={{ gap: spacing.md }}>
-      <ScrollView
-        ref={scrollViewRef}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-      >
+      <ScrollView ref={scrollViewRef} horizontal showsHorizontalScrollIndicator={false}>
         <View style={{ flexDirection: 'row', paddingHorizontal: spacing.md, gap: spacing.sm }}>
           {tabs.map((tab, index) => {
             const isActive = tab.id === activeTabId;
@@ -135,7 +126,9 @@ export function TabsVariants({
                   paddingHorizontal: spacing.lg,
                   paddingVertical: spacing.md,
                   borderRadius: radius.full,
-                  backgroundColor: isActive ? indicatorColor ?? colors.primary : colors.surfaceVariant,
+                  backgroundColor: isActive
+                    ? (indicatorColor ?? colors.primary)
+                    : colors.surfaceVariant,
                   gap: spacing.sm,
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -143,10 +136,7 @@ export function TabsVariants({
                 }}
               >
                 {tab.icon}
-                <X2Text
-                  variant="labelM"
-                  color={isActive ? colors.onPrimary : colors.text}
-                >
+                <X2Text variant="labelM" color={isActive ? colors.onPrimary : colors.text}>
                   {tab.label}
                 </X2Text>
               </Pressable>
@@ -189,7 +179,7 @@ export function TabsVariants({
                 paddingHorizontal: spacing.md,
                 paddingVertical: spacing.md,
                 borderRadius: radius.sm,
-                backgroundColor: isActive ? indicatorColor ?? colors.primary : 'transparent',
+                backgroundColor: isActive ? (indicatorColor ?? colors.primary) : 'transparent',
                 gap: spacing.sm,
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -198,10 +188,7 @@ export function TabsVariants({
               }}
             >
               {tab.icon}
-              <X2Text
-                variant="labelM"
-                color={isActive ? colors.onPrimary : colors.text}
-              >
+              <X2Text variant="labelM" color={isActive ? colors.onPrimary : colors.text}>
                 {tab.label}
               </X2Text>
             </Pressable>
@@ -241,7 +228,9 @@ export function TabsVariants({
                 width: 48,
                 height: 48,
                 borderRadius: radius.full,
-                backgroundColor: isActive ? indicatorColor ?? colors.primary : colors.surfaceVariant,
+                backgroundColor: isActive
+                  ? (indicatorColor ?? colors.primary)
+                  : colors.surfaceVariant,
                 justifyContent: 'center',
                 alignItems: 'center',
                 opacity: disabled ? 0.5 : 1,
@@ -308,10 +297,7 @@ export function TabsVariants({
                 }}
               >
                 {tab.icon}
-                <X2Text
-                  variant="labelM"
-                  color={isActive ? colors.text : colors.textSecondary}
-                >
+                <X2Text variant="labelM" color={isActive ? colors.text : colors.textSecondary}>
                   {tab.label}
                 </X2Text>
               </Pressable>

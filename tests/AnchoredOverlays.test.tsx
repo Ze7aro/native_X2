@@ -7,7 +7,7 @@ function renderPortaled(ui: React.ReactElement) {
   return render(
     <ThemeProvider theme="light">
       <OverlayProvider>{ui}</OverlayProvider>
-    </ThemeProvider>,
+    </ThemeProvider>
   );
 }
 
@@ -47,13 +47,15 @@ describe('Popover', () => {
     const { getByText } = renderPortaled(
       <Popover isOpen onClose={onClose} anchor={<Text>Anchor</Text>} offset={8}>
         <Text>Popover body</Text>
-      </Popover>,
+      </Popover>
     );
     const container = overlayContainer(getByText('Popover body') as unknown as TestNode);
     expect(flatten(container.props.style).opacity).toBe(0);
 
     layOut(container, 100, 50);
-    const style = flatten(overlayContainer(getByText('Popover body') as unknown as TestNode).props.style);
+    const style = flatten(
+      overlayContainer(getByText('Popover body') as unknown as TestNode).props.style
+    );
     expect(style.left).toBe(ANCHOR.x + ANCHOR.width / 2 - 100 / 2);
     expect(style.top).toBe(ANCHOR.y + ANCHOR.height + 8);
   });
@@ -63,7 +65,7 @@ describe('Popover', () => {
     const { getByLabelText, queryByText, rerender } = renderPortaled(
       <Popover isOpen onClose={onClose} anchor={<Text>Anchor</Text>} closeLabel="Close it">
         <Text>Popover body</Text>
-      </Popover>,
+      </Popover>
     );
     fireEvent.press(getByLabelText('Close it', { hidden: true }));
     expect(onClose).toHaveBeenCalledTimes(1);
@@ -75,7 +77,7 @@ describe('Popover', () => {
             <Text>Popover body</Text>
           </Popover>
         </OverlayProvider>
-      </ThemeProvider>,
+      </ThemeProvider>
     );
     expect(queryByText('Popover body')).toBeNull();
   });
@@ -94,7 +96,7 @@ describe('ContextMenu', () => {
     const { getByTestId, getByText, queryByText } = renderPortaled(
       <ContextMenu testID="menu" actions={actions(onCopy)} onOpen={onOpen} onClose={onClose}>
         <Text>Hold me</Text>
-      </ContextMenu>,
+      </ContextMenu>
     );
     expect(queryByText('Copy')).toBeNull();
 
@@ -112,7 +114,7 @@ describe('ContextMenu', () => {
     const { getByTestId, getByText } = renderPortaled(
       <ContextMenu testID="menu" actions={actions(jest.fn())}>
         <Text>Hold me</Text>
-      </ContextMenu>,
+      </ContextMenu>
     );
     fireEvent(getByTestId('menu'), 'longPress');
     const container = overlayContainer(getByText('Copy') as unknown as TestNode);
@@ -129,7 +131,7 @@ describe('ContextMenu', () => {
     const { getByTestId, getByText, queryByText } = renderPortaled(
       <ContextMenu testID="menu" actions={actions(jest.fn())}>
         <Text>Hold me</Text>
-      </ContextMenu>,
+      </ContextMenu>
     );
     fireEvent(getByTestId('menu'), 'longPress');
     layOut(overlayContainer(getByText('Copy') as unknown as TestNode), 200, 100);
@@ -147,14 +149,16 @@ describe('Tooltip', () => {
     const { getByTestId, getByText } = renderPortaled(
       <Tooltip text="Helpful" testID="trigger" position="bottom">
         <Text>Trigger</Text>
-      </Tooltip>,
+      </Tooltip>
     );
     fireEvent.press(getByTestId('trigger'));
     const container = overlayContainer(getByText('Helpful') as unknown as TestNode);
     expect(flatten(container.props.style).opacity).toBe(0);
 
     layOut(container, 80, 30);
-    const style = flatten(overlayContainer(getByText('Helpful') as unknown as TestNode).props.style);
+    const style = flatten(
+      overlayContainer(getByText('Helpful') as unknown as TestNode).props.style
+    );
     expect(style.left).toBe(ANCHOR.x + ANCHOR.width / 2 - 80 / 2);
     expect(style.top as number).toBeGreaterThan(ANCHOR.y + ANCHOR.height);
   });

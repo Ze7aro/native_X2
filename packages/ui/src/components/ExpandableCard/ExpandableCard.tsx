@@ -1,15 +1,6 @@
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
-import {
-  View,
-  Pressable,
-  ViewStyle,
-  LayoutChangeEvent,
-} from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
+import { View, Pressable, ViewStyle, LayoutChangeEvent } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { radius } from '@react-x2-native/tokens';
@@ -79,15 +70,11 @@ export function ExpandableCard({
       overflow: 'hidden',
       opacity: disabled ? 0.5 : 1,
     }),
-    [colors.surface, disabled],
+    [colors.surface, disabled]
   );
 
   return (
-    <View
-      style={[cardStyle, style]}
-      testID={testID}
-      {...props}
-    >
+    <View style={[cardStyle, style]} testID={testID} {...props}>
       <Pressable
         disabled={disabled}
         onPress={handleHeaderPress}

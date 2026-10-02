@@ -83,7 +83,7 @@ export function DataTable<T>({
       columns.some((column) => {
         if (!column.accessor) return false;
         return formatCellValue(column.accessor(item)).toLocaleLowerCase().includes(query);
-      }),
+      })
     );
   }, [activeFilterText, columns, data, filterItem]);
 
@@ -112,7 +112,7 @@ export function DataTable<T>({
       if (page === undefined) setInternalPage(nextPage);
       onPageChange?.(nextPage);
     },
-    [onPageChange, page],
+    [onPageChange, page]
   );
 
   useEffect(() => {
@@ -124,7 +124,7 @@ export function DataTable<T>({
       if (selectedKeys === undefined) setInternalSelectedKeys(nextKeys);
       onSelectionChange?.(nextKeys);
     },
-    [onSelectionChange, selectedKeys],
+    [onSelectionChange, selectedKeys]
   );
 
   const updateFilter = useCallback(
@@ -133,7 +133,7 @@ export function DataTable<T>({
       onFilterChange?.(nextValue);
       if (pageSize) updatePage(1);
     },
-    [filterText, onFilterChange, pageSize, updatePage],
+    [filterText, onFilterChange, pageSize, updatePage]
   );
 
   const updateSort = useCallback(
@@ -142,13 +142,10 @@ export function DataTable<T>({
       onSortChange?.(nextSort);
       if (pageSize) updatePage(1);
     },
-    [onSortChange, pageSize, sort, updatePage],
+    [onSortChange, pageSize, sort, updatePage]
   );
 
-  const getKey = useCallback(
-    (item: T, index: number) => keyExtractor(item, index),
-    [keyExtractor],
-  );
+  const getKey = useCallback((item: T, index: number) => keyExtractor(item, index), [keyExtractor]);
 
   const toggleRowSelection = useCallback(
     (item: T, index: number) => {
@@ -162,15 +159,15 @@ export function DataTable<T>({
       updateSelection(
         activeSelectedKeys.includes(key)
           ? activeSelectedKeys.filter((selectedKey) => selectedKey !== key)
-          : [...activeSelectedKeys, key],
+          : [...activeSelectedKeys, key]
       );
     },
-    [activeSelectedKeys, getKey, selectionMode, updateSelection],
+    [activeSelectedKeys, getKey, selectionMode, updateSelection]
   );
 
   const visibleKeys = useMemo(
     () => visibleData.map((item, index) => getKey(item, index)),
-    [getKey, visibleData],
+    [getKey, visibleData]
   );
   const allVisibleSelected =
     selectionMode === 'multiple' &&
@@ -197,7 +194,7 @@ export function DataTable<T>({
         updateSort(null);
       }
     },
-    [activeSort, updateSort],
+    [activeSort, updateSort]
   );
 
   const tableStyle = useMemo<ViewStyle>(
@@ -209,7 +206,7 @@ export function DataTable<T>({
       backgroundColor: variant === 'glass' ? `${colors.surface}E6` : colors.surface,
       overflow: 'hidden',
     }),
-    [colors.border, colors.surface, columns.length, minWidth, variant],
+    [colors.border, colors.surface, columns.length, minWidth, variant]
   );
 
   const rowPadding = density === 'compact' ? spacing.sm : spacing.md;
@@ -304,7 +301,9 @@ export function DataTable<T>({
                         {column.renderCell ? (
                           column.renderCell(item, index)
                         ) : (
-                          <X2Text numberOfLines={2}>{formatCellValue(column.accessor?.(item))}</X2Text>
+                          <X2Text numberOfLines={2}>
+                            {formatCellValue(column.accessor?.(item))}
+                          </X2Text>
                         )}
                       </View>
                     ))}
@@ -377,7 +376,11 @@ function TableHeader<T>({
   );
 
   return column.sortable ? (
-    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={strings.sortBy(String(column.header))}>
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={strings.sortBy(String(column.header))}
+    >
       {content}
     </Pressable>
   ) : (
@@ -409,7 +412,12 @@ function SelectionControl({
       hitSlop={8}
       style={styles.selectionControl}
     >
-      <View style={[styles.checkbox, { borderColor: color, backgroundColor: checked ? color : 'transparent' }]}>
+      <View
+        style={[
+          styles.checkbox,
+          { borderColor: color, backgroundColor: checked ? color : 'transparent' },
+        ]}
+      >
         {(checked || indeterminate) && <X2Text color={onColor}>{indeterminate ? '−' : '✓'}</X2Text>}
       </View>
     </Pressable>
@@ -423,7 +431,10 @@ function compareValues(left: DataTableCellValue, right: DataTableCellValue): num
   if (left instanceof Date && right instanceof Date) return left.getTime() - right.getTime();
   if (typeof left === 'number' && typeof right === 'number') return left - right;
   if (typeof left === 'boolean' && typeof right === 'boolean') return Number(left) - Number(right);
-  return String(left).localeCompare(String(right), undefined, { numeric: true, sensitivity: 'base' });
+  return String(left).localeCompare(String(right), undefined, {
+    numeric: true,
+    sensitivity: 'base',
+  });
 }
 
 function formatCellValue(value: DataTableCellValue): string {

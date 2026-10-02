@@ -100,10 +100,7 @@ export function SegmentedControlShowcase() {
         </X2Stack>
 
         {/* Current Selections */}
-        <X2Surface
-          backgroundColor={colors.surfaceVariant}
-          style={{ padding: spacing.lg }}
-        >
+        <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.lg }}>
           <X2Text variant="labelM" color={colors.primary} style={{ marginBottom: spacing.sm }}>
             Current Selections
           </X2Text>

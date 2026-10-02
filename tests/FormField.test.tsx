@@ -6,7 +6,7 @@ import { renderWithTheme } from './testUtils';
 describe('FormField', () => {
   it('validates required values on blur and exposes the error', () => {
     const { getByTestId, queryByTestId } = renderWithTheme(
-      <FormField testID="email" label="Email" required />,
+      <FormField testID="email" label="Email" required />
     );
     const input = getByTestId('email-input');
 
@@ -22,8 +22,8 @@ describe('FormField', () => {
         testID="username"
         label="Username"
         validateOn="change"
-        validate={(value) => value.length >= 3 ? undefined : 'Use at least 3 characters'}
-      />,
+        validate={(value) => (value.length >= 3 ? undefined : 'Use at least 3 characters')}
+      />
     );
     const input = getByTestId('username-input');
 

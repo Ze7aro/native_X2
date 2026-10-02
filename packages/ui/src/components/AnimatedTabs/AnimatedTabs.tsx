@@ -1,10 +1,5 @@
 import React, { useRef, useCallback, useMemo } from 'react';
-import {
-  View,
-  ScrollView,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
+import { View, ScrollView, Pressable, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
@@ -47,7 +42,7 @@ export function AnimatedTabs({
         onTabPress(tabId);
       }
     },
-    [disabled, onTabPress],
+    [disabled, onTabPress]
   );
 
   const tabsContainerStyle: ViewStyle = useMemo(
@@ -57,7 +52,7 @@ export function AnimatedTabs({
       borderBottomWidth: 1,
       opacity: disabled ? 0.5 : 1,
     }),
-    [colors.divider, disabled],
+    [colors.divider, disabled]
   );
 
   return (

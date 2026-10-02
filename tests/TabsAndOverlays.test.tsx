@@ -10,10 +10,13 @@ describe('Tabs and overlays', () => {
       <Tabs
         testID="tabs"
         variant="archivero"
-        tabs={[{ id: 'files', label: 'Files' }, { id: 'archive', label: 'Archive' }]}
+        tabs={[
+          { id: 'files', label: 'Files' },
+          { id: 'archive', label: 'Archive' },
+        ]}
         activeTabId="files"
         onTabPress={onTabPress}
-      />,
+      />
     );
 
     fireEvent.press(getByTestId('tabs-tab-1'));
@@ -25,7 +28,7 @@ describe('Tabs and overlays', () => {
     const { getAllByLabelText } = renderWithTheme(
       <Modal isOpen onClose={onClose} closeLabel="Close dialog">
         <React.Fragment />
-      </Modal>,
+      </Modal>
     );
 
     fireEvent.press(getAllByLabelText('Close dialog')[0]);

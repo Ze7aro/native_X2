@@ -35,7 +35,7 @@ export function SegmentedControl({
         onSelect(id);
       }
     },
-    [disabled, onSelect],
+    [disabled, onSelect]
   );
 
   const containerStyle: ViewStyle = useMemo(
@@ -46,16 +46,11 @@ export function SegmentedControl({
       padding: CONTAINER_PADDING,
       opacity: disabled ? 0.5 : 1,
     }),
-    [backgroundColor, colors.surfaceVariant, disabled],
+    [backgroundColor, colors.surfaceVariant, disabled]
   );
 
   return (
-    <View
-      {...props}
-      style={[containerStyle, style]}
-      testID={testID}
-      accessibilityRole="radiogroup"
-    >
+    <View {...props} style={[containerStyle, style]} testID={testID} accessibilityRole="radiogroup">
       {/* Layout x already includes the container padding, so the indicator starts at left: 0. */}
       <Animated.View
         style={[
@@ -96,7 +91,7 @@ export function SegmentedControl({
           >
             <X2Text
               variant="labelM"
-              color={isSelected ? tintColor ?? colors.onPrimary : colors.textSecondary}
+              color={isSelected ? (tintColor ?? colors.onPrimary) : colors.textSecondary}
             >
               {option.label}
             </X2Text>

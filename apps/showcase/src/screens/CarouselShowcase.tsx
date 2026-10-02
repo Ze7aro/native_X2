@@ -36,11 +36,27 @@ export function CarouselShowcase() {
     {
       id: 'intro',
       content: (
-        <View style={{ flex: 1, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', padding: spacing.lg }}>
-          <X2Text variant="headingL" color={colors.onPrimary} style={{ textAlign: 'center', marginBottom: spacing.md }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: colors.primary,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: spacing.lg,
+          }}
+        >
+          <X2Text
+            variant="headingL"
+            color={colors.onPrimary}
+            style={{ textAlign: 'center', marginBottom: spacing.md }}
+          >
             Welcome to Carousel
           </X2Text>
-          <X2Text variant="bodyM" color={colors.onPrimary} style={{ textAlign: 'center', opacity: 0.8 }}>
+          <X2Text
+            variant="bodyM"
+            color={colors.onPrimary}
+            style={{ textAlign: 'center', opacity: 0.8 }}
+          >
             Swipe to navigate through the slides
           </X2Text>
         </View>
@@ -49,14 +65,28 @@ export function CarouselShowcase() {
     {
       id: 'features',
       content: (
-        <View style={{ flex: 1, backgroundColor: colors.success, justifyContent: 'center', alignItems: 'center', padding: spacing.lg }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: colors.success,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: spacing.lg,
+          }}
+        >
           <X2Text variant="headingM" color={colors.onPrimary} style={{ marginBottom: spacing.md }}>
             Features
           </X2Text>
           <X2Stack gap="sm">
-            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ Smooth page transitions</X2Text>
-            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ Touch-based navigation</X2Text>
-            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ Animated indicators</X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>
+              ✓ Smooth page transitions
+            </X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>
+              ✓ Touch-based navigation
+            </X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>
+              ✓ Animated indicators
+            </X2Text>
           </X2Stack>
         </View>
       ),
@@ -64,14 +94,28 @@ export function CarouselShowcase() {
     {
       id: 'performance',
       content: (
-        <View style={{ flex: 1, backgroundColor: colors.warning, justifyContent: 'center', alignItems: 'center', padding: spacing.lg }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: colors.warning,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: spacing.lg,
+          }}
+        >
           <X2Text variant="headingM" color={colors.onPrimary} style={{ marginBottom: spacing.md }}>
             Performance
           </X2Text>
           <X2Stack gap="sm">
-            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ Efficient rendering</X2Text>
-            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ 60 FPS scrolling</X2Text>
-            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ Minimal overhead</X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>
+              ✓ Efficient rendering
+            </X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>
+              ✓ 60 FPS scrolling
+            </X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>
+              ✓ Minimal overhead
+            </X2Text>
           </X2Stack>
         </View>
       ),
@@ -122,10 +166,7 @@ export function CarouselShowcase() {
         </X2Stack>
 
         {/* Current State Info */}
-        <X2Surface
-          backgroundColor={colors.surfaceVariant}
-          style={{ padding: spacing.lg }}
-        >
+        <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.lg }}>
           <X2Text variant="labelM" color={colors.primary} style={{ marginBottom: spacing.sm }}>
             Carousel State
           </X2Text>

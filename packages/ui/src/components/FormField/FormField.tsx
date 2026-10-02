@@ -52,14 +52,13 @@ export function FormField({
 
   const runValidation = useCallback(
     (nextValue: string) => {
-      const nextError = required && !nextValue.trim()
-        ? strings.fieldRequired
-        : validate?.(nextValue);
+      const nextError =
+        required && !nextValue.trim() ? strings.fieldRequired : validate?.(nextValue);
       setValidationError(nextError);
       onValidationChange?.(nextError);
       return nextError;
     },
-    [onValidationChange, required, validate],
+    [onValidationChange, required, validate]
   );
 
   const handleChangeText = useCallback(
@@ -68,7 +67,7 @@ export function FormField({
       onChangeText?.(nextValue);
       if (validateOn === 'change') runValidation(nextValue);
     },
-    [onChangeText, runValidation, validateOn, value],
+    [onChangeText, runValidation, validateOn, value]
   );
 
   const handleBlur = useCallback(
@@ -76,7 +75,7 @@ export function FormField({
       if (validateOn === 'blur') runValidation(currentValue);
       onBlur?.(event);
     },
-    [currentValue, onBlur, runValidation, validateOn],
+    [currentValue, onBlur, runValidation, validateOn]
   );
 
   const handleSubmitEditing = useCallback(
@@ -84,14 +83,19 @@ export function FormField({
       if (validateOn === 'submit') runValidation(currentValue);
       onSubmitEditing?.(event);
     },
-    [currentValue, onSubmitEditing, runValidation, validateOn],
+    [currentValue, onSubmitEditing, runValidation, validateOn]
   );
 
   return (
     <View style={[styles.container, containerStyle]} testID={testID}>
       {label && (
-        <X2Text variant="labelM" style={styles.label} testID={testID ? `${testID}-label` : undefined}>
-          {label}{required ? ' *' : ''}
+        <X2Text
+          variant="labelM"
+          style={styles.label}
+          testID={testID ? `${testID}-label` : undefined}
+        >
+          {label}
+          {required ? ' *' : ''}
         </X2Text>
       )}
       {description && (
@@ -121,13 +125,21 @@ export function FormField({
           onSubmitEditing={handleSubmitEditing}
           placeholderTextColor={placeholderTextColor ?? colors.textTertiary}
           accessibilityLabel={accessibilityLabel ?? label}
-          accessibilityHint={currentError ? `${accessibilityHint ? `${accessibilityHint}. ` : ''}${currentError}` : accessibilityHint}
+          accessibilityHint={
+            currentError
+              ? `${accessibilityHint ? `${accessibilityHint}. ` : ''}${currentError}`
+              : accessibilityHint
+          }
           accessibilityState={{ disabled: !isEditable }}
           style={[styles.input, { color: colors.text }, inputStyle]}
           testID={testID ? `${testID}-input` : undefined}
         />
         {loading ? (
-          <ActivityIndicator color={colors.primary} size="small" testID={testID ? `${testID}-loading` : undefined} />
+          <ActivityIndicator
+            color={colors.primary}
+            size="small"
+            testID={testID ? `${testID}-loading` : undefined}
+          />
         ) : suffix ? (
           <View style={styles.adornment}>{suffix}</View>
         ) : null}

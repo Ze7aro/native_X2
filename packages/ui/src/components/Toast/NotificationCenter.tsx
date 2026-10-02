@@ -16,9 +16,8 @@ export function NotificationCenter({
 }: NotificationCenterProps) {
   const insets = useSafeAreaInsets();
   const visibleNotifications = notifications.slice(-Math.max(1, maxVisible));
-  const orderedNotifications = position === 'bottom'
-    ? [...visibleNotifications].reverse()
-    : visibleNotifications;
+  const orderedNotifications =
+    position === 'bottom' ? [...visibleNotifications].reverse() : visibleNotifications;
 
   return (
     <View pointerEvents="box-none" style={StyleSheet.absoluteFill} testID={testID}>

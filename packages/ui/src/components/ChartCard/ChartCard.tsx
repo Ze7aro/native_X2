@@ -88,7 +88,9 @@ function ChartPlot({
   const strings = useX2Strings();
   const { colors } = useTheme();
   const [width, setWidth] = useState(0);
-  const [internalSelectedIndex, setInternalSelectedIndex] = useState<number | undefined>(defaultSelectedIndex);
+  const [internalSelectedIndex, setInternalSelectedIndex] = useState<number | undefined>(
+    defaultSelectedIndex
+  );
   const activeSelectedIndex = selectedIndex ?? internalSelectedIndex;
   const values = useMemo(() => data.map((point) => point.value), [data]);
   const resolvedMin = minValue ?? (chartType === 'bar' ? 0 : Math.min(...values));
@@ -99,7 +101,7 @@ function ChartPlot({
 
   const normalize = useCallback(
     (value: number) => Math.min(1, Math.max(0, (value - resolvedMin) / range)),
-    [range, resolvedMin],
+    [range, resolvedMin]
   );
 
   const selectPoint = useCallback(
@@ -107,7 +109,7 @@ function ChartPlot({
       if (selectedIndex === undefined) setInternalSelectedIndex(index);
       onPointPress?.(point, index);
     },
-    [onPointPress, selectedIndex],
+    [onPointPress, selectedIndex]
   );
 
   const handleLayout = useCallback((event: LayoutChangeEvent) => {
@@ -120,7 +122,9 @@ function ChartPlot({
     <View>
       {selectedPoint && (
         <View style={styles.selectedValue}>
-          <X2Text variant="labelM" color={colors.primary}>{selectedPoint.label}</X2Text>
+          <X2Text variant="labelM" color={colors.primary}>
+            {selectedPoint.label}
+          </X2Text>
           <X2Text variant="labelM">{valueFormatter(selectedPoint.value)}</X2Text>
         </View>
       )}
@@ -162,7 +166,11 @@ function ChartPlot({
                       },
                     ]}
                   />
-                  {showLabels && <X2Text variant="labelS" color={colors.textTertiary} numberOfLines={1}>{point.label}</X2Text>}
+                  {showLabels && (
+                    <X2Text variant="labelS" color={colors.textTertiary} numberOfLines={1}>
+                      {point.label}
+                    </X2Text>
+                  )}
                 </Pressable>
               );
             })}
@@ -261,7 +269,13 @@ function LinePlot({
       {showLabels && (
         <View style={styles.lineLabels} pointerEvents="none">
           {data.map((point) => (
-            <X2Text key={point.id ?? point.label} variant="labelS" color={colors.textTertiary} numberOfLines={1} style={styles.lineLabel}>
+            <X2Text
+              key={point.id ?? point.label}
+              variant="labelS"
+              color={colors.textTertiary}
+              numberOfLines={1}
+              style={styles.lineLabel}
+            >
               {point.label}
             </X2Text>
           ))}

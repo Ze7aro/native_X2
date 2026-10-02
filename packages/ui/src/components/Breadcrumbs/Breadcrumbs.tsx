@@ -1,10 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  View,
-  ScrollView,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
+import { View, ScrollView, Pressable, ViewStyle } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
@@ -36,7 +31,7 @@ export function Breadcrumbs({
       flexDirection: 'row',
       alignItems: 'center',
     }),
-    [],
+    []
   );
 
   return (

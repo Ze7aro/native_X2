@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useSyncExternalStore,
-} from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useSyncExternalStore } from 'react';
 import type { ReactNode } from 'react';
 import { BackHandler, StyleSheet, View } from 'react-native';
 
@@ -30,9 +24,8 @@ function createOverlayStore(): OverlayStore {
   return {
     set(entry) {
       const index = entries.findIndex((item) => item.id === entry.id);
-      entries = index < 0
-        ? [...entries, entry]
-        : entries.map((item, i) => (i === index ? entry : item));
+      entries =
+        index < 0 ? [...entries, entry] : entries.map((item, i) => (i === index ? entry : item));
       emit();
     },
     remove(id) {

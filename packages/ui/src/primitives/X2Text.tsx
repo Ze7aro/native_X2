@@ -12,14 +12,7 @@ export interface X2TextProps extends RNTextProps {
   weight?: 'normal' | 'bold';
 }
 
-export function X2Text({
-  variant = 'bodyM',
-  color,
-  style,
-  testID,
-  weight,
-  ...props
-}: X2TextProps) {
+export function X2Text({ variant = 'bodyM', color, style, testID, weight, ...props }: X2TextProps) {
   const { colors } = useTheme();
   const typographyStyle = typography[variant];
 

@@ -8,7 +8,8 @@ export interface X2StackProps extends ViewProps {
   direction?: 'row' | 'column';
   gap?: SpacingValue | number;
   align?: 'flex-start' | 'center' | 'flex-end' | 'stretch';
-  justify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
+  justify?:
+    'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
   testID?: string;
 }
 

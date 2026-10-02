@@ -85,10 +85,31 @@ export function OverlaysShowcase() {
               <ContextMenu
                 testID="context-menu-1"
                 actions={[
-                  { id: 'copy', label: 'Copy', icon: <X2Icon name="📋" size={16} />, onPress: () => console.log('Copy') },
-                  { id: 'edit', label: 'Edit', icon: <X2Icon name="✏️" size={16} />, onPress: () => console.log('Edit') },
-                  { id: 'share', label: 'Share', icon: <X2Icon name="📤" size={16} />, onPress: () => console.log('Share') },
-                  { id: 'delete', label: 'Delete', icon: <X2Icon name="🗑️" size={16} />, destructive: true, onPress: () => console.log('Delete') },
+                  {
+                    id: 'copy',
+                    label: 'Copy',
+                    icon: <X2Icon name="📋" size={16} />,
+                    onPress: () => console.log('Copy'),
+                  },
+                  {
+                    id: 'edit',
+                    label: 'Edit',
+                    icon: <X2Icon name="✏️" size={16} />,
+                    onPress: () => console.log('Edit'),
+                  },
+                  {
+                    id: 'share',
+                    label: 'Share',
+                    icon: <X2Icon name="📤" size={16} />,
+                    onPress: () => console.log('Share'),
+                  },
+                  {
+                    id: 'delete',
+                    label: 'Delete',
+                    icon: <X2Icon name="🗑️" size={16} />,
+                    destructive: true,
+                    onPress: () => console.log('Delete'),
+                  },
                 ]}
               >
                 <X2Surface
@@ -112,12 +133,12 @@ export function OverlaysShowcase() {
               <X2Text variant="labelM" color={colors.primary}>
                 Tooltip (Press & Hold)
               </X2Text>
-              <X2Stack direction="row" gap="md" style={{ justifyContent: 'space-around', flexWrap: 'wrap' }}>
-                <Tooltip
-                  testID="tooltip-1"
-                  text="Top tooltip"
-                  position="top"
-                >
+              <X2Stack
+                direction="row"
+                gap="md"
+                style={{ justifyContent: 'space-around', flexWrap: 'wrap' }}
+              >
+                <Tooltip testID="tooltip-1" text="Top tooltip" position="top">
                   <X2Surface
                     style={{
                       paddingHorizontal: spacing.lg,
@@ -130,11 +151,7 @@ export function OverlaysShowcase() {
                   </X2Surface>
                 </Tooltip>
 
-                <Tooltip
-                  testID="tooltip-2"
-                  text="Bottom tooltip"
-                  position="bottom"
-                >
+                <Tooltip testID="tooltip-2" text="Bottom tooltip" position="bottom">
                   <X2Surface
                     style={{
                       paddingHorizontal: spacing.lg,
@@ -147,11 +164,7 @@ export function OverlaysShowcase() {
                   </X2Surface>
                 </Tooltip>
 
-                <Tooltip
-                  testID="tooltip-3"
-                  text="Right tooltip"
-                  position="right"
-                >
+                <Tooltip testID="tooltip-3" text="Right tooltip" position="right">
                   <X2Surface
                     style={{
                       paddingHorizontal: spacing.lg,
@@ -167,61 +180,73 @@ export function OverlaysShowcase() {
             </X2Stack>
 
             <ConfirmDialog
-        isOpen={confirmOpen}
-        onClose={() => setConfirmOpen(false)}
-        title="Delete project"
-        description="You are about to delete Apollo."
-        consequences={['All files are removed', 'Members lose access', 'This cannot be undone']}
-        requireText="Apollo"
-        destructive
-        confirmLabel="Delete"
-        onConfirm={async () => {
-          await wait(1200);
-          success('Project deleted');
-        }}
-        onError={(err) => error(err instanceof Error ? err.message : 'Error')}
-      />
+              isOpen={confirmOpen}
+              onClose={() => setConfirmOpen(false)}
+              title="Delete project"
+              description="You are about to delete Apollo."
+              consequences={[
+                'All files are removed',
+                'Members lose access',
+                'This cannot be undone',
+              ]}
+              requireText="Apollo"
+              destructive
+              confirmLabel="Delete"
+              onConfirm={async () => {
+                await wait(1200);
+                success('Project deleted');
+              }}
+              onError={(err) => error(err instanceof Error ? err.message : 'Error')}
+            />
 
-      <StepDialog
-        isOpen={stepsOpen}
-        onClose={() => setStepsOpen(false)}
-        title="New workspace"
-        onFinish={async () => {
-          await wait(1000);
-          success('Workspace created');
-        }}
-        onError={(err) => error(err instanceof Error ? err.message : 'Error')}
-        steps={[
-          {
-            id: 'welcome',
-            title: 'Welcome',
-            description: 'A quick three-step setup.',
-            content: <X2Text variant="bodyM" color={colors.text}>Create a workspace for your team.</X2Text>,
-          },
-          {
-            id: 'email',
-            title: 'Owner email',
-            description: 'Needed to continue.',
-            canContinue: email.includes('@'),
-            content: (
-              <FormField
-                label="Email"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            ),
-          },
-          {
-            id: 'review',
-            title: 'Review',
-            content: <X2Text variant="bodyM" color={colors.text}>Owner: {email}</X2Text>,
-          },
-        ]}
-      />
+            <StepDialog
+              isOpen={stepsOpen}
+              onClose={() => setStepsOpen(false)}
+              title="New workspace"
+              onFinish={async () => {
+                await wait(1000);
+                success('Workspace created');
+              }}
+              onError={(err) => error(err instanceof Error ? err.message : 'Error')}
+              steps={[
+                {
+                  id: 'welcome',
+                  title: 'Welcome',
+                  description: 'A quick three-step setup.',
+                  content: (
+                    <X2Text variant="bodyM" color={colors.text}>
+                      Create a workspace for your team.
+                    </X2Text>
+                  ),
+                },
+                {
+                  id: 'email',
+                  title: 'Owner email',
+                  description: 'Needed to continue.',
+                  canContinue: email.includes('@'),
+                  content: (
+                    <FormField
+                      label="Email"
+                      value={email}
+                      onChangeText={setEmail}
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                    />
+                  ),
+                },
+                {
+                  id: 'review',
+                  title: 'Review',
+                  content: (
+                    <X2Text variant="bodyM" color={colors.text}>
+                      Owner: {email}
+                    </X2Text>
+                  ),
+                },
+              ]}
+            />
 
-      {/* Popover */}
+            {/* Popover */}
             <X2Stack gap="md" align="stretch">
               <X2Text variant="labelM" color={colors.primary}>
                 Popover

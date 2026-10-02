@@ -19,21 +19,44 @@ export function CommandMenuShowcase() {
         id: 'navigation',
         label: 'Navigation',
         items: [
-          { id: 'dashboard', label: 'Open dashboard', description: 'Go to your workspace', shortcut: '⌘1', keywords: ['home'], onPress: () => setLastCommand('Open dashboard') },
-          { id: 'settings', label: 'Open settings', description: 'Manage preferences', shortcut: '⌘,', onPress: () => setLastCommand('Open settings') },
+          {
+            id: 'dashboard',
+            label: 'Open dashboard',
+            description: 'Go to your workspace',
+            shortcut: '⌘1',
+            keywords: ['home'],
+            onPress: () => setLastCommand('Open dashboard'),
+          },
+          {
+            id: 'settings',
+            label: 'Open settings',
+            description: 'Manage preferences',
+            shortcut: '⌘,',
+            onPress: () => setLastCommand('Open settings'),
+          },
         ],
       },
       {
         id: 'actions',
         label: 'Actions',
         items: [
-          { id: 'invite', label: 'Invite teammate', keywords: ['member', 'user'], onPress: () => setLastCommand('Invite teammate') },
-          { id: 'archive', label: 'Archive workspace', destructive: true, onPress: () => setLastCommand('Archive workspace') },
+          {
+            id: 'invite',
+            label: 'Invite teammate',
+            keywords: ['member', 'user'],
+            onPress: () => setLastCommand('Invite teammate'),
+          },
+          {
+            id: 'archive',
+            label: 'Archive workspace',
+            destructive: true,
+            onPress: () => setLastCommand('Archive workspace'),
+          },
           { id: 'disabled', label: 'Export report', disabled: true, onPress: () => undefined },
         ],
       },
     ],
-    [],
+    []
   );
 
   return (
@@ -47,7 +70,12 @@ export function CommandMenuShowcase() {
       <X2Pressable
         backgroundColor={colors.primary}
         onPress={() => setIsOpen(true)}
-        style={{ alignSelf: 'flex-start', paddingHorizontal: spacing.lg, paddingVertical: spacing.md, borderRadius: 8 }}
+        style={{
+          alignSelf: 'flex-start',
+          paddingHorizontal: spacing.lg,
+          paddingVertical: spacing.md,
+          borderRadius: 8,
+        }}
       >
         <X2Text color={colors.onPrimary}>Open command menu</X2Text>
       </X2Pressable>

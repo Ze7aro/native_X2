@@ -9,7 +9,7 @@ describe('Tooltip', () => {
     const { getByTestId, getByText } = renderWithTheme(
       <Tooltip text="Helpful information" testID="tooltip-trigger">
         <Text>Trigger</Text>
-      </Tooltip>,
+      </Tooltip>
     );
 
     fireEvent.press(getByTestId('tooltip-trigger'));

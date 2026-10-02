@@ -3,7 +3,9 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 type MockProps = React.PropsWithChildren<Record<string, unknown>>;
 
 type MockHostHandle = {
-  measureInWindow: (callback: (x: number, y: number, width: number, height: number) => void) => void;
+  measureInWindow: (
+    callback: (x: number, y: number, width: number, height: number) => void
+  ) => void;
 };
 
 const createHost = (name: string) =>
@@ -13,8 +15,7 @@ const createHost = (name: string) =>
     }));
 
     return React.createElement(name, props, children);
-  },
-  );
+  });
 
 function flattenStyle(style: unknown): Record<string, unknown> {
   if (!Array.isArray(style)) {
@@ -23,7 +24,7 @@ function flattenStyle(style: unknown): Record<string, unknown> {
 
   return style.reduce<Record<string, unknown>>(
     (result, item) => Object.assign(result, flattenStyle(item)),
-    {},
+    {}
   );
 }
 
@@ -48,12 +49,19 @@ export const BackHandler = (() => {
   return {
     addEventListener: (_event: string, handler: () => boolean) => {
       handlers.push(handler);
-      return { remove: () => { handlers.splice(handlers.indexOf(handler), 1); } };
+      return {
+        remove: () => {
+          handlers.splice(handlers.indexOf(handler), 1);
+        },
+      };
     },
     __press: () => [...handlers].reverse().some((handler) => handler()),
   };
 })();
-export const Platform = { OS: 'ios', select: <T,>(options: { ios?: T; android?: T; default?: T }) => options.ios ?? options.default };
+export const Platform = {
+  OS: 'ios',
+  select: <T,>(options: { ios?: T; android?: T; default?: T }) => options.ios ?? options.default,
+};
 export const AccessibilityInfo = {
   isReduceMotionEnabled: () => Promise.resolve(false),
   addEventListener: () => ({ remove: () => undefined }),

@@ -8,11 +8,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
@@ -87,7 +83,7 @@ export function BottomSheet({
       setSnapIndex(index);
       onSnapChange?.(index);
     },
-    [onSnapChange],
+    [onSnapChange]
   );
 
   const panGesture = useMemo(
@@ -96,12 +92,17 @@ export function BottomSheet({
         .enabled(dismissible || (snapping && offsets.length > 1))
         .onUpdate((event) => {
           const lowest = -snapOffset.value; // cannot be dragged above fully open
-          const highest = dismissible ? sheetHeight - snapOffset.value : offsets[offsets.length - 1] - snapOffset.value;
+          const highest = dismissible
+            ? sheetHeight - snapOffset.value
+            : offsets[offsets.length - 1] - snapOffset.value;
           dragY.value = Math.min(highest, Math.max(lowest, event.translationY));
         })
         .onEnd((event) => {
           if (!snapping) {
-            if (event.translationY > layoutHeight * DISMISS_RATIO || event.velocityY > DISMISS_VELOCITY) {
+            if (
+              event.translationY > layoutHeight * DISMISS_RATIO ||
+              event.velocityY > DISMISS_VELOCITY
+            ) {
               scheduleOnRN(onClose);
             } else {
               dragY.value = withSpring(0, SPRING);
@@ -133,7 +134,17 @@ export function BottomSheet({
           snapOffset.value = withSpring(target, SPRING);
           scheduleOnRN(handleSnap, targetIndex);
         }),
-    [dragY, snapOffset, dismissible, snapping, offsets, sheetHeight, layoutHeight, onClose, handleSnap],
+    [
+      dragY,
+      snapOffset,
+      dismissible,
+      snapping,
+      offsets,
+      sheetHeight,
+      layoutHeight,
+      onClose,
+      handleSnap,
+    ]
   );
 
   const backdropStyle = useAnimatedStyle(() => ({
@@ -155,7 +166,7 @@ export function BottomSheet({
       borderTopLeftRadius: radius.xl,
       borderTopRightRadius: radius.xl,
     }),
-    [snapping, sheetHeight, windowHeight, colors.surface, insets.bottom],
+    [snapping, sheetHeight, windowHeight, colors.surface, insets.bottom]
   );
 
   return (
@@ -167,7 +178,9 @@ export function BottomSheet({
           pointerEvents="box-none"
           style={styles.root}
         >
-          <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: colors.overlay }, backdropStyle]}>
+          <Animated.View
+            style={[StyleSheet.absoluteFill, { backgroundColor: colors.overlay }, backdropStyle]}
+          >
             <OverlayBackdrop
               enabled={enableBackdropPress && dismissible}
               onPress={requestClose}
@@ -190,7 +203,13 @@ export function BottomSheet({
             </GestureDetector>
 
             {/* The part of the sheet below the current snap point is off-screen: keep content above it. */}
-            <View style={snapping ? { flex: 1, paddingBottom: offsets[Math.min(snapIndex, offsets.length - 1)] } : undefined}>
+            <View
+              style={
+                snapping
+                  ? { flex: 1, paddingBottom: offsets[Math.min(snapIndex, offsets.length - 1)] }
+                  : undefined
+              }
+            >
               {children}
             </View>
           </Animated.View>

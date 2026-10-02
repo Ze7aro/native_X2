@@ -40,7 +40,9 @@ export function ChartCardShowcase() {
             onPress={() => setChartType(nextType)}
             style={{ paddingHorizontal: spacing.lg, paddingVertical: spacing.sm, borderRadius: 8 }}
           >
-            <X2Text color={chartType === nextType ? colors.onPrimary : colors.primary}>{nextType}</X2Text>
+            <X2Text color={chartType === nextType ? colors.onPrimary : colors.primary}>
+              {nextType}
+            </X2Text>
           </X2Pressable>
         ))}
       </X2Stack>
@@ -56,7 +58,11 @@ export function ChartCardShowcase() {
         chartType={chartType}
         valueFormatter={(value) => `$${value}k`}
         onPointPress={(point) => setSelectedPoint(`${point.label}: $${point.value}k`)}
-        footer={<X2Text variant="bodyS" color={colors.textSecondary}>{selectedPoint}</X2Text>}
+        footer={
+          <X2Text variant="bodyS" color={colors.textSecondary}>
+            {selectedPoint}
+          </X2Text>
+        }
         variant="glass"
       />
     </X2Stack>

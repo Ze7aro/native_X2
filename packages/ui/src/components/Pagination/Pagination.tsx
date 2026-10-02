@@ -32,7 +32,7 @@ export function Pagination({
       const boundedPage = Math.min(Math.max(Math.floor(nextPage), 1), safePageCount);
       if (boundedPage !== safePage) onPageChange(boundedPage);
     },
-    [onPageChange, safePage, safePageCount],
+    [onPageChange, safePage, safePageCount]
   );
 
   return (
@@ -43,7 +43,10 @@ export function Pagination({
         accessibilityRole="button"
         accessibilityLabel={previousLabel}
         accessibilityState={{ disabled: isFirstPage }}
-        style={({ pressed }) => [styles.pageButton, { opacity: isFirstPage ? 0.4 : pressed ? 0.65 : 1 }]}
+        style={({ pressed }) => [
+          styles.pageButton,
+          { opacity: isFirstPage ? 0.4 : pressed ? 0.65 : 1 },
+        ]}
         testID={testID ? `${testID}-previous` : undefined}
       >
         <X2Text color={colors.primary}>{previousIcon}</X2Text>
@@ -61,7 +64,10 @@ export function Pagination({
         accessibilityRole="button"
         accessibilityLabel={nextLabel}
         accessibilityState={{ disabled: isLastPage }}
-        style={({ pressed }) => [styles.pageButton, { opacity: isLastPage ? 0.4 : pressed ? 0.65 : 1 }]}
+        style={({ pressed }) => [
+          styles.pageButton,
+          { opacity: isLastPage ? 0.4 : pressed ? 0.65 : 1 },
+        ]}
         testID={testID ? `${testID}-next` : undefined}
       >
         <X2Text color={colors.primary}>{nextIcon}</X2Text>

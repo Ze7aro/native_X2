@@ -68,11 +68,7 @@ export function Tooltip({
         {children}
       </Pressable>
 
-      <OverlayLayer
-        animationType="none"
-        visible={mounted}
-        onRequestClose={hide}
-      >
+      <OverlayLayer animationType="none" visible={mounted} onRequestClose={hide}>
         <OverlayBackdrop onPress={hide} accessibilityLabel={dismissLabel} />
         <Animated.View
           pointerEvents="none"

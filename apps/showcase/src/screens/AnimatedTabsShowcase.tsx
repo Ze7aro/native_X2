@@ -120,19 +120,14 @@ export function AnimatedTabsShowcase() {
               indicatorColor={colors.warning}
             >
               <View style={{ padding: spacing.lg, flex: 1, justifyContent: 'center' }}>
-                <X2Text variant="bodyM">
-                  Tab {activeMore.replace('tab', '')} content
-                </X2Text>
+                <X2Text variant="bodyM">Tab {activeMore.replace('tab', '')} content</X2Text>
               </View>
             </AnimatedTabs>
           </X2Surface>
         </X2Stack>
 
         {/* Current State Info */}
-        <X2Surface
-          backgroundColor={colors.surfaceVariant}
-          style={{ padding: spacing.lg }}
-        >
+        <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.lg }}>
           <X2Text variant="labelM" color={colors.primary} style={{ marginBottom: spacing.sm }}>
             Active Tabs
           </X2Text>

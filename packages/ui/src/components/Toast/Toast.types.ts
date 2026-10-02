@@ -29,7 +29,10 @@ export interface ToastProps {
   testID?: string;
 }
 
-export interface NotificationItem extends Omit<ToastProps, 'isVisible' | 'defaultVisible' | 'onDismiss' | 'onDismissComplete'> {
+export interface NotificationItem extends Omit<
+  ToastProps,
+  'isVisible' | 'defaultVisible' | 'onDismiss' | 'onDismissComplete'
+> {
   id: string;
 }
 

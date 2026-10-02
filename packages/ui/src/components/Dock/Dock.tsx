@@ -46,16 +46,11 @@ export function Dock({
       borderTopWidth: 1,
       gap: showLabels ? spacing.sm : 0,
     }),
-    [backgroundColor, colors, showLabels, insets.bottom],
+    [backgroundColor, colors, showLabels, insets.bottom]
   );
 
   return (
-    <View
-      {...props}
-      testID={testID}
-      style={[dockStyle, style]}
-      accessibilityRole="tablist"
-    >
+    <View {...props} testID={testID} style={[dockStyle, style]} accessibilityRole="tablist">
       <Animated.View
         style={[
           {

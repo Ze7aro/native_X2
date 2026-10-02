@@ -37,7 +37,7 @@ export function FormFieldShowcase() {
             keyboardType="email-address"
             autoCapitalize="none"
             required
-            validate={(value) => value.includes('@') ? undefined : 'Enter a valid email address'}
+            validate={(value) => (value.includes('@') ? undefined : 'Enter a valid email address')}
           />
           <FormField
             testID="form-password"
@@ -48,7 +48,7 @@ export function FormFieldShowcase() {
             secureTextEntry
             required
             validateOn="change"
-            validate={(value) => value.length >= 8 ? undefined : 'Use at least 8 characters'}
+            validate={(value) => (value.length >= 8 ? undefined : 'Use at least 8 characters')}
             helperText="Use a mix of letters, numbers and symbols."
             suffix={<X2Text color={colors.textTertiary}>•••</X2Text>}
           />
@@ -63,7 +63,13 @@ export function FormFieldShowcase() {
         <X2Pressable
           backgroundColor={colors.primary}
           onPress={() => setSubmitted(true)}
-          style={{ alignSelf: 'flex-start', marginTop: spacing.lg, paddingHorizontal: spacing.lg, paddingVertical: spacing.md, borderRadius: 8 }}
+          style={{
+            alignSelf: 'flex-start',
+            marginTop: spacing.lg,
+            paddingHorizontal: spacing.lg,
+            paddingVertical: spacing.md,
+            borderRadius: 8,
+          }}
         >
           <X2Text color={colors.onPrimary}>Submit</X2Text>
         </X2Pressable>

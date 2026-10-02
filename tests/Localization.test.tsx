@@ -7,7 +7,9 @@ import { Modal, SearchField, ThemeProvider, X2StringsProvider, esStrings } from 
 describe('X2StringsProvider', () => {
   it('defaults to English', () => {
     const { getByLabelText } = render(
-      <ThemeProvider><SearchField defaultValue="x" /></ThemeProvider>,
+      <ThemeProvider>
+        <SearchField defaultValue="x" />
+      </ThemeProvider>
     );
     expect(getByLabelText('Clear search')).toBeTruthy();
   });
@@ -18,9 +20,11 @@ describe('X2StringsProvider', () => {
         <X2StringsProvider strings={esStrings}>
           <SearchField defaultValue="x" />
           <SearchField defaultValue="y" clearLabel="Limpiar" placeholder="Filtrar" />
-          <Modal isOpen onClose={() => undefined}><React.Fragment /></Modal>
+          <Modal isOpen onClose={() => undefined}>
+            <React.Fragment />
+          </Modal>
         </X2StringsProvider>
-      </ThemeProvider>,
+      </ThemeProvider>
     );
     expect(getByLabelText('Borrar búsqueda')).toBeTruthy();
     expect(getByLabelText('Limpiar')).toBeTruthy();
@@ -43,7 +47,10 @@ describe('theming guard', () => {
       for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
         const full = path.join(dir, entry.name);
         if (entry.isDirectory()) walk(full);
-        else if (/\.tsx?$/.test(entry.name) && /#[0-9a-fA-F]{3,8}\b/.test(fs.readFileSync(full, 'utf8'))) {
+        else if (
+          /\.tsx?$/.test(entry.name) &&
+          /#[0-9a-fA-F]{3,8}\b/.test(fs.readFileSync(full, 'utf8'))
+        ) {
           const rel = path.relative(root, full).split(path.sep).join('/');
           if (!allowed.has(rel)) offenders.push(rel);
         }

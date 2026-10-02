@@ -1,11 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  View,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  ViewStyle,
-} from 'react-native';
+import { View, Pressable, ScrollView, StyleSheet, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
@@ -54,21 +48,15 @@ export function SideMenu({
       paddingTop: insets.top,
       paddingBottom: insets.bottom,
     }),
-    [colors.surface, insets.top, insets.bottom],
+    [colors.surface, insets.top, insets.bottom]
   );
 
   return (
-    <OverlayLayer
-      visible={mounted}
-      animationType="none"
-      onRequestClose={onClose}
-      testID={testID}
-    >
-      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: colors.overlay }, backdropStyle]}>
-        <OverlayBackdrop
-          onPress={onClose}
-          accessibilityLabel={closeLabel}
-        />
+    <OverlayLayer visible={mounted} animationType="none" onRequestClose={onClose} testID={testID}>
+      <Animated.View
+        style={[StyleSheet.absoluteFill, { backgroundColor: colors.overlay }, backdropStyle]}
+      >
+        <OverlayBackdrop onPress={onClose} accessibilityLabel={closeLabel} />
       </Animated.View>
 
       <Animated.View style={[menuStyle, menuAnimatedStyle]} accessibilityViewIsModal>
@@ -102,7 +90,9 @@ export function SideMenu({
               })}
             >
               {item.icon && (
-                <View style={{ width: 24, height: 24, justifyContent: 'center', alignItems: 'center' }}>
+                <View
+                  style={{ width: 24, height: 24, justifyContent: 'center', alignItems: 'center' }}
+                >
                   {item.icon}
                 </View>
               )}

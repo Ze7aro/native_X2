@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  Pressable,
-  PressableProps,
-  ViewStyle,
-} from 'react-native';
+import { Pressable, PressableProps, ViewStyle } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 import type { AccessibilityProps } from '@react-x2-native/core';
 
@@ -54,7 +50,10 @@ export function X2Pressable({
       accessibilityRole={accessibilityRole}
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
-      accessibilityState={{ ...accessibilityState, disabled: accessibilityState?.disabled ?? disabled }}
+      accessibilityState={{
+        ...accessibilityState,
+        disabled: accessibilityState?.disabled ?? disabled,
+      }}
       style={({ pressed }) => {
         const baseStyle: ViewStyle = {
           backgroundColor: getBackgroundColor(),

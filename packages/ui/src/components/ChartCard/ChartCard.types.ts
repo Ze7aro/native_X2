@@ -1,9 +1,6 @@
 import type { ReactNode } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import type {
-  DashboardCardProps,
-  DashboardCardStatus,
-} from '../DashboardCard';
+import type { DashboardCardProps, DashboardCardStatus } from '../DashboardCard';
 
 export interface ChartDataPoint {
   id?: string;
@@ -14,7 +11,10 @@ export interface ChartDataPoint {
 
 export type ChartCardType = 'bar' | 'line';
 
-export interface ChartCardProps extends Omit<DashboardCardProps, 'children' | 'status' | 'emptyMessage'> {
+export interface ChartCardProps extends Omit<
+  DashboardCardProps,
+  'children' | 'status' | 'emptyMessage'
+> {
   data: ChartDataPoint[];
   chartType?: ChartCardType;
   status?: DashboardCardStatus;

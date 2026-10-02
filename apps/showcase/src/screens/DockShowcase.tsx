@@ -87,10 +87,7 @@ export function DockShowcase() {
 
         {/* Action Log */}
         {actionLog && (
-          <X2Surface
-            backgroundColor={colors.surfaceVariant}
-            style={{ padding: spacing.lg }}
-          >
+          <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.lg }}>
             <X2Text variant="labelM" color={colors.primary}>
               Last Action
             </X2Text>
@@ -99,10 +96,7 @@ export function DockShowcase() {
         )}
 
         {/* Active Indicator Info */}
-        <X2Surface
-          backgroundColor={colors.surfaceVariant}
-          style={{ padding: spacing.lg }}
-        >
+        <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.lg }}>
           <X2Text variant="labelM" color={colors.primary} style={{ marginBottom: spacing.sm }}>
             Current Selection
           </X2Text>
@@ -111,9 +105,7 @@ export function DockShowcase() {
               {DOCK_ITEMS.find((item) => item.id === activeBasic)?.label}
             </X2Text>
             <X2Icon
-              name={
-                ICONS[activeBasic as keyof typeof ICONS] || '📍'
-              }
+              name={ICONS[activeBasic as keyof typeof ICONS] || '📍'}
               size={20}
               color={colors.primary}
             />

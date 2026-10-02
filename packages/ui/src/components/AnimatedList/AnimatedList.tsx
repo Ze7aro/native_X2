@@ -1,10 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, ViewStyle } from 'react-native';
-import Animated, {
-  FadeInUp,
-  FadeOutDown,
-  Layout,
-} from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOutDown, Layout } from 'react-native-reanimated';
 import { spacing } from '@react-x2-native/tokens';
 import { useReducedMotion } from '@react-x2-native/core';
 import type { AnimatedListProps } from './AnimatedList.types';
@@ -25,28 +21,18 @@ export function AnimatedList({
     () => ({
       gap,
     }),
-    [gap],
+    [gap]
   );
 
   return (
-    <View
-      style={[containerStyle, style]}
-      testID={testID}
-      {...props}
-    >
+    <View style={[containerStyle, style]} testID={testID} {...props}>
       {items.map((item, index) => (
         <AnimatedView
           key={item.id}
           entering={
-            reducedMotion
-              ? undefined
-              : FadeInUp.duration(animationDuration).delay(index * 50)
+            reducedMotion ? undefined : FadeInUp.duration(animationDuration).delay(index * 50)
           }
-          exiting={
-            reducedMotion
-              ? undefined
-              : FadeOutDown.duration(animationDuration)
-          }
+          exiting={reducedMotion ? undefined : FadeOutDown.duration(animationDuration)}
           layout={reducedMotion ? undefined : Layout.springify()}
           testID={testID ? `${testID}-item-${index}` : undefined}
         >

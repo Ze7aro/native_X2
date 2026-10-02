@@ -1,15 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import {
-  View,
-  Pressable,
-  ViewStyle,
-  GestureResponderEvent,
-} from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
+import { View, Pressable, ViewStyle, GestureResponderEvent } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { radius } from '@react-x2-native/tokens';
@@ -41,22 +32,25 @@ export function SpotlightCard({
   const glowY = useSharedValue(0);
   const glowOpacity = useSharedValue(0);
 
-  const handlePressIn = useCallback((e: GestureResponderEvent) => {
-    if (reducedMotion || disabled) return;
+  const handlePressIn = useCallback(
+    (e: GestureResponderEvent) => {
+      if (reducedMotion || disabled) return;
 
-    setIsPressed(true);
-    const { locationX, locationY } = e.nativeEvent;
+      setIsPressed(true);
+      const { locationX, locationY } = e.nativeEvent;
 
-    glowX.value = withSpring(locationX, { damping: 20, mass: 1 });
-    glowY.value = withSpring(locationY, { damping: 20, mass: 1 });
+      glowX.value = withSpring(locationX, { damping: 20, mass: 1 });
+      glowY.value = withSpring(locationY, { damping: 20, mass: 1 });
 
-    glowOpacity.value = withSpring(intensity, {
-      damping: 15,
-      mass: 1,
-    });
+      glowOpacity.value = withSpring(intensity, {
+        damping: 15,
+        mass: 1,
+      });
 
-    onGlowMove?.(locationX, locationY);
-  }, [intensity, reducedMotion, disabled, glowX, glowY, glowOpacity, onGlowMove]);
+      onGlowMove?.(locationX, locationY);
+    },
+    [intensity, reducedMotion, disabled, glowX, glowY, glowOpacity, onGlowMove]
+  );
 
   const handlePressOut = useCallback(() => {
     setIsPressed(false);
@@ -75,10 +69,7 @@ export function SpotlightCard({
   // Glow is centered on the touch point: its top-left corner sits at (x - R, y - R).
   const animatedGlowStyle = useAnimatedStyle(() => ({
     opacity: glowOpacity.value,
-    transform: [
-      { translateX: glowX.value - spotRadius },
-      { translateY: glowY.value - spotRadius },
-    ],
+    transform: [{ translateX: glowX.value - spotRadius }, { translateY: glowY.value - spotRadius }],
   }));
 
   const glowStyle = useMemo<ViewStyle>(
@@ -91,7 +82,7 @@ export function SpotlightCard({
       borderRadius: spotRadius,
       backgroundColor: colors.primary,
     }),
-    [spotRadius, colors.primary],
+    [spotRadius, colors.primary]
   );
 
   const cardStyle: ViewStyle = useMemo(
@@ -101,7 +92,7 @@ export function SpotlightCard({
       overflow: 'hidden',
       opacity: disabled ? 0.5 : 1,
     }),
-    [colors.surface, disabled],
+    [colors.surface, disabled]
   );
 
   return (
@@ -127,13 +118,7 @@ export function SpotlightCard({
     >
       {/* Glow layer - only render if not using reduced motion */}
       {!reducedMotion && (
-        <AnimatedView
-          style={[
-            glowStyle,
-            animatedGlowStyle,
-          ]}
-          pointerEvents="none"
-        />
+        <AnimatedView style={[glowStyle, animatedGlowStyle]} pointerEvents="none" />
       )}
 
       {/* Content */}

@@ -24,9 +24,7 @@ export function X2Surface({
 }: X2SurfaceProps) {
   const { colors } = useTheme();
 
-  const borderRadiusValue = typeof borderRadius === 'number'
-    ? borderRadius
-    : radius[borderRadius];
+  const borderRadiusValue = typeof borderRadius === 'number' ? borderRadius : radius[borderRadius];
 
   return (
     <View

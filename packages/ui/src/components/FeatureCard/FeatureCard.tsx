@@ -1,14 +1,6 @@
 import React, { useMemo } from 'react';
-import {
-  View,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
+import { View, Pressable, ViewStyle } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius } from '@react-x2-native/tokens';
@@ -61,17 +53,14 @@ export function FeatureCard({
       paddingHorizontal: config.padding,
       paddingVertical: config.padding,
       borderRadius: radius.lg,
-      backgroundColor: backgroundColor ?? (
-        variant === 'highlighted'
-          ? colors.primary
-          : colors.surface
-      ),
+      backgroundColor:
+        backgroundColor ?? (variant === 'highlighted' ? colors.primary : colors.surface),
       opacity: disabled ? 0.5 : 1,
       alignItems: 'center',
       justifyContent: 'center',
       gap: spacing.md,
     }),
-    [config.padding, backgroundColor, variant, colors.surface, colors.primary, disabled],
+    [config.padding, backgroundColor, variant, colors.surface, colors.primary, disabled]
   );
 
   const titleColor = variant === 'highlighted' ? colors.onPrimary : colors.text;
@@ -93,7 +82,14 @@ export function FeatureCard({
       {...props}
     >
       {/* Icon */}
-      <View style={{ width: config.iconSize, height: config.iconSize, justifyContent: 'center', alignItems: 'center' }}>
+      <View
+        style={{
+          width: config.iconSize,
+          height: config.iconSize,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         {icon}
       </View>
 

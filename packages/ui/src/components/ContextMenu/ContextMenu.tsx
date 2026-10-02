@@ -45,7 +45,7 @@ export function ContextMenu({
       onPress();
       handleClose();
     },
-    [handleClose],
+    [handleClose]
   );
 
   return (
@@ -64,11 +64,7 @@ export function ContextMenu({
         {children}
       </Pressable>
 
-      <OverlayLayer
-        animationType="fade"
-        visible={menuOpen}
-        onRequestClose={handleClose}
-      >
+      <OverlayLayer animationType="fade" visible={menuOpen} onRequestClose={handleClose}>
         <OverlayBackdrop onPress={handleClose} accessibilityLabel={closeLabel} />
         <View
           accessibilityRole="menu"
@@ -103,7 +99,9 @@ export function ContextMenu({
               })}
             >
               {action.icon && (
-                <View style={{ width: 24, height: 24, justifyContent: 'center', alignItems: 'center' }}>
+                <View
+                  style={{ width: 24, height: 24, justifyContent: 'center', alignItems: 'center' }}
+                >
                   {action.icon}
                 </View>
               )}

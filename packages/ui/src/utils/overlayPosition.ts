@@ -22,7 +22,7 @@ export function computeOverlayPosition(
   placement: OverlayPlacement,
   offset: number,
   screen: Size,
-  margin = 8,
+  margin = 8
 ): { left: number; top: number } {
   const fits = {
     top: anchor.y - offset - content.height >= margin,

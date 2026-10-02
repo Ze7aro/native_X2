@@ -37,18 +37,10 @@ export function SpotlightCardShowcase() {
               <X2Text variant="headingM" style={{ textAlign: 'center' }}>
                 Spotlight Card
               </X2Text>
-              <X2Text
-                variant="bodyM"
-                color={colors.textSecondary}
-                style={{ textAlign: 'center' }}
-              >
+              <X2Text variant="bodyM" color={colors.textSecondary} style={{ textAlign: 'center' }}>
                 Move your finger over me
               </X2Text>
-              <X2Text
-                variant="bodyS"
-                color={colors.primary}
-                style={{ textAlign: 'center' }}
-              >
+              <X2Text variant="bodyS" color={colors.primary} style={{ textAlign: 'center' }}>
                 Pressed {pressCount} times
               </X2Text>
             </X2Stack>
@@ -56,10 +48,7 @@ export function SpotlightCardShowcase() {
         </X2Stack>
 
         {/* Glow Position Info */}
-        <X2Surface
-          backgroundColor={colors.surfaceVariant}
-          style={{ padding: spacing.md }}
-        >
+        <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.md }}>
           <X2Text variant="labelM" color={colors.primary}>
             Last Glow Position
           </X2Text>

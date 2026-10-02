@@ -5,7 +5,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 // Keeps content mounted until the exit animation finishes; `progress` goes 0 (hidden) → 1 (shown).
 export function useAnimatedPresence(
   isOpen: boolean,
-  { duration = 250, reducedMotion = false }: { duration?: number; reducedMotion?: boolean } = {},
+  { duration = 250, reducedMotion = false }: { duration?: number; reducedMotion?: boolean } = {}
 ) {
   const [mounted, setMounted] = useState(isOpen);
   const progress = useSharedValue(0);

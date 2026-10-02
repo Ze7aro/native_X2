@@ -1,9 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  ScrollView,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { ScrollView, View, ViewStyle } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing as tokens } from '@react-x2-native/tokens';
 import { X2Divider } from '../../primitives/X2Divider';
@@ -29,7 +25,7 @@ export function ItemStack<T>({
       flexDirection: isHorizontal ? 'row' : 'column',
       gap: spacing,
     }),
-    [isHorizontal, spacing],
+    [isHorizontal, spacing]
   );
 
   const content = (
@@ -37,9 +33,7 @@ export function ItemStack<T>({
       {items.map((item, index) => (
         <React.Fragment key={getItemKey(item, index)}>
           {renderItem(item, index)}
-          {dividers && index < items.length - 1 && (
-            <X2Divider color={colors.surfaceVariant} />
-          )}
+          {dividers && index < items.length - 1 && <X2Divider color={colors.surfaceVariant} />}
         </React.Fragment>
       ))}
     </View>

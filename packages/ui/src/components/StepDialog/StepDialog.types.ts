@@ -15,7 +15,10 @@ export interface StepDialogStep {
   onNext?: () => void | Promise<void>;
 }
 
-export interface StepDialogProps extends Pick<ModalProps, 'isOpen' | 'onClose' | 'size' | 'closeLabel' | 'testID'> {
+export interface StepDialogProps extends Pick<
+  ModalProps,
+  'isOpen' | 'onClose' | 'size' | 'closeLabel' | 'testID'
+> {
   title: string;
   steps: StepDialogStep[];
   /** Runs on the last step. May be async; the dialog closes when it resolves and stays open if it throws. */

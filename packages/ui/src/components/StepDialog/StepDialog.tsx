@@ -92,19 +92,21 @@ export function StepDialog({
           ? {
               label: finishLabel,
               disabled: !canContinue,
-              onPress: () => run(async () => {
-                await current.onNext?.();
-                await onFinish();
-              }),
+              onPress: () =>
+                run(async () => {
+                  await current.onNext?.();
+                  await onFinish();
+                }),
             }
           : {
               label: nextLabel,
               autoClose: false,
               disabled: !canContinue,
-              onPress: () => run(async () => {
-                await current.onNext?.();
-                goTo(index + 1);
-              }),
+              onPress: () =>
+                run(async () => {
+                  await current.onNext?.();
+                  goTo(index + 1);
+                }),
             },
       ]}
     >
@@ -130,7 +132,11 @@ export function StepDialog({
         </View>
 
         <View style={{ gap: spacing.xs }}>
-          <X2Text variant="labelS" color={colors.textSecondary} testID={testID ? `${testID}-step-label` : undefined}>
+          <X2Text
+            variant="labelS"
+            color={colors.textSecondary}
+            testID={testID ? `${testID}-step-label` : undefined}
+          >
             {strings.stepOf(index + 1, steps.length)}
           </X2Text>
           <X2Text variant="headingS" color={colors.text} accessibilityRole="header">

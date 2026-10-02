@@ -1,14 +1,6 @@
 import React, { useMemo } from 'react';
-import {
-  View,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
+import { View, Pressable, ViewStyle } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius } from '@react-x2-native/tokens';
@@ -60,7 +52,7 @@ export function ReviewCard({
       opacity: disabled ? 0.5 : 1,
       gap: spacing.md,
     }),
-    [backgroundColor, colors.surface, disabled],
+    [backgroundColor, colors.surface, disabled]
   );
 
   const renderStars = (count: number) => {
@@ -84,13 +76,16 @@ export function ReviewCard({
       {...props}
     >
       {/* Header */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md, justifyContent: 'space-between' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: spacing.md,
+          justifyContent: 'space-between',
+        }}
+      >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, flex: 1 }}>
-          {avatar && (
-            <View style={{ width: 40, height: 40 }}>
-              {avatar}
-            </View>
-          )}
+          {avatar && <View style={{ width: 40, height: 40 }}>{avatar}</View>}
           <View style={{ flex: 1 }}>
             <X2Text variant="labelL" color={colors.text}>
               {author}
@@ -106,11 +101,7 @@ export function ReviewCard({
       </View>
 
       {/* Review Text */}
-      <X2Text
-        variant="bodyS"
-        color={colors.text}
-        numberOfLines={3}
-      >
+      <X2Text variant="bodyS" color={colors.text} numberOfLines={3}>
         {text}
       </X2Text>
     </AnimatedPressable>

@@ -115,7 +115,9 @@ export function Toast({
             style={({ pressed }) => [styles.action, { opacity: pressed ? 0.65 : 1 }]}
             testID={testID ? `${testID}-action` : undefined}
           >
-            <X2Text variant="labelM" color={colors.primary}>{action.label}</X2Text>
+            <X2Text variant="labelM" color={colors.primary}>
+              {action.label}
+            </X2Text>
           </Pressable>
         )}
         {dismissible && (
@@ -127,7 +129,9 @@ export function Toast({
             style={({ pressed }) => [styles.close, { opacity: pressed ? 0.65 : 1 }]}
             testID={testID ? `${testID}-close` : undefined}
           >
-            <X2Text variant="labelL" color={colors.textSecondary}>×</X2Text>
+            <X2Text variant="labelL" color={colors.textSecondary}>
+              ×
+            </X2Text>
           </Pressable>
         )}
       </View>

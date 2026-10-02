@@ -3,7 +3,10 @@ import type { StyleProp, TextInputProps, TextStyle, ViewStyle } from 'react-nati
 
 export type FormFieldValidationTrigger = 'change' | 'blur' | 'submit';
 
-export interface FormFieldProps extends Omit<TextInputProps, 'defaultValue' | 'onBlur' | 'onChangeText' | 'onSubmitEditing' | 'style' | 'value'> {
+export interface FormFieldProps extends Omit<
+  TextInputProps,
+  'defaultValue' | 'onBlur' | 'onChangeText' | 'onSubmitEditing' | 'style' | 'value'
+> {
   label?: string;
   description?: string;
   helperText?: string;

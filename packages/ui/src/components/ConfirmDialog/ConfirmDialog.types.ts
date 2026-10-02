@@ -1,6 +1,9 @@
 import type { ModalProps } from '../Modal/Modal.types';
 
-export interface ConfirmDialogProps extends Pick<ModalProps, 'isOpen' | 'onClose' | 'size' | 'closeLabel' | 'testID'> {
+export interface ConfirmDialogProps extends Pick<
+  ModalProps,
+  'isOpen' | 'onClose' | 'size' | 'closeLabel' | 'testID'
+> {
   title: string;
   description?: string;
   /** Bullet list shown under the description, e.g. what will be lost. */

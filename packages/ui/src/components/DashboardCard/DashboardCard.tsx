@@ -1,10 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  ActivityIndicator,
-  Pressable,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 import { elevation, radius, spacing } from '@react-x2-native/tokens';
 import { useTheme } from '../../theme/ThemeContext';
 import { EmptyState } from '../EmptyState';
@@ -54,28 +49,29 @@ export function DashboardCard({
       backgroundColor: variant === 'glass' ? `${colors.surface}E6` : colors.surface,
       opacity: disabled ? 0.55 : 1,
     }),
-    [colors.border, colors.surface, disabled, minHeight, variant],
+    [colors.border, colors.surface, disabled, minHeight, variant]
   );
 
-  const trendColor = trend?.direction === 'up'
-    ? colors.success
-    : trend?.direction === 'down'
-      ? colors.error
-      : colors.textSecondary;
+  const trendColor =
+    trend?.direction === 'up'
+      ? colors.success
+      : trend?.direction === 'down'
+        ? colors.error
+        : colors.textSecondary;
   const trendIcon = trend?.direction === 'up' ? '↑' : trend?.direction === 'down' ? '↓' : '→';
 
   const content = (
-    <View
-      {...props}
-      style={[styles.card, elevation.sm, cardStyle, style]}
-      testID={testID}
-    >
+    <View {...props} style={[styles.card, elevation.sm, cardStyle, style]} testID={testID}>
       <View style={styles.header}>
         <View style={styles.headingGroup}>
           {icon && <View style={styles.icon}>{icon}</View>}
           <View style={styles.headingText}>
             <X2Text variant="labelL">{title}</X2Text>
-            {subtitle && <X2Text variant="bodyS" color={colors.textSecondary}>{subtitle}</X2Text>}
+            {subtitle && (
+              <X2Text variant="bodyS" color={colors.textSecondary}>
+                {subtitle}
+              </X2Text>
+            )}
           </View>
         </View>
         {headerAction && <View style={styles.headerAction}>{headerAction}</View>}
@@ -83,44 +79,67 @@ export function DashboardCard({
 
       {metric && (
         <View style={styles.metric}>
-          <X2Text variant="headingL" color={colors.primary}>{metric}</X2Text>
-          {metricLabel && <X2Text variant="bodyS" color={colors.textSecondary}>{metricLabel}</X2Text>}
+          <X2Text variant="headingL" color={colors.primary}>
+            {metric}
+          </X2Text>
+          {metricLabel && (
+            <X2Text variant="bodyS" color={colors.textSecondary}>
+              {metricLabel}
+            </X2Text>
+          )}
         </View>
       )}
 
       {trend && (
         <View style={styles.trend}>
-          <X2Text variant="labelM" color={trendColor}>{trendIcon}</X2Text>
-          <X2Text variant="labelS" color={trendColor}>{trend.value ? `${trend.value} ` : ''}{trend.label}</X2Text>
+          <X2Text variant="labelM" color={trendColor}>
+            {trendIcon}
+          </X2Text>
+          <X2Text variant="labelS" color={trendColor}>
+            {trend.value ? `${trend.value} ` : ''}
+            {trend.label}
+          </X2Text>
         </View>
       )}
 
       <View style={styles.body}>
-        {status === 'loading' ? (
-          loadingContent ?? <ActivityIndicator color={colors.primary} testID={testID ? `${testID}-loading` : undefined} />
-        ) : status === 'empty' ? (
-          emptyContent ?? <EmptyState title={emptyMessage} compact />
-        ) : status === 'error' ? (
-          errorContent ?? (
-            <View style={styles.state}>
-              <X2Text variant="bodyS" color={colors.error} style={styles.stateMessage} accessibilityRole="alert">
-                {errorMessage}
-              </X2Text>
-              {onRetry && (
-                <X2Pressable
-                  variant="outline"
-                  borderColor={colors.error}
-                  onPress={onRetry}
-                  accessibilityLabel={retryLabel}
-                  style={styles.retry}
-                  testID={testID ? `${testID}-retry` : undefined}
-                >
-                  <X2Text variant="labelM" color={colors.error}>{retryLabel}</X2Text>
-                </X2Pressable>
-              )}
-            </View>
-          )
-        ) : children}
+        {status === 'loading'
+          ? (loadingContent ?? (
+              <ActivityIndicator
+                color={colors.primary}
+                testID={testID ? `${testID}-loading` : undefined}
+              />
+            ))
+          : status === 'empty'
+            ? (emptyContent ?? <EmptyState title={emptyMessage} compact />)
+            : status === 'error'
+              ? (errorContent ?? (
+                  <View style={styles.state}>
+                    <X2Text
+                      variant="bodyS"
+                      color={colors.error}
+                      style={styles.stateMessage}
+                      accessibilityRole="alert"
+                    >
+                      {errorMessage}
+                    </X2Text>
+                    {onRetry && (
+                      <X2Pressable
+                        variant="outline"
+                        borderColor={colors.error}
+                        onPress={onRetry}
+                        accessibilityLabel={retryLabel}
+                        style={styles.retry}
+                        testID={testID ? `${testID}-retry` : undefined}
+                      >
+                        <X2Text variant="labelM" color={colors.error}>
+                          {retryLabel}
+                        </X2Text>
+                      </X2Pressable>
+                    )}
+                  </View>
+                ))
+              : children}
       </View>
 
       {footer && <View style={styles.footer}>{footer}</View>}

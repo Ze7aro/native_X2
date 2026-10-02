@@ -13,10 +13,15 @@ describe('CommandMenu', () => {
         onClose={onClose}
         testID="commands"
         items={[
-          { id: 'settings', label: 'Open settings', keywords: ['preferences'], onPress: onSettings },
+          {
+            id: 'settings',
+            label: 'Open settings',
+            keywords: ['preferences'],
+            onPress: onSettings,
+          },
           { id: 'help', label: 'Open help', onPress: jest.fn() },
         ]}
-      />,
+      />
     );
 
     fireEvent.changeText(getByTestId('commands-search-input'), 'preferences');

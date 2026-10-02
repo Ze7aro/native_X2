@@ -42,7 +42,31 @@ import { CommandMenuShowcase } from './screens/CommandMenuShowcase';
 import { DashboardCardShowcase } from './screens/DashboardCardShowcase';
 import { ChartCardShowcase } from './screens/ChartCardShowcase';
 
-type Section = 'typography' | 'surfaces' | 'buttons' | 'colors' | 'spotlight' | 'tilted' | 'profile' | 'expandable' | 'dock' | 'tabs' | 'segmented' | 'carousel' | 'list' | 'accordion' | 'extended-cards' | 'extended-nav' | 'extended-collections' | 'overlays' | 'data-table' | 'notifications' | 'form-field' | 'command-menu' | 'dashboard-card' | 'chart-card';
+type Section =
+  | 'typography'
+  | 'surfaces'
+  | 'buttons'
+  | 'colors'
+  | 'spotlight'
+  | 'tilted'
+  | 'profile'
+  | 'expandable'
+  | 'dock'
+  | 'tabs'
+  | 'segmented'
+  | 'carousel'
+  | 'list'
+  | 'accordion'
+  | 'extended-cards'
+  | 'extended-nav'
+  | 'extended-collections'
+  | 'overlays'
+  | 'data-table'
+  | 'notifications'
+  | 'form-field'
+  | 'command-menu'
+  | 'dashboard-card'
+  | 'chart-card';
 
 type ThemeName = 'light' | 'dark';
 type LangName = 'en' | 'es';
@@ -141,11 +165,7 @@ function AppContent({
           >
             react-X2-native
           </X2Text>
-          <X2Text
-            variant="bodyM"
-            color={colors.onPrimary}
-            style={{ opacity: 0.8 }}
-          >
+          <X2Text variant="bodyM" color={colors.onPrimary} style={{ opacity: 0.8 }}>
             Component Showcase
           </X2Text>
         </X2Surface>
@@ -167,9 +187,7 @@ function AppContent({
               borderRadius: 8,
             }}
           >
-            <X2Text color={theme === 'light' ? colors.onPrimary : colors.text}>
-              Light
-            </X2Text>
+            <X2Text color={theme === 'light' ? colors.onPrimary : colors.text}>Light</X2Text>
           </X2Pressable>
           <X2Pressable
             backgroundColor={theme === 'dark' ? colors.primary : colors.surfaceVariant}
@@ -181,9 +199,7 @@ function AppContent({
               borderRadius: 8,
             }}
           >
-            <X2Text color={theme === 'dark' ? colors.onPrimary : colors.text}>
-              Dark
-            </X2Text>
+            <X2Text color={theme === 'dark' ? colors.onPrimary : colors.text}>Dark</X2Text>
           </X2Pressable>
         </X2Stack>
 
@@ -200,7 +216,11 @@ function AppContent({
               backgroundColor={lang === code ? colors.primary : colors.surfaceVariant}
               onPress={() => setLang(code)}
               testID={`btn-lang-${code}`}
-              style={{ paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderRadius: 8 }}
+              style={{
+                paddingVertical: spacing.md,
+                paddingHorizontal: spacing.lg,
+                borderRadius: 8,
+              }}
             >
               <X2Text color={lang === code ? colors.onPrimary : colors.text}>
                 {code === 'en' ? 'English' : 'Español'}
@@ -215,7 +235,11 @@ function AppContent({
         <X2Stack gap="md" style={{ paddingHorizontal: spacing.lg, marginBottom: spacing.lg }}>
           {sectionGroups.map((group) => (
             <X2Stack key={group.id} gap="xs">
-              <X2Text variant="labelS" color={colors.textTertiary} style={{ textTransform: 'uppercase' }}>
+              <X2Text
+                variant="labelS"
+                color={colors.textTertiary}
+                style={{ textTransform: 'uppercase' }}
+              >
                 {group.label}
               </X2Text>
               <X2Stack direction="row" gap="sm" style={{ flexWrap: 'wrap' }}>
@@ -281,11 +305,7 @@ function AppContent({
             backgroundColor: colors.surfaceVariant,
           }}
         >
-          <X2Text
-            variant="bodyS"
-            color={colors.textSecondary}
-            style={{ textAlign: 'center' }}
-          >
+          <X2Text variant="bodyS" color={colors.textSecondary} style={{ textAlign: 'center' }}>
             Phase 3: Extended Components (19 of 19 complete) ✅
           </X2Text>
         </X2Surface>

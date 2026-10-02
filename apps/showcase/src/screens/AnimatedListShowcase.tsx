@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { AnimatedList, X2Surface, X2Text, X2Stack, X2Pressable, useThemeColors } from 'react-x2-native';
+import {
+  AnimatedList,
+  X2Surface,
+  X2Text,
+  X2Stack,
+  X2Pressable,
+  useThemeColors,
+} from 'react-x2-native';
 import { spacing } from '@react-x2-native/tokens';
 
 export function AnimatedListShowcase() {
@@ -85,10 +92,7 @@ export function AnimatedListShowcase() {
         </X2Pressable>
 
         {/* Info */}
-        <X2Surface
-          backgroundColor={colors.surfaceVariant}
-          style={{ padding: spacing.lg }}
-        >
+        <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.lg }}>
           <X2Text variant="labelM" color={colors.primary} style={{ marginBottom: spacing.sm }}>
             Item Count
           </X2Text>

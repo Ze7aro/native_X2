@@ -45,11 +45,7 @@ export function Popover({
         {anchor}
       </View>
 
-      <OverlayLayer
-        animationType="none"
-        visible={mounted}
-        onRequestClose={onClose}
-      >
+      <OverlayLayer animationType="none" visible={mounted} onRequestClose={onClose}>
         <OverlayBackdrop onPress={onClose} accessibilityLabel={closeLabel} />
         <Animated.View
           onLayout={onContentLayout}

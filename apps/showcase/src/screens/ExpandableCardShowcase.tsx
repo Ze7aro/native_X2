@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { ExpandableCard, X2Surface, X2Text, X2Stack, X2Icon, useThemeColors } from 'react-x2-native';
+import {
+  ExpandableCard,
+  X2Surface,
+  X2Text,
+  X2Stack,
+  X2Icon,
+  useThemeColors,
+} from 'react-x2-native';
 import { spacing } from '@react-x2-native/tokens';
 
 export function ExpandableCardShowcase() {
@@ -120,8 +127,8 @@ export function ExpandableCardShowcase() {
             }
           >
             <X2Text variant="bodyS" color={colors.textSecondary}>
-              All components respect accessibility standards. Screen readers announce expanded/collapsed
-              states, and keyboard navigation is fully supported.
+              All components respect accessibility standards. Screen readers announce
+              expanded/collapsed states, and keyboard navigation is fully supported.
             </X2Text>
           </ExpandableCard>
         </X2Stack>
@@ -131,20 +138,14 @@ export function ExpandableCardShowcase() {
           <X2Text variant="labelM" color={colors.primary}>
             Disabled State
           </X2Text>
-          <ExpandableCard
-            disabled
-            header={<X2Text variant="labelL">Cannot expand</X2Text>}
-          >
+          <ExpandableCard disabled header={<X2Text variant="labelL">Cannot expand</X2Text>}>
             <X2Text variant="bodyS">This card is disabled</X2Text>
           </ExpandableCard>
         </X2Stack>
 
         {/* Action Log */}
         {expandLog.length > 0 && (
-          <X2Surface
-            backgroundColor={colors.surfaceVariant}
-            style={{ padding: spacing.lg }}
-          >
+          <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.lg }}>
             <X2Text variant="labelM" color={colors.primary} style={{ marginBottom: spacing.sm }}>
               Recent Actions
             </X2Text>

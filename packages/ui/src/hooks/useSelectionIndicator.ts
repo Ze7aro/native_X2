@@ -18,7 +18,7 @@ export function useSelectionIndicator(
   }: {
     reducedMotion?: boolean;
     onMove?: (layout: ItemLayout, animated: boolean) => void;
-  } = {},
+  } = {}
 ) {
   const layouts = useRef<Record<string, ItemLayout>>({});
   const hasPositioned = useRef(false);

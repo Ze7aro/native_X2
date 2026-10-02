@@ -38,7 +38,7 @@ export function Accordion({
       }
       onExpandChange?.(newExpandedIds);
     },
-    [expandedIds, allowMultiple, controlledExpandedIds, onExpandChange],
+    [expandedIds, allowMultiple, controlledExpandedIds, onExpandChange]
   );
 
   const containerStyle: ViewStyle = useMemo(
@@ -46,15 +46,11 @@ export function Accordion({
       gap: spacing.md,
       opacity: disabled ? 0.5 : 1,
     }),
-    [disabled],
+    [disabled]
   );
 
   return (
-    <View
-      style={[containerStyle, style]}
-      testID={testID}
-      {...props}
-    >
+    <View style={[containerStyle, style]} testID={testID} {...props}>
       {sections.map((section) => {
         const isExpanded = expandedIds.includes(section.id);
 
@@ -72,12 +68,7 @@ export function Accordion({
                 align="center"
                 style={{ width: '100%' }}
               >
-                <X2Stack
-                  direction="row"
-                  gap={spacing.md}
-                  align="center"
-                  style={{ flex: 1 }}
-                >
+                <X2Stack direction="row" gap={spacing.md} align="center" style={{ flex: 1 }}>
                   {section.icon && (
                     <View
                       style={{

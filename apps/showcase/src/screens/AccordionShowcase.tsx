@@ -13,7 +13,8 @@ export function AccordionShowcase() {
       icon: <X2Icon name="❓" size={18} />,
       content: (
         <X2Text variant="bodyS" color={colors.textSecondary}>
-          A personal library of reusable React Native components with modern UI patterns, optimized for touch interaction on iOS and Android.
+          A personal library of reusable React Native components with modern UI patterns, optimized
+          for touch interaction on iOS and Android.
         </X2Text>
       ),
     },
@@ -49,7 +50,8 @@ export function AccordionShowcase() {
       icon: <X2Icon name="♿" size={18} />,
       content: (
         <X2Text variant="bodyS" color={colors.textSecondary}>
-          Yes! All components follow accessibility standards with screen reader support, keyboard navigation, and proper ARIA attributes.
+          Yes! All components follow accessibility standards with screen reader support, keyboard
+          navigation, and proper ARIA attributes.
         </X2Text>
       ),
     },
@@ -77,10 +79,7 @@ export function AccordionShowcase() {
         </X2Stack>
 
         {/* Expanded Sections Info */}
-        <X2Surface
-          backgroundColor={colors.surfaceVariant}
-          style={{ padding: spacing.lg }}
-        >
+        <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.lg }}>
           <X2Text variant="labelM" color={colors.primary} style={{ marginBottom: spacing.sm }}>
             Expanded Sections
           </X2Text>

@@ -1,9 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  View,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
+import { View, Pressable, ViewStyle } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
@@ -43,7 +39,7 @@ export function EventCard({
       overflow: 'hidden',
       opacity: disabled ? 0.5 : 1,
     }),
-    [disabled],
+    [disabled]
   );
 
   return (
@@ -95,11 +91,7 @@ export function EventCard({
             paddingVertical: spacing.md,
           }}
         >
-          <X2Text
-            variant="headingS"
-            color={colors.onScrim}
-            numberOfLines={2}
-          >
+          <X2Text variant="headingS" color={colors.onScrim} numberOfLines={2}>
             {title}
           </X2Text>
         </View>
@@ -138,11 +130,7 @@ export function EventCard({
           <X2Text variant="labelS" color={colors.textSecondary}>
             📍 {locationLabel}
           </X2Text>
-          <X2Text
-            variant="bodyS"
-            color={colors.text}
-            numberOfLines={2}
-          >
+          <X2Text variant="bodyS" color={colors.text} numberOfLines={2}>
             {location}
           </X2Text>
         </View>
@@ -178,11 +166,7 @@ export function EventCard({
               marginTop: spacing.sm,
             }}
           >
-            <X2Text
-              color={colors.onPrimary}
-              variant="labelM"
-              style={{ textAlign: 'center' }}
-            >
+            <X2Text color={colors.onPrimary} variant="labelM" style={{ textAlign: 'center' }}>
               {registerLabel}
             </X2Text>
           </X2Pressable>

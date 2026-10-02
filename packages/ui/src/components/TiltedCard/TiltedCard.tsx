@@ -1,15 +1,6 @@
 import React, { useRef, useCallback, useMemo } from 'react';
-import {
-  View,
-  Pressable,
-  ViewStyle,
-  GestureResponderEvent,
-} from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
+import { View, Pressable, ViewStyle, GestureResponderEvent } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { radius } from '@react-x2-native/tokens';
@@ -66,7 +57,7 @@ export function TiltedCard({
       rotateY.value = withSpring(tiltY, SPRING_CONFIG);
       onTilt?.(tiltX, tiltY);
     },
-    [maxTilt, intensity, rotateX, rotateY, onTilt],
+    [maxTilt, intensity, rotateX, rotateY, onTilt]
   );
 
   const handlePressIn = useCallback(
@@ -82,7 +73,7 @@ export function TiltedCard({
         }
       });
     },
-    [reducedMotion, disabled, applyTilt],
+    [reducedMotion, disabled, applyTilt]
   );
 
   const handleTouchMove = useCallback(
@@ -92,7 +83,7 @@ export function TiltedCard({
       lastTouch.current = { pageX, pageY };
       applyTilt(pageX, pageY);
     },
-    [reducedMotion, disabled, applyTilt],
+    [reducedMotion, disabled, applyTilt]
   );
 
   const resetTilt = useCallback(() => {
@@ -116,7 +107,7 @@ export function TiltedCard({
       overflow: 'hidden',
       opacity: disabled ? 0.5 : 1,
     }),
-    [colors.surface, disabled],
+    [colors.surface, disabled]
   );
 
   return (

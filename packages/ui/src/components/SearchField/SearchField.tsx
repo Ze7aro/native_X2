@@ -1,10 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { spacing, radius } from '@react-x2-native/tokens';
 import { useTheme } from '../../theme/ThemeContext';
 import { X2Text } from '../../primitives/X2Text';
@@ -36,7 +31,7 @@ export function SearchField({
       if (value === undefined) setInternalValue(nextValue);
       onChangeText?.(nextValue);
     },
-    [onChangeText, value],
+    [onChangeText, value]
   );
 
   const handleClear = useCallback(() => {
@@ -81,7 +76,9 @@ export function SearchField({
           style={styles.clearButton}
           testID={testID ? `${testID}-clear` : undefined}
         >
-          <X2Text variant="labelM" color={colors.textSecondary}>×</X2Text>
+          <X2Text variant="labelM" color={colors.textSecondary}>
+            ×
+          </X2Text>
         </Pressable>
       )}
     </View>

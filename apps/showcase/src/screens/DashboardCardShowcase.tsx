@@ -31,7 +31,10 @@ export function DashboardCardShowcase() {
             onPress={() => setStatus(nextStatus)}
             style={{ paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderRadius: 8 }}
           >
-            <X2Text variant="labelM" color={status === nextStatus ? colors.onPrimary : colors.primary}>
+            <X2Text
+              variant="labelM"
+              color={status === nextStatus ? colors.onPrimary : colors.primary}
+            >
               {nextStatus}
             </X2Text>
           </X2Pressable>
@@ -50,9 +53,15 @@ export function DashboardCardShowcase() {
         errorMessage={`Unable to load revenue data (retry ${retryCount})`}
         onRetry={() => setRetryCount((count) => count + 1)}
         headerAction={
-          <X2Text variant="labelM" color={colors.primary}>View all</X2Text>
+          <X2Text variant="labelM" color={colors.primary}>
+            View all
+          </X2Text>
         }
-        footer={<X2Text variant="bodyS" color={colors.textSecondary}>Updated a few seconds ago</X2Text>}
+        footer={
+          <X2Text variant="bodyS" color={colors.textSecondary}>
+            Updated a few seconds ago
+          </X2Text>
+        }
         variant="glass"
       >
         <X2Text variant="bodyS" color={colors.textSecondary}>

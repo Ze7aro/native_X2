@@ -28,18 +28,14 @@ export function ThemeProvider({
   const baseColors = resolvedTheme === 'dark' ? darkColors : lightColors;
   const mergedColors = useMemo(
     () => (customColors ? { ...baseColors, ...customColors } : baseColors),
-    [baseColors, customColors],
+    [baseColors, customColors]
   );
   const value = useMemo(
     () => ({ theme, resolvedTheme, colors: mergedColors }),
-    [theme, resolvedTheme, mergedColors],
+    [theme, resolvedTheme, mergedColors]
   );
 
-  return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme(): ThemeContextType {

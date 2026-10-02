@@ -53,11 +53,7 @@ export function ProfileCard({
         )}
 
         {/* Info */}
-        <X2Stack
-          gap="xs"
-          align="flex-start"
-          style={{ flex: 1 }}
-        >
+        <X2Stack gap="xs" align="flex-start" style={{ flex: 1 }}>
           <X2Text variant="headingM">{title}</X2Text>
           {subtitle && (
             <X2Text variant="labelM" color={colors.primary}>
@@ -65,11 +61,7 @@ export function ProfileCard({
             </X2Text>
           )}
           {description && (
-            <X2Text
-              variant="bodyS"
-              color={colors.textSecondary}
-              style={{ marginTop: spacing.xs }}
-            >
+            <X2Text variant="bodyS" color={colors.textSecondary} style={{ marginTop: spacing.xs }}>
               {description}
             </X2Text>
           )}
@@ -80,9 +72,7 @@ export function ProfileCard({
       {children && (
         <>
           <X2Divider style={{ marginHorizontal: spacing.lg }} />
-          <View style={{ padding: spacing.lg }}>
-            {children}
-          </View>
+          <View style={{ padding: spacing.lg }}>{children}</View>
         </>
       )}
 
@@ -115,9 +105,7 @@ export function ProfileCard({
               >
                 <X2Text
                   variant="labelM"
-                  color={
-                    action.variant === 'secondary' ? colors.primary : colors.onPrimary
-                  }
+                  color={action.variant === 'secondary' ? colors.primary : colors.onPrimary}
                 >
                   {action.label}
                 </X2Text>

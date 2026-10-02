@@ -56,10 +56,7 @@ export function ProfileCardShowcase() {
 
         {/* Action Log */}
         {actionLog && (
-          <X2Surface
-            backgroundColor={colors.surfaceVariant}
-            style={{ padding: spacing.md }}
-          >
+          <X2Surface backgroundColor={colors.surfaceVariant} style={{ padding: spacing.md }}>
             <X2Text variant="labelM" color={colors.primary}>
               Last Action
             </X2Text>

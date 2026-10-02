@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  View,
-  Pressable,
-  StyleSheet,
-} from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, View, Pressable, StyleSheet } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
@@ -48,9 +42,12 @@ export function Modal({
   const [busyIndex, setBusyIndex] = useState<number | null>(null);
   const isMounted = useRef(true);
 
-  useEffect(() => () => {
-    isMounted.current = false;
-  }, []);
+  useEffect(
+    () => () => {
+      isMounted.current = false;
+    },
+    []
+  );
 
   useEffect(() => {
     if (!isOpen) setBusyIndex(null);
@@ -117,11 +114,7 @@ export function Modal({
 
   return (
     <OverlayLayer visible={mounted} onRequestClose={requestClose} testID={testID}>
-      <KeyboardAvoidingView
-        enabled={keyboardAvoiding}
-        behavior="padding"
-        style={styles.center}
-      >
+      <KeyboardAvoidingView enabled={keyboardAvoiding} behavior="padding" style={styles.center}>
         <Animated.View style={[StyleSheet.absoluteFill, backdropStyle]}>
           <OverlayBackdrop
             enabled={!locked}

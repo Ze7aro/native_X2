@@ -199,7 +199,9 @@ export function ExtendedCardsShowcase() {
                 { id: '5', content: <X2Icon name="🎯" size={80} /> },
                 { id: '6', content: <X2Icon name="🎲" size={80} /> },
               ]}
-              onImagePress={(index: number, id: string) => console.log(`Image ${index + 1} (${id}) pressed`)}
+              onImagePress={(index: number, id: string) =>
+                console.log(`Image ${index + 1} (${id}) pressed`)
+              }
               onViewAll={() => console.log('View all gallery')}
             />
           </X2Stack>

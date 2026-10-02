@@ -1,8 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  View,
-  ViewStyle,
-} from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
@@ -53,55 +50,42 @@ export function StatsCard({
       opacity: disabled ? 0.5 : 1,
       gap: spacing.sm,
     }),
-    [backgroundColor, colors.surface, disabled],
+    [backgroundColor, colors.surface, disabled]
   );
 
   return (
-    <View
-      style={[cardStyle, style]}
-      testID={testID}
-      {...props}
-    >
+    <View style={[cardStyle, style]} testID={testID} {...props}>
       {/* Value */}
       <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: spacing.xs }}>
-        <X2Text
-          variant="headingL"
-          color={colors.primary}
-          style={{ fontFamily: 'Courier' }}
-        >
+        <X2Text variant="headingL" color={colors.primary} style={{ fontFamily: 'Courier' }}>
           {value}
         </X2Text>
         {unit && (
-          <X2Text
-            variant="labelM"
-            color={colors.textSecondary}
-          >
+          <X2Text variant="labelM" color={colors.textSecondary}>
             {unit}
           </X2Text>
         )}
       </View>
 
       {/* Label */}
-      <X2Text
-        variant="bodyS"
-        color={colors.textSecondary}
-      >
+      <X2Text variant="bodyS" color={colors.textSecondary}>
         {label}
       </X2Text>
 
       {/* Trend */}
       {trend && trendValue && (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginTop: spacing.xs }}>
-          <X2Text
-            variant="labelS"
-            color={trendColor}
-          >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: spacing.xs,
+            marginTop: spacing.xs,
+          }}
+        >
+          <X2Text variant="labelS" color={trendColor}>
             {trendIcon}
           </X2Text>
-          <X2Text
-            variant="labelS"
-            color={trendColor}
-          >
+          <X2Text variant="labelS" color={trendColor}>
             {trendValue}
           </X2Text>
         </View>

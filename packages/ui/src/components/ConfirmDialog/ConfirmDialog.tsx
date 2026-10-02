@@ -30,7 +30,8 @@ export function ConfirmDialog({
   const { colors } = useTheme();
   const confirmLabel = confirmLabelProp ?? strings.confirm;
   const cancelLabel = cancelLabelProp ?? strings.cancel;
-  const requireTextLabel = requireTextLabelProp ?? (requireText ? strings.typeToConfirm(requireText) : undefined);
+  const requireTextLabel =
+    requireTextLabelProp ?? (requireText ? strings.typeToConfirm(requireText) : undefined);
 
   const [typed, setTyped] = useState('');
   const [error, setError] = useState<string | null>(null);

@@ -1,9 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  View,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
+import { View, Pressable, ViewStyle } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
@@ -50,15 +46,11 @@ export function Stepper({
       opacity: disabled ? 0.5 : 1,
       gap: spacing.md,
     }),
-    [variant, disabled],
+    [variant, disabled]
   );
 
   return (
-    <View
-      style={[containerStyle, style]}
-      testID={testID}
-      {...props}
-    >
+    <View style={[containerStyle, style]} testID={testID} {...props}>
       {steps.map((step, index) => {
         const status = getStepStatus(index);
         const isCompleted = status === 'completed';
@@ -114,17 +106,11 @@ export function Stepper({
             >
               {showLabels && (
                 <>
-                  <X2Text
-                    variant="labelM"
-                    color={isCurrent ? colors.primary : colors.text}
-                  >
+                  <X2Text variant="labelM" color={isCurrent ? colors.primary : colors.text}>
                     {step.label}
                   </X2Text>
                   {step.description && (
-                    <X2Text
-                      variant="bodyS"
-                      color={colors.textSecondary}
-                    >
+                    <X2Text variant="bodyS" color={colors.textSecondary}>
                       {step.description}
                     </X2Text>
                   )}

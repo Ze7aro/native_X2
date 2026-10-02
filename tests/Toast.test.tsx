@@ -10,9 +10,7 @@ describe('Toast', () => {
 
   it('dismisses itself after the configured duration', () => {
     const onDismiss = jest.fn();
-    renderWithTheme(
-      <Toast message="Saved" duration={1000} onDismiss={onDismiss} />,
-    );
+    renderWithTheme(<Toast message="Saved" duration={1000} onDismiss={onDismiss} />);
 
     act(() => jest.advanceTimersByTime(1000));
 
@@ -28,7 +26,7 @@ describe('Toast', () => {
         message="Saved"
         action={{ label: 'Undo', onPress: onAction }}
         onDismiss={onDismiss}
-      />,
+      />
     );
 
     fireEvent.press(getByTestId('toast-action'));
@@ -55,7 +53,9 @@ describe('ToastProvider', () => {
 
   it('shows toasts from anywhere and auto-dismisses success after 4s', () => {
     const { getByTestId, queryByText } = renderWithTheme(
-      <ToastProvider><Trigger /></ToastProvider>,
+      <ToastProvider>
+        <Trigger />
+      </ToastProvider>
     );
     fireEvent.press(getByTestId('ok'));
     expect(queryByText('Saved')).toBeTruthy();
@@ -65,7 +65,9 @@ describe('ToastProvider', () => {
 
   it('keeps error toasts for 7s', () => {
     const { getByTestId, queryByText } = renderWithTheme(
-      <ToastProvider><Trigger /></ToastProvider>,
+      <ToastProvider>
+        <Trigger />
+      </ToastProvider>
     );
     fireEvent.press(getByTestId('fail'));
     act(() => jest.advanceTimersByTime(6999));
@@ -76,7 +78,9 @@ describe('ToastProvider', () => {
 
   it('stacks at most maxVisible toasts', () => {
     const { getByTestId, queryByText } = renderWithTheme(
-      <ToastProvider maxVisible={3}><Trigger /></ToastProvider>,
+      <ToastProvider maxVisible={3}>
+        <Trigger />
+      </ToastProvider>
     );
     fireEvent.press(getByTestId('many'));
     expect(queryByText('a')).toBeNull();
@@ -86,7 +90,9 @@ describe('ToastProvider', () => {
 
   it('throws a clear error outside the provider', () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
-    expect(() => renderWithTheme(<Trigger />)).toThrow('useToast must be used inside <ToastProvider>');
+    expect(() => renderWithTheme(<Trigger />)).toThrow(
+      'useToast must be used inside <ToastProvider>'
+    );
     spy.mockRestore();
   });
 });

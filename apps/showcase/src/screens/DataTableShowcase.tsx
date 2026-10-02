@@ -84,7 +84,7 @@ export function DataTableShowcase() {
         renderCell: (user) => <X2Text>{user.usage}%</X2Text>,
       },
     ],
-    [colors.success, colors.textSecondary],
+    [colors.success, colors.textSecondary]
   );
 
   return (
@@ -119,18 +119,29 @@ export function DataTableShowcase() {
                 variant="outline"
                 borderColor={colors.primary}
                 onPress={() => setSelectedKeys([])}
-                style={{ paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderRadius: 8 }}
+                style={{
+                  paddingHorizontal: spacing.md,
+                  paddingVertical: spacing.sm,
+                  borderRadius: 8,
+                }}
               >
-                <X2Text variant="labelM" color={colors.primary}>Clear</X2Text>
+                <X2Text variant="labelM" color={colors.primary}>
+                  Clear
+                </X2Text>
               </X2Pressable>
             </X2Stack>
           }
           renderRowActions={() => (
-            <X2Text variant="labelM" color={colors.primary}>•••</X2Text>
+            <X2Text variant="labelM" color={colors.primary}>
+              •••
+            </X2Text>
           )}
         />
 
-        <X2Surface backgroundColor={colors.surfaceVariant} style={{ marginTop: spacing.xl, padding: spacing.lg }}>
+        <X2Surface
+          backgroundColor={colors.surfaceVariant}
+          style={{ marginTop: spacing.xl, padding: spacing.lg }}
+        >
           <X2Text variant="labelM" color={colors.primary} style={{ marginBottom: spacing.sm }}>
             Implemented capabilities
           </X2Text>

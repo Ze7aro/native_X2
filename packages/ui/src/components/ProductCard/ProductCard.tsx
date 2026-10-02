@@ -1,9 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  View,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
+import { View, Pressable, ViewStyle } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
@@ -38,14 +34,12 @@ export function ProductCard({
       overflow: 'hidden',
       opacity: disabled ? 0.5 : 1,
     }),
-    [colors.surface, disabled],
+    [colors.surface, disabled]
   );
 
   const discountPercent = originalPrice
     ? Math.round(
-        ((parseFloat(originalPrice) - parseFloat(price)) /
-          parseFloat(originalPrice)) *
-          100
+        ((parseFloat(originalPrice) - parseFloat(price)) / parseFloat(originalPrice)) * 100
       )
     : 0;
 
@@ -117,11 +111,7 @@ export function ProductCard({
       {/* Info */}
       <View style={{ paddingHorizontal: spacing.md, paddingVertical: spacing.md, gap: spacing.sm }}>
         {/* Title */}
-        <X2Text
-          variant="labelL"
-          color={colors.text}
-          numberOfLines={2}
-        >
+        <X2Text variant="labelL" color={colors.text} numberOfLines={2}>
           {title}
         </X2Text>
 
@@ -134,11 +124,7 @@ export function ProductCard({
 
         {/* Price */}
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
-          <X2Text
-            variant="headingS"
-            color={colors.primary}
-            style={{ fontFamily: 'Courier' }}
-          >
+          <X2Text variant="headingS" color={colors.primary} style={{ fontFamily: 'Courier' }}>
             {price}
           </X2Text>
           {originalPrice && (
@@ -170,7 +156,9 @@ export function ProductCard({
             variant="labelM"
             style={{ textAlign: 'center' }}
           >
-            {inStock ? addToCartLabel ?? strings.addToCart : unavailableLabel ?? strings.unavailable}
+            {inStock
+              ? (addToCartLabel ?? strings.addToCart)
+              : (unavailableLabel ?? strings.unavailable)}
           </X2Text>
         </X2Pressable>
       </View>

@@ -50,9 +50,11 @@ export function CommandMenu({
   const allCommands = useMemo<ResolvedCommand[]>(
     () => [
       ...items,
-      ...groups.flatMap((group) => group.items.map((item) => ({ ...item, groupLabel: group.label }))),
+      ...groups.flatMap((group) =>
+        group.items.map((item) => ({ ...item, groupLabel: group.label }))
+      ),
     ],
-    [groups, items],
+    [groups, items]
   );
 
   const filteredCommands = useMemo(() => {
@@ -86,7 +88,7 @@ export function CommandMenu({
       onQueryChange?.(nextQuery);
       setActiveIndex(0);
     },
-    [onQueryChange, query],
+    [onQueryChange, query]
   );
 
   const selectCommand = useCallback(
@@ -95,7 +97,7 @@ export function CommandMenu({
       command.onPress();
       onClose();
     },
-    [onClose],
+    [onClose]
   );
 
   const moveActive = useCallback(
@@ -108,7 +110,7 @@ export function CommandMenu({
         return next;
       });
     },
-    [filteredCommands.length],
+    [filteredCommands.length]
   );
 
   const handleKeyPress = useCallback(
@@ -116,19 +118,15 @@ export function CommandMenu({
       const key = event.nativeEvent.key;
       if (key === 'ArrowDown') moveActive(1);
       if (key === 'ArrowUp') moveActive(-1);
-      if (key === 'Enter' && filteredCommands[activeIndex]) selectCommand(filteredCommands[activeIndex]);
+      if (key === 'Enter' && filteredCommands[activeIndex])
+        selectCommand(filteredCommands[activeIndex]);
       if (key === 'Escape') onClose();
     },
-    [activeIndex, filteredCommands, moveActive, onClose, selectCommand],
+    [activeIndex, filteredCommands, moveActive, onClose, selectCommand]
   );
 
   return (
-    <OverlayLayer
-      visible={isOpen}
-      animationType="fade"
-      onRequestClose={onClose}
-      testID={testID}
-    >
+    <OverlayLayer visible={isOpen} animationType="fade" onRequestClose={onClose} testID={testID}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.overlay}
@@ -140,15 +138,13 @@ export function CommandMenu({
         />
         <View
           accessibilityViewIsModal
-          style={[
-            styles.panel,
-            elevation.xl,
-            { backgroundColor: colors.surface, maxHeight },
-          ]}
+          style={[styles.panel, elevation.xl, { backgroundColor: colors.surface, maxHeight }]}
           testID={testID ? `${testID}-panel` : undefined}
         >
           <View style={styles.header}>
-            <X2Text variant="headingM" style={styles.title}>{title}</X2Text>
+            <X2Text variant="headingM" style={styles.title}>
+              {title}
+            </X2Text>
             <Pressable
               onPress={onClose}
               accessibilityRole="button"
@@ -156,7 +152,9 @@ export function CommandMenu({
               hitSlop={8}
               style={styles.close}
             >
-              <X2Text variant="headingS" color={colors.textSecondary}>×</X2Text>
+              <X2Text variant="headingS" color={colors.textSecondary}>
+                ×
+              </X2Text>
             </Pressable>
           </View>
           <SearchField
@@ -186,7 +184,11 @@ export function CommandMenu({
                 return (
                   <React.Fragment key={command.id}>
                     {showGroup && (
-                      <X2Text variant="labelS" color={colors.textTertiary} style={styles.groupLabel}>
+                      <X2Text
+                        variant="labelS"
+                        color={colors.textTertiary}
+                        style={styles.groupLabel}
+                      >
                         {command.groupLabel}
                       </X2Text>
                     )}
@@ -194,12 +196,17 @@ export function CommandMenu({
                       disabled={command.disabled}
                       onPress={() => selectCommand(command)}
                       accessibilityRole="menuitem"
-                      accessibilityLabel={command.description ? `${command.label}, ${command.description}` : command.label}
+                      accessibilityLabel={
+                        command.description
+                          ? `${command.label}, ${command.description}`
+                          : command.label
+                      }
                       accessibilityState={{ disabled: command.disabled, selected }}
                       style={({ pressed }) => [
                         styles.command,
                         {
-                          backgroundColor: selected || pressed ? colors.surfaceVariant : 'transparent',
+                          backgroundColor:
+                            selected || pressed ? colors.surfaceVariant : 'transparent',
                           opacity: command.disabled ? 0.45 : 1,
                         },
                       ]}
@@ -217,7 +224,9 @@ export function CommandMenu({
                         )}
                       </View>
                       {command.shortcut && (
-                        <X2Text variant="labelS" color={colors.textTertiary}>{command.shortcut}</X2Text>
+                        <X2Text variant="labelS" color={colors.textTertiary}>
+                          {command.shortcut}
+                        </X2Text>
                       )}
                     </Pressable>
                   </React.Fragment>
