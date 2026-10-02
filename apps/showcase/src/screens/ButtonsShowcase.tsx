@@ -26,7 +26,7 @@ export function ButtonsShowcase() {
               borderRadius: 8,
             }}
           >
-            <X2Text color="#FFF" variant="labelL">
+            <X2Text color={colors.onPrimary} variant="labelL">
               Primary Button
             </X2Text>
           </X2Pressable>
@@ -38,7 +38,7 @@ export function ButtonsShowcase() {
               borderRadius: 8,
             }}
           >
-            <X2Text color="#FFF" variant="labelL">
+            <X2Text color={colors.onPrimary} variant="labelL">
               Success Button
             </X2Text>
           </X2Pressable>
@@ -50,7 +50,7 @@ export function ButtonsShowcase() {
               borderRadius: 8,
             }}
           >
-            <X2Text color="#FFF" variant="labelL">
+            <X2Text color={colors.onError} variant="labelL">
               Error Button
             </X2Text>
           </X2Pressable>
@@ -143,7 +143,7 @@ export function ButtonsShowcase() {
               borderRadius: 8,
             }}
           >
-            <X2Text color="#FFF" variant="labelL">
+            <X2Text color={colors.onPrimary} variant="labelL">
               Pressed {pressCount} times
             </X2Text>
           </X2Pressable>

@@ -60,7 +60,7 @@ export function SurfacesShowcase() {
             backgroundColor={colors.primary}
             style={{ padding: spacing.md, height: 60, justifyContent: 'center' }}
           >
-            <X2Text color="#FFF" variant="labelM">
+            <X2Text color={colors.onPrimary} variant="labelM">
               None (0px)
             </X2Text>
           </X2Surface>
@@ -69,7 +69,7 @@ export function SurfacesShowcase() {
             backgroundColor={colors.primary}
             style={{ padding: spacing.md, height: 60, justifyContent: 'center' }}
           >
-            <X2Text color="#FFF" variant="labelM">
+            <X2Text color={colors.onPrimary} variant="labelM">
               Small (8px)
             </X2Text>
           </X2Surface>
@@ -78,7 +78,7 @@ export function SurfacesShowcase() {
             backgroundColor={colors.primary}
             style={{ padding: spacing.md, height: 60, justifyContent: 'center' }}
           >
-            <X2Text color="#FFF" variant="labelM">
+            <X2Text color={colors.onPrimary} variant="labelM">
               Medium (12px)
             </X2Text>
           </X2Surface>
@@ -87,7 +87,7 @@ export function SurfacesShowcase() {
             backgroundColor={colors.primary}
             style={{ padding: spacing.md, height: 60, justifyContent: 'center' }}
           >
-            <X2Text color="#FFF" variant="labelM">
+            <X2Text color={colors.onPrimary} variant="labelM">
               Large (16px)
             </X2Text>
           </X2Surface>
@@ -96,7 +96,7 @@ export function SurfacesShowcase() {
             backgroundColor={colors.primary}
             style={{ width: 60, height: 60, justifyContent: 'center', alignItems: 'center' }}
           >
-            <X2Text color="#FFF" variant="labelM">
+            <X2Text color={colors.onPrimary} variant="labelM">
               F
             </X2Text>
           </X2Surface>

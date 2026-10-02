@@ -35,7 +35,7 @@ export function ProfileCardShowcase() {
                   alignItems: 'center',
                 }}
               >
-                <X2Icon name="👤" size={40} color="#FFF" />
+                <X2Icon name="👤" size={40} color={colors.onPrimary} />
               </X2Surface>
             }
             title="John Developer"

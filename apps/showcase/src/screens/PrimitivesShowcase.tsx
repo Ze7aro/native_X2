@@ -55,7 +55,7 @@ export function PrimitivesShowcase() {
           elevationLevel="md"
           style={{ padding: spacing.md, height: 80 }}
         >
-          <X2Text variant="bodyM" color="#FFF">
+          <X2Text variant="bodyM" color={colors.onPrimary}>
             Primary Surface with Elevation
           </X2Text>
         </X2Surface>
@@ -78,7 +78,7 @@ export function PrimitivesShowcase() {
             borderRadius: 8,
           }}
         >
-          <X2Text color="#FFF" variant="labelL">
+          <X2Text color={colors.onPrimary} variant="labelL">
             Primary Button
           </X2Text>
         </X2Pressable>
@@ -115,7 +115,7 @@ export function PrimitivesShowcase() {
             borderRadius: 8,
           }}
         >
-          <X2Text color="#999" variant="labelL">
+          <X2Text color={colors.textTertiary} variant="labelL">
             Disabled Button
           </X2Text>
         </X2Pressable>

@@ -58,7 +58,7 @@ export function AnimatedListShowcase() {
                     borderRadius: 6,
                   }}
                 >
-                  <X2Text color="#FFF" variant="labelM">
+                  <X2Text color={colors.onPrimary} variant="labelM">
                     Remove
                   </X2Text>
                 </X2Pressable>
@@ -79,7 +79,7 @@ export function AnimatedListShowcase() {
             alignItems: 'center',
           }}
         >
-          <X2Text color="#FFF" variant="labelL">
+          <X2Text color={colors.onPrimary} variant="labelL">
             Add Item
           </X2Text>
         </X2Pressable>
