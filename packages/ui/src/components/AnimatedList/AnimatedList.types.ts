@@ -11,6 +11,5 @@ export interface AnimatedListProps extends ViewProps {
   renderItem?: (item: ListItem, index: number) => ReactNode;
   gap?: number;
   animationDuration?: number;
-  onItemPress?: (id: string, index: number) => void;
   testID?: string;
 }

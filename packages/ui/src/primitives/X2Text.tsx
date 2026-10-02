@@ -25,18 +25,15 @@ export function X2Text({
 
   return (
     <Text
+      maxFontSizeMultiplier={1.5}
       {...props}
       testID={testID}
       style={[
         typographyStyle,
-        {
-          color: color ?? colors.text,
-          fontWeight: weight,
-        },
+        { color: color ?? colors.text },
+        weight && { fontWeight: weight },
         style,
       ]}
-      allowFontScaling={false}
-      maxFontSizeMultiplier={1.2}
     />
   );
 }

@@ -54,9 +54,9 @@ export function ProfileCard({
 
         {/* Info */}
         <X2Stack
-          flex={1}
           gap="xs"
           align="flex-start"
+          style={{ flex: 1 }}
         >
           <X2Text variant="headingM">{title}</X2Text>
           {subtitle && (
@@ -116,7 +116,7 @@ export function ProfileCard({
                 <X2Text
                   variant="labelM"
                   color={
-                    action.variant === 'secondary' ? colors.primary : '#FFF'
+                    action.variant === 'secondary' ? colors.primary : colors.onPrimary
                   }
                 >
                   {action.label}

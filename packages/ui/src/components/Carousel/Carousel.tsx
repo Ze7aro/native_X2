@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import {
   View,
   ScrollView,
@@ -6,71 +6,115 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Pressable,
+  LayoutChangeEvent,
 } from 'react-native';
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
-  Extrapolate,
-  interpolate,
 } from 'react-native-reanimated';
+import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
+import { X2Text } from '../../primitives';
 import { spacing, radius } from '@react-x2-native/tokens';
 import type { CarouselProps } from './Carousel.types';
+import { useX2Strings } from '../../i18n/X2StringsProvider';
+
+function CarouselIndicator({
+  active,
+  color,
+  activeColor,
+  reducedMotion,
+}: {
+  active: boolean;
+  color: string;
+  activeColor: string;
+  reducedMotion: boolean;
+}) {
+  const width = useSharedValue(active ? 24 : 8);
+
+  useEffect(() => {
+    const target = active ? 24 : 8;
+    width.value = reducedMotion ? target : withSpring(target, { damping: 15, mass: 1 });
+  }, [active, reducedMotion, width]);
+
+  const animatedStyle = useAnimatedStyle(() => ({ width: width.value }));
+
+  return (
+    <Animated.View
+      style={[
+        {
+          height: 8,
+          borderRadius: 4,
+          backgroundColor: active ? activeColor : color,
+        },
+        animatedStyle,
+      ]}
+    />
+  );
+}
 
 export function Carousel({
   pages,
   initialPage = 0,
   height = 300,
   showIndicators = true,
+  showCounter = true,
   indicatorColor,
   activeIndicatorColor,
   onPageChange,
-  loop = false,
   disabled = false,
   testID,
   style,
   ...props
 }: CarouselProps) {
+  const strings = useX2Strings();
   const { colors } = useTheme();
+  const reducedMotion = useReducedMotion();
 
   const [currentPage, setCurrentPage] = useState(initialPage);
+  const [pageWidth, setPageWidth] = useState(0);
   const scrollViewRef = useRef<ScrollView>(null);
-  const containerWidth = useRef(0);
+  const currentPageRef = useRef(initialPage);
 
-  const indicatorScale = useSharedValue(1);
-
-  const handleLayout = useCallback((e: any) => {
-    containerWidth.current = e.nativeEvent.layout.width;
-  }, []);
-
-  const handleScroll = useCallback(
-    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-      if (containerWidth.current === 0) return;
-
-      const contentOffsetX = event.nativeEvent.contentOffset.x;
-      const pageIndex = Math.round(contentOffsetX / containerWidth.current);
-
-      if (pageIndex !== currentPage && pageIndex < pages.length) {
-        setCurrentPage(pageIndex);
-        onPageChange?.(pageIndex, pages[pageIndex].id);
-      }
+  const goToPage = useCallback(
+    (index: number) => {
+      if (index === currentPageRef.current || index < 0 || index >= pages.length) return;
+      currentPageRef.current = index;
+      setCurrentPage(index);
+      onPageChange?.(index, pages[index].id);
     },
-    [currentPage, pages, onPageChange],
+    [pages, onPageChange],
+  );
+
+  const handleLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      const width = event.nativeEvent.layout.width;
+      if (width === pageWidth) return;
+      setPageWidth(width);
+      // Keep the current page in view on first layout and on rotation.
+      requestAnimationFrame(() => {
+        scrollViewRef.current?.scrollTo({ x: currentPageRef.current * width, animated: false });
+      });
+    },
+    [pageWidth],
+  );
+
+  const handleMomentumScrollEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (pageWidth === 0) return;
+      goToPage(Math.round(event.nativeEvent.contentOffset.x / pageWidth));
+    },
+    [pageWidth, goToPage],
   );
 
   const handleIndicatorPress = useCallback(
     (index: number) => {
-      if (!disabled && scrollViewRef.current) {
-        scrollViewRef.current.scrollTo({
-          x: index * containerWidth.current,
-          animated: true,
-        });
-        setCurrentPage(index);
-        onPageChange?.(index, pages[index].id);
-      }
+      if (disabled) return;
+      scrollViewRef.current?.scrollTo({ x: index * pageWidth, animated: !reducedMotion });
+      goToPage(index);
     },
-    [disabled, pages, onPageChange],
+    [disabled, pageWidth, reducedMotion, goToPage],
   );
 
   const carouselContainerStyle: ViewStyle = useMemo(
@@ -84,17 +128,8 @@ export function Carousel({
     [height, colors.surface, disabled],
   );
 
-  const pageContainerStyle: ViewStyle = useMemo(
-    () => ({
-      width: '100%',
-      height: '100%',
-    }),
-    [],
-  );
-
   return (
-    <View style={[style]} {...props}>
-      {/* Carousel Container */}
+    <View {...props} style={style}>
       <View
         style={carouselContainerStyle}
         onLayout={handleLayout}
@@ -104,18 +139,15 @@ export function Carousel({
           ref={scrollViewRef}
           horizontal
           pagingEnabled
-          scrollEventThrottle={16}
-          onScroll={handleScroll}
+          onMomentumScrollEnd={handleMomentumScrollEnd}
           showsHorizontalScrollIndicator={false}
           scrollEnabled={!disabled}
-          contentContainerStyle={{
-            width: `${pages.length * 100}%`,
-          }}
+          testID={testID ? `${testID}-scrollview` : undefined}
         >
           {pages.map((page, index) => (
             <View
               key={page.id}
-              style={[pageContainerStyle]}
+              style={{ width: pageWidth, height: '100%' }}
               testID={testID ? `${testID}-page-${index}` : undefined}
             >
               {page.content}
@@ -124,7 +156,6 @@ export function Carousel({
         </ScrollView>
       </View>
 
-      {/* Indicators */}
       {showIndicators && pages.length > 1 && (
         <View
           style={{
@@ -134,6 +165,7 @@ export function Carousel({
             paddingVertical: spacing.md,
             gap: spacing.sm,
           }}
+          accessibilityRole="radiogroup"
         >
           {pages.map((page, index) => {
             const isActive = index === currentPage;
@@ -143,27 +175,18 @@ export function Carousel({
                 key={page.id}
                 onPress={() => handleIndicatorPress(index)}
                 disabled={disabled}
+                hitSlop={8}
                 testID={testID ? `${testID}-indicator-${index}` : undefined}
                 accessible
                 accessibilityRole="radio"
-                accessibilityLabel={`Page ${index + 1}`}
-                accessibilityState={{ selected: isActive }}
-                style={{
-                  opacity: disabled ? 0.5 : 1,
-                }}
+                accessibilityLabel={strings.pageOf(index + 1, pages.length)}
+                accessibilityState={{ checked: isActive, disabled }}
               >
-                <Animated.View
-                  style={[
-                    {
-                      width: isActive ? 24 : 8,
-                      height: 8,
-                      borderRadius: 4,
-                      backgroundColor: isActive
-                        ? activeIndicatorColor ?? colors.primary
-                        : indicatorColor ?? colors.surfaceVariant,
-                      transition: 'all 0.3s ease-in-out',
-                    },
-                  ]}
+                <CarouselIndicator
+                  active={isActive}
+                  color={indicatorColor ?? colors.surfaceVariant}
+                  activeColor={activeIndicatorColor ?? colors.primary}
+                  reducedMotion={reducedMotion}
                 />
               </Pressable>
             );
@@ -171,24 +194,15 @@ export function Carousel({
         </View>
       )}
 
-      {/* Page Counter */}
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          paddingBottom: spacing.sm,
-        }}
-      >
-        <Animated.Text
-          style={{
-            fontSize: 12,
-            color: colors.textSecondary,
-            fontWeight: '500',
-          }}
+      {showCounter && (
+        <X2Text
+          variant="labelM"
+          color={colors.textSecondary}
+          style={{ textAlign: 'center', paddingBottom: spacing.sm }}
         >
           {currentPage + 1} / {pages.length}
-        </Animated.Text>
-      </View>
+        </X2Text>
+      )}
     </View>
   );
 }

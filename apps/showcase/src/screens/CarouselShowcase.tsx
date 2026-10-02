@@ -22,10 +22,10 @@ export function CarouselShowcase() {
           alignItems: 'center',
         }}
       >
-        <X2Text variant="headingL" color="#FFF">
+        <X2Text variant="headingL" color={colors.onScrim}>
           {TITLES[idx]}
         </X2Text>
-        <X2Text variant="bodyM" color="rgba(255,255,255,0.8)">
+        <X2Text variant="bodyM" color={colors.onScrim} style={{ opacity: 0.8 }}>
           Slide {idx + 1}
         </X2Text>
       </View>
@@ -37,10 +37,10 @@ export function CarouselShowcase() {
       id: 'intro',
       content: (
         <View style={{ flex: 1, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center', padding: spacing.lg }}>
-          <X2Text variant="headingL" color="#FFF" style={{ textAlign: 'center', marginBottom: spacing.md }}>
+          <X2Text variant="headingL" color={colors.onPrimary} style={{ textAlign: 'center', marginBottom: spacing.md }}>
             Welcome to Carousel
           </X2Text>
-          <X2Text variant="bodyM" color="rgba(255,255,255,0.8)" style={{ textAlign: 'center' }}>
+          <X2Text variant="bodyM" color={colors.onPrimary} style={{ textAlign: 'center', opacity: 0.8 }}>
             Swipe to navigate through the slides
           </X2Text>
         </View>
@@ -50,13 +50,13 @@ export function CarouselShowcase() {
       id: 'features',
       content: (
         <View style={{ flex: 1, backgroundColor: colors.success, justifyContent: 'center', alignItems: 'center', padding: spacing.lg }}>
-          <X2Text variant="headingM" color="#FFF" style={{ marginBottom: spacing.md }}>
+          <X2Text variant="headingM" color={colors.onPrimary} style={{ marginBottom: spacing.md }}>
             Features
           </X2Text>
           <X2Stack gap="sm">
-            <X2Text variant="bodyS" color="rgba(255,255,255,0.9)">✓ Smooth page transitions</X2Text>
-            <X2Text variant="bodyS" color="rgba(255,255,255,0.9)">✓ Touch-based navigation</X2Text>
-            <X2Text variant="bodyS" color="rgba(255,255,255,0.9)">✓ Animated indicators</X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ Smooth page transitions</X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ Touch-based navigation</X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ Animated indicators</X2Text>
           </X2Stack>
         </View>
       ),
@@ -65,13 +65,13 @@ export function CarouselShowcase() {
       id: 'performance',
       content: (
         <View style={{ flex: 1, backgroundColor: colors.warning, justifyContent: 'center', alignItems: 'center', padding: spacing.lg }}>
-          <X2Text variant="headingM" color="#FFF" style={{ marginBottom: spacing.md }}>
+          <X2Text variant="headingM" color={colors.onPrimary} style={{ marginBottom: spacing.md }}>
             Performance
           </X2Text>
           <X2Stack gap="sm">
-            <X2Text variant="bodyS" color="rgba(255,255,255,0.9)">✓ Efficient rendering</X2Text>
-            <X2Text variant="bodyS" color="rgba(255,255,255,0.9)">✓ 60 FPS scrolling</X2Text>
-            <X2Text variant="bodyS" color="rgba(255,255,255,0.9)">✓ Minimal overhead</X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ Efficient rendering</X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ 60 FPS scrolling</X2Text>
+            <X2Text variant="bodyS" color={colors.onPrimary} style={{ opacity: 0.9 }}>✓ Minimal overhead</X2Text>
           </X2Stack>
         </View>
       ),
@@ -150,7 +150,7 @@ export function CarouselShowcase() {
             <X2Text variant="bodyS">✓ Animated page indicators</X2Text>
             <X2Text variant="bodyS">✓ Page counter display</X2Text>
             <X2Text variant="bodyS">✓ Customizable indicator colors</X2Text>
-            <X2Text variant="bodyS">✓ Optional loop mode</X2Text>
+            <X2Text variant="bodyS">✓ Optional page counter</X2Text>
             <X2Text variant="bodyS">✓ Full accessibility (radio roles)</X2Text>
             <X2Text variant="bodyS">✓ Disabled state support</X2Text>
             <X2Text variant="bodyS">✓ Efficient rendering (no re-renders)</X2Text>

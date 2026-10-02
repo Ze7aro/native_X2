@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "description": "Design tokens for react-x2-native",
   "main": "dist/index.js",
+  "react-native": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "type-check": "tsc --noEmit",
-    "dev": "tsc --watch"
+    "build": "tsc -b",
+    "type-check": "tsc -b",
+    "dev": "tsc -b --watch"
   },
   "devDependencies": {
-    "typescript": "^5.3.0"
+    "typescript": "~6.0.3"
   }
 }

@@ -96,21 +96,50 @@ npm install react-x2-native
 ### Basic Example
 
 ```tsx
-import { ThemeProvider, X2Surface, X2Text, X2Pressable } from 'react-x2-native';
+import { ThemeProvider, X2Surface, X2Text, X2Pressable, useThemeColors } from 'react-x2-native';
+
+function Screen() {
+  const colors = useThemeColors();
+  return (
+    <X2Surface>
+      <X2Text variant="headingM">Hello</X2Text>
+      <X2Pressable onPress={() => console.log('pressed')}>
+        <X2Text color={colors.onPrimary}>Press me</X2Text>
+      </X2Pressable>
+    </X2Surface>
+  );
+}
 
 export function MyApp() {
   return (
     <ThemeProvider theme="light">
-      <X2Surface>
-        <X2Text variant="headingM">Hello</X2Text>
-        <X2Pressable onPress={() => console.log('pressed')}>
-          <X2Text color="#FFF">Press me</X2Text>
-        </X2Pressable>
-      </X2Surface>
+      <Screen />
     </ThemeProvider>
   );
 }
 ```
+
+### Optional providers (overlays, toasts, texts)
+
+```tsx
+<SafeAreaProvider>
+  <ThemeProvider theme="light">
+    <X2StringsProvider strings={esStrings}>
+      <ToastProvider>
+        <OverlayProvider>
+          <App />
+        </OverlayProvider>
+      </ToastProvider>
+    </X2StringsProvider>
+  </ThemeProvider>
+</SafeAreaProvider>
+```
+
+- `OverlayProvider`: `Modal`, `BottomSheet`, `Popover`, `Tooltip`, `ContextMenu`, `SideMenu` and `CommandMenu` render in the app tree instead of RN's native `<Modal>`, with Android back-button handling.
+- `ToastProvider`: `useToast().success('Saved')` from any screen, stacked, with longer duration for errors.
+- `X2StringsProvider`: replaces every fixed text (`enStrings` by default, `esStrings` included).
+
+See [COMPONENTS.md](COMPONENTS.md#app-setup-providers) for details.
 
 ## Phase 0 Progress
 
@@ -148,7 +177,9 @@ export function MyApp() {
 
 See [PRIMITIVES.md](PRIMITIVES.md) for detailed API documentation.
 
-## Phase 2 Progress (MVP Components — 10 of 10) ✅ COMPLETE
+## Phase 2 Progress (MVP Components — 10 of 10) ✅ PRODUCTION READY
+
+All 10 components implemented and thoroughly reviewed. All critical issues fixed, code optimized.
 
 - [x] **SpotlightCard**: Interactive glow following touch, spring animations
 - [x] **TiltedCard**: 3D perspective tilt effect, customizable intensity
@@ -157,15 +188,38 @@ See [PRIMITIVES.md](PRIMITIVES.md) for detailed API documentation.
 - [x] **Dock**: Navigation dock with active indicator & safe areas
 - [x] **AnimatedTabs**: Tabbed navigation with animated indicator
 - [x] **SegmentedControl**: Compact multi-option selector
-- [x] **Carousel**: Touch-paginated carousel with indicators
-- [x] **AnimatedList**: List with staggered entry/exit animations
+- [x] **Carousel**: Touch-paginated carousel with indicators & animated indicators
+- [x] **AnimatedList**: List with staggered entry/exit animations, motion reduction support
 - [x] **Accordion**: Expandable sections with smooth transitions
 
-See [COMPONENTS.md](COMPONENTS.md) for detailed component documentation.
+**Review Status:** 7 issues identified and fixed:
+- ✅ SpotlightCard CSS filter removed
+- ✅ Carousel indicators now properly animated with Reanimated
+- ✅ AnimatedList respects motion reduction preferences
+- ✅ Dead code removed, performance optimized
+
+See [COMPONENTS.md](COMPONENTS.md) for detailed component documentation and [PHASE2_REVIEW.md](PHASE2_REVIEW.md) for review findings.
+
+## Phase 3 Progress (Extended Families — 19 of 19) ✅ COMPLETE
+
+Extended component families across 4 categories:
+
+**Extended Cards (6):**
+- FeatureCard, StatsCard, ReviewCard, ProductCard, EventCard, GalleryCard
+
+**Extended Navigation (5):**
+- Breadcrumbs, Stepper, BottomSheet, SideMenu, TabsVariants
+
+**Extended Collections (4):**
+- Grid, Stack, Timeline, InfiniteList
+
+**Overlays (4):**
+- Modal, ContextMenu, Tooltip, Popover
+
+See [PHASE3_PLAN.md](PHASE3_PLAN.md) for complete Phase 3 specification.
 
 ## Roadmap
 
-- **Phase 3:** Extended families (cards, navigation, collections, overlays)
 - **Phase 4:** Animations and advanced interactions
 - **Phase 5:** Comprehensive documentation and release 1.0.0
 

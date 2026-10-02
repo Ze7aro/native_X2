@@ -1,6 +1,11 @@
 export * from './primitives';
 export * from './components';
+export { useNotificationCenter } from './hooks/useNotificationCenter';
 export { ThemeProvider, useTheme, useThemeColors } from './theme/ThemeContext';
 export type { Theme, ThemeContextType } from './theme/ThemeContext';
 export { lightColors, darkColors } from '@react-x2-native/tokens';
 export type { ColorScheme } from '@react-x2-native/tokens';
+export { OverlayProvider, OverlayLayer } from './overlay';
+export type { OverlayLayerProps } from './overlay';
+export { X2StringsProvider, useX2Strings, enStrings, esStrings } from './i18n';
+export type { X2Strings } from './i18n';

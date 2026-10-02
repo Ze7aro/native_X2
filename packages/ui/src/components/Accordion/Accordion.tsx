@@ -53,8 +53,6 @@ export function Accordion({
     <View
       style={[containerStyle, style]}
       testID={testID}
-      accessible
-      accessibilityRole="region"
       {...props}
     >
       {sections.map((section) => {
@@ -107,7 +105,6 @@ export function Accordion({
               </X2Stack>
             }
             accessibilityLabel={section.title}
-            accessibilityHint={isExpanded ? 'Expanded' : 'Collapsed'}
           >
             {section.content}
           </ExpandableCard>

@@ -1,21 +1,20 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   View,
   Pressable,
   ViewStyle,
-  LayoutChangeEvent,
+  GestureResponderEvent,
 } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  Extrapolate,
-  interpolate,
 } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { radius } from '@react-x2-native/tokens';
 import type { SpotlightCardProps } from './SpotlightCard.types';
+import { useX2Strings } from '../../i18n/X2StringsProvider';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
@@ -32,44 +31,24 @@ export function SpotlightCard({
   style,
   ...props
 }: SpotlightCardProps) {
+  const strings = useX2Strings();
   const { colors } = useTheme();
   const reducedMotion = useReducedMotion();
 
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [isPressed, setIsPressed] = useState(false);
 
   const glowX = useSharedValue(0);
   const glowY = useSharedValue(0);
   const glowOpacity = useSharedValue(0);
 
-  const viewRef = useRef<View>(null);
-
-  const handleLayout = useCallback((event: LayoutChangeEvent) => {
-    const { width, height } = event.nativeEvent.layout;
-    setDimensions({ width, height });
-  }, []);
-
-  const handlePressIn = useCallback((e: any) => {
+  const handlePressIn = useCallback((e: GestureResponderEvent) => {
     if (reducedMotion || disabled) return;
 
     setIsPressed(true);
     const { locationX, locationY } = e.nativeEvent;
 
-    glowX.value = withSpring(locationX, {
-      damping: 20,
-      mass: 1,
-      overshootClamping: false,
-      restSpeedThreshold: 0.001,
-      restDisplacementThreshold: 0.001,
-    });
-
-    glowY.value = withSpring(locationY, {
-      damping: 20,
-      mass: 1,
-      overshootClamping: false,
-      restSpeedThreshold: 0.001,
-      restDisplacementThreshold: 0.001,
-    });
+    glowX.value = withSpring(locationX, { damping: 20, mass: 1 });
+    glowY.value = withSpring(locationY, { damping: 20, mass: 1 });
 
     glowOpacity.value = withSpring(intensity, {
       damping: 15,
@@ -93,46 +72,24 @@ export function SpotlightCard({
     }
   }, [disabled, onPress]);
 
-  const animatedGlowStyle = useAnimatedStyle(
-    () => ({
-      position: 'absolute' as const,
-      width: spotRadius * 2,
-      height: spotRadius * 2,
-      borderRadius: spotRadius,
-      opacity: glowOpacity.value,
-      backgroundColor: colors.primary,
-      transform: [
-        {
-          translateX: interpolate(
-            glowX.value,
-            [0, dimensions.width],
-            [-spotRadius, dimensions.width - spotRadius],
-            Extrapolate.EXTEND,
-          ),
-        },
-        {
-          translateY: interpolate(
-            glowY.value,
-            [0, dimensions.height],
-            [-spotRadius, dimensions.height - spotRadius],
-            Extrapolate.EXTEND,
-          ),
-        },
-      ],
-    }),
-    [spotRadius, colors.primary, dimensions],
-  );
+  // Glow is centered on the touch point: its top-left corner sits at (x - R, y - R).
+  const animatedGlowStyle = useAnimatedStyle(() => ({
+    opacity: glowOpacity.value,
+    transform: [
+      { translateX: glowX.value - spotRadius },
+      { translateY: glowY.value - spotRadius },
+    ],
+  }));
 
   const glowStyle = useMemo<ViewStyle>(
     () => ({
       position: 'absolute',
+      top: 0,
+      left: 0,
       width: spotRadius * 2,
       height: spotRadius * 2,
       borderRadius: spotRadius,
-      opacity: 0,
       backgroundColor: colors.primary,
-      top: -spotRadius,
-      left: -spotRadius,
     }),
     [spotRadius, colors.primary],
   );
@@ -149,7 +106,7 @@ export function SpotlightCard({
 
   return (
     <Pressable
-      ref={viewRef}
+      {...props}
       disabled={disabled}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
@@ -157,8 +114,8 @@ export function SpotlightCard({
       testID={testID}
       accessible
       accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel || 'Interactive card'}
-      accessibilityHint={accessibilityHint || 'Double tap to activate'}
+      accessibilityLabel={accessibilityLabel || strings.interactiveCard}
+      accessibilityHint={accessibilityHint || strings.interactiveCardHint}
       accessibilityState={{ disabled }}
       style={[
         cardStyle,
@@ -167,17 +124,12 @@ export function SpotlightCard({
         },
         style,
       ]}
-      onLayout={handleLayout}
-      {...props}
     >
       {/* Glow layer - only render if not using reduced motion */}
       {!reducedMotion && (
         <AnimatedView
           style={[
             glowStyle,
-            {
-              filter: 'blur(40px)' as any,
-            },
             animatedGlowStyle,
           ]}
           pointerEvents="none"

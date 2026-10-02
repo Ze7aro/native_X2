@@ -3,6 +3,7 @@ export const lightColors = {
   primary: '#007AFF',
   primaryVariant: '#0051D5',
   primaryLight: '#54B0FF',
+  onPrimary: '#FFFFFF',
 
   // Surface
   background: '#FFFFFF',
@@ -13,6 +14,7 @@ export const lightColors = {
   text: '#000000',
   textSecondary: '#666666',
   textTertiary: '#999999',
+  onSurface: '#FFFFFF',
 
   // Divider & Borders
   divider: '#E5E5E5',
@@ -23,9 +25,13 @@ export const lightColors = {
   warning: '#FF9500',
   error: '#FF3B30',
   info: '#00B0FF',
+  onError: '#FFFFFF',
 
   // Overlay
   overlay: 'rgba(0, 0, 0, 0.5)',
+  scrim: 'rgba(0, 0, 0, 0.4)',
+  scrimStrong: 'rgba(0, 0, 0, 0.6)',
+  onScrim: '#FFFFFF',
 };
 
 export const darkColors = {
@@ -33,6 +39,7 @@ export const darkColors = {
   primary: '#0A84FF',
   primaryVariant: '#6BB6FF',
   primaryLight: '#5BA3FF',
+  onPrimary: '#FFFFFF',
 
   // Surface
   background: '#000000',
@@ -43,19 +50,24 @@ export const darkColors = {
   text: '#FFFFFF',
   textSecondary: '#CCCCCC',
   textTertiary: '#999999',
+  onSurface: '#000000',
 
   // Divider & Borders
   divider: '#3A3A3C',
   border: '#424245',
 
   // Semantic
-  success: '#30B0C0',
+  success: '#30D158',
   warning: '#FF9500',
   error: '#FF453A',
   info: '#0A84FF',
+  onError: '#FFFFFF',
 
   // Overlay
   overlay: 'rgba(0, 0, 0, 0.8)',
+  scrim: 'rgba(0, 0, 0, 0.4)',
+  scrimStrong: 'rgba(0, 0, 0, 0.6)',
+  onScrim: '#FFFFFF',
 };
 
 export type ColorScheme = typeof lightColors;

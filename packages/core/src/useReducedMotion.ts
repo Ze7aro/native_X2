@@ -7,14 +7,20 @@ export function useReducedMotion(): boolean {
   useEffect(() => {
     let isMounted = true;
 
-    AccessibilityInfo.isScreenReaderEnabled().then((enabled) => {
+    AccessibilityInfo.isReduceMotionEnabled().then((enabled) => {
       if (isMounted) {
         setReducedMotion(enabled);
       }
     });
 
+    const subscription = AccessibilityInfo.addEventListener(
+      'reduceMotionChanged',
+      setReducedMotion,
+    );
+
     return () => {
       isMounted = false;
+      subscription.remove();
     };
   }, []);
 

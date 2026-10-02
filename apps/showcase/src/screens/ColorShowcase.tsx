@@ -72,7 +72,7 @@ export function ColorShowcase() {
                     borderRadius="sm"
                     style={{ width: 60, height: 60 }}
                   />
-                  <X2Stack flex={1} gap="xs">
+                  <X2Stack gap="xs" style={{ flex: 1 }}>
                     <X2Text variant="labelM">{color.name}</X2Text>
                     <X2Text variant="bodyS" color={colors.textSecondary}>
                       {color.value}

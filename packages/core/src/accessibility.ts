@@ -42,7 +42,6 @@ export const getAccessibilityRole = (role: string): AccessibilityRole => {
     'tablist',
     'timer',
     'toolbar',
-    'grid',
     'list',
   ];
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import {
   View,
   Pressable,
@@ -9,15 +9,14 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  measure,
-  runOnUI,
 } from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { radius } from '@react-x2-native/tokens';
 import type { ExpandableCardProps } from './ExpandableCard.types';
+import { useX2Strings } from '../../i18n/X2StringsProvider';
 
-const AnimatedView = Animated.createAnimatedComponent(View);
+const SPRING_CONFIG = { damping: 15, mass: 1 };
 
 export function ExpandableCard({
   header,
@@ -31,75 +30,47 @@ export function ExpandableCard({
   style,
   ...props
 }: ExpandableCardProps) {
+  const strings = useX2Strings();
   const { colors } = useTheme();
   const reducedMotion = useReducedMotion();
 
-  // Use controlled or uncontrolled state
   const [uncontrolledExpanded, setUncontrolledExpanded] = useState(defaultExpanded);
   const isExpanded = controlledExpanded ?? uncontrolledExpanded;
 
-  const contentHeight = useSharedValue(0);
+  const [contentHeight, setContentHeight] = useState(0);
   const animatedHeight = useSharedValue(0);
+  const hasMeasured = useRef(false);
 
-  const contentRef = useRef<View>(null);
-  const containerRef = useRef<Animated.View>(null);
+  // Animate from state (not from the press handler) so controlled changes animate too.
+  useEffect(() => {
+    const target = isExpanded ? contentHeight : 0;
+    if (reducedMotion || !hasMeasured.current) {
+      animatedHeight.value = target;
+    } else {
+      animatedHeight.value = withSpring(target, SPRING_CONFIG);
+    }
+    if (contentHeight > 0) {
+      hasMeasured.current = true;
+    }
+  }, [isExpanded, contentHeight, reducedMotion, animatedHeight]);
 
-  const handleMeasure = useCallback(() => {
-    if (!contentRef.current) return;
-
-    runOnUI(() => {
-      const measurement = measure(contentRef);
-      if (measurement) {
-        contentHeight.value = measurement.height;
-        animatedHeight.value = isExpanded ? measurement.height : 0;
-      }
-    })();
-  }, [isExpanded, contentHeight, animatedHeight]);
-
-  const handleLayout = useCallback((event: LayoutChangeEvent) => {
-    handleMeasure();
-  }, [handleMeasure]);
+  const handleContentLayout = useCallback((event: LayoutChangeEvent) => {
+    setContentHeight(event.nativeEvent.layout.height);
+  }, []);
 
   const handleHeaderPress = useCallback(() => {
     if (disabled) return;
 
     const newExpanded = !isExpanded;
-
-    if (reducedMotion) {
-      // Instant state change when reduce motion is enabled
-      animatedHeight.value = newExpanded ? contentHeight.value : 0;
-    } else {
-      // Smooth spring animation
-      animatedHeight.value = withSpring(
-        newExpanded ? contentHeight.value : 0,
-        {
-          damping: 15,
-          mass: 1,
-          overshootClamping: false,
-          restSpeedThreshold: 0.001,
-          restDisplacementThreshold: 0.001,
-        },
-      );
-    }
-
     if (controlledExpanded === undefined) {
       setUncontrolledExpanded(newExpanded);
     }
     onToggle?.(newExpanded);
-  }, [
-    isExpanded,
-    disabled,
-    reducedMotion,
-    contentHeight,
-    animatedHeight,
-    controlledExpanded,
-    onToggle,
-  ]);
+  }, [isExpanded, disabled, controlledExpanded, onToggle]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     height: animatedHeight.value,
-    overflow: 'hidden',
-  }), []);
+  }));
 
   const cardStyle: ViewStyle = useMemo(
     () => ({
@@ -112,24 +83,23 @@ export function ExpandableCard({
   );
 
   return (
-    <Animated.View
-      ref={containerRef}
+    <View
       style={[cardStyle, style]}
+      testID={testID}
       {...props}
     >
-      {/* Header - Always visible */}
       <Pressable
         disabled={disabled}
         onPress={handleHeaderPress}
         testID={testID ? `${testID}-header` : undefined}
         accessible
         accessibilityRole="button"
-        accessibilityLabel={accessibilityLabel || 'Expandable card'}
+        accessibilityLabel={accessibilityLabel || strings.expandableCard}
         accessibilityState={{
           disabled,
           expanded: isExpanded,
         }}
-        accessibilityHint="Double tap to toggle expansion"
+        accessibilityHint={strings.expandableCardHint}
         style={{
           paddingVertical: 16,
           paddingHorizontal: 16,
@@ -144,13 +114,14 @@ export function ExpandableCard({
         </View>
       </Pressable>
 
-      {/* Content - Animated height */}
-      <AnimatedView style={[animatedStyle]}>
+      <Animated.View style={[{ overflow: 'hidden' }, animatedStyle]}>
         <View
-          ref={contentRef}
-          onLayout={handleLayout}
+          onLayout={handleContentLayout}
           testID={testID ? `${testID}-content` : undefined}
           style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
             paddingVertical: 16,
             paddingHorizontal: 16,
             borderTopColor: colors.divider,
@@ -159,7 +130,7 @@ export function ExpandableCard({
         >
           {children}
         </View>
-      </AnimatedView>
-    </Animated.View>
+      </Animated.View>
+    </View>
   );
 }

@@ -6,6 +6,7 @@ import Animated, {
   Layout,
 } from 'react-native-reanimated';
 import { spacing } from '@react-x2-native/tokens';
+import { useReducedMotion } from '@react-x2-native/core';
 import type { AnimatedListProps } from './AnimatedList.types';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
@@ -15,11 +16,11 @@ export function AnimatedList({
   renderItem,
   gap = spacing.md,
   animationDuration = 300,
-  onItemPress,
   testID,
   style,
   ...props
 }: AnimatedListProps) {
+  const reducedMotion = useReducedMotion();
   const containerStyle: ViewStyle = useMemo(
     () => ({
       gap,
@@ -36,9 +37,17 @@ export function AnimatedList({
       {items.map((item, index) => (
         <AnimatedView
           key={item.id}
-          entering={FadeInUp.duration(animationDuration).delay(index * 50)}
-          exiting={FadeOutDown.duration(animationDuration)}
-          layout={Layout.springify()}
+          entering={
+            reducedMotion
+              ? undefined
+              : FadeInUp.duration(animationDuration).delay(index * 50)
+          }
+          exiting={
+            reducedMotion
+              ? undefined
+              : FadeOutDown.duration(animationDuration)
+          }
+          layout={reducedMotion ? undefined : Layout.springify()}
           testID={testID ? `${testID}-item-${index}` : undefined}
         >
           {renderItem ? renderItem(item, index) : item.content}

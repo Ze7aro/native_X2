@@ -3,27 +3,12 @@
     "name": "react-X2-native Showcase",
     "slug": "react-x2-native-showcase",
     "version": "0.1.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
-      "supportsTabletMode": true,
+      "supportsTablet": true,
       "bundleIdentifier": "com.example.reactx2native"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      },
       "package": "com.example.reactx2native"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      [
-        "expo-safe-area-context"
-      ]
-    ]
+    }
   }
 }

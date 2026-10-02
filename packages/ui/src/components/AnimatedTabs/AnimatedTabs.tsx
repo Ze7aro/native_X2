@@ -1,24 +1,17 @@
-import React, { useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useRef, useCallback, useMemo } from 'react';
 import {
   View,
   ScrollView,
   Pressable,
   ViewStyle,
-  LayoutChangeEvent,
 } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  runOnJS,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { X2Text } from '../../primitives';
+import { useSelectionIndicator } from '../../hooks/useSelectionIndicator';
 import { spacing } from '@react-x2-native/tokens';
 import type { AnimatedTabsProps } from './AnimatedTabs.types';
-
-const AnimatedView = Animated.createAnimatedComponent(View);
 
 export function AnimatedTabs({
   tabs,
@@ -36,39 +29,17 @@ export function AnimatedTabs({
   const { colors } = useTheme();
   const reducedMotion = useReducedMotion();
 
-  const indicatorX = useSharedValue(0);
-  const indicatorWidth = useSharedValue(0);
   const scrollViewRef = useRef<ScrollView>(null);
-  const tabRefs = useRef<{ [key: string]: View | null }>({});
 
-  const activeIndex = tabs.findIndex((tab) => tab.id === activeTabId);
-
-  const handleTabLayout = useCallback(
-    (tabId: string, event: LayoutChangeEvent) => {
-      const { x, width } = event.nativeEvent.layout;
-      const isActive = tabId === activeTabId;
-
-      if (isActive) {
-        indicatorX.value = reducedMotion ? x : withSpring(x, {
-          damping: 15,
-          mass: 1,
-        });
-        indicatorWidth.value = reducedMotion ? width : withSpring(width, {
-          damping: 15,
-          mass: 1,
-        });
-
-        // Scroll to active tab
-        if (scrollViewRef.current) {
-          scrollViewRef.current.scrollTo({
-            x: Math.max(0, x - spacing.lg),
-            animated: true,
-          });
-        }
-      }
+  const { onItemLayout, indicatorStyle } = useSelectionIndicator(activeTabId, {
+    reducedMotion,
+    onMove: (layout, animated) => {
+      scrollViewRef.current?.scrollTo({
+        x: Math.max(0, layout.x - spacing.lg),
+        animated,
+      });
     },
-    [activeTabId, indicatorX, indicatorWidth, reducedMotion],
-  );
+  });
 
   const handleTabPress = useCallback(
     (tabId: string) => {
@@ -78,11 +49,6 @@ export function AnimatedTabs({
     },
     [disabled, onTabPress],
   );
-
-  const animatedIndicatorStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: indicatorX.value }],
-    width: indicatorWidth.value,
-  }), []);
 
   const tabsContainerStyle: ViewStyle = useMemo(
     () => ({
@@ -114,7 +80,7 @@ export function AnimatedTabs({
             }}
           >
             {/* Animated Indicator */}
-            <AnimatedView
+            <Animated.View
               style={[
                 {
                   position: 'absolute',
@@ -123,7 +89,7 @@ export function AnimatedTabs({
                   height: indicatorHeight,
                   backgroundColor: indicatorColor ?? colors.primary,
                 },
-                animatedIndicatorStyle,
+                indicatorStyle,
               ]}
               pointerEvents="none"
             />
@@ -135,12 +101,9 @@ export function AnimatedTabs({
               return (
                 <Pressable
                   key={tab.id}
-                  onLayout={(event) => handleTabLayout(tab.id, event)}
+                  onLayout={(event) => onItemLayout(tab.id, event)}
                   onPress={() => handleTabPress(tab.id)}
                   disabled={disabled}
-                  ref={(ref) => {
-                    if (ref) tabRefs.current[tab.id] = ref;
-                  }}
                   testID={testID ? `${testID}-tab-${tab.id}` : undefined}
                   accessible
                   accessibilityRole="tab"

@@ -1,10 +1,9 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useRef, useCallback, useMemo } from 'react';
 import {
   View,
   Pressable,
   ViewStyle,
-  LayoutChangeEvent,
-  Animated as RNAnimated,
+  GestureResponderEvent,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -15,8 +14,16 @@ import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { radius } from '@react-x2-native/tokens';
 import type { TiltedCardProps } from './TiltedCard.types';
+import { useX2Strings } from '../../i18n/X2StringsProvider';
 
-const AnimatedView = Animated.createAnimatedComponent(View);
+const SPRING_CONFIG = { damping: 15, mass: 1 };
+
+interface CardFrame {
+  pageX: number;
+  pageY: number;
+  width: number;
+  height: number;
+}
 
 export function TiltedCard({
   children,
@@ -31,81 +38,76 @@ export function TiltedCard({
   style,
   ...props
 }: TiltedCardProps) {
+  const strings = useX2Strings();
   const { colors } = useTheme();
   const reducedMotion = useReducedMotion();
-
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [isPressed, setIsPressed] = useState(false);
 
   const rotateX = useSharedValue(0);
   const rotateY = useSharedValue(0);
 
   const viewRef = useRef<View>(null);
+  const frame = useRef<CardFrame | null>(null);
+  const lastTouch = useRef<{ pageX: number; pageY: number } | null>(null);
 
-  const handleLayout = useCallback((event: LayoutChangeEvent) => {
-    const { width, height } = event.nativeEvent.layout;
-    setDimensions({ width, height });
-  }, []);
+  // pageX/pageY are used because locationX/Y are relative to whichever child was touched.
+  const applyTilt = useCallback(
+    (pageX: number, pageY: number) => {
+      const f = frame.current;
+      if (!f || f.width === 0 || f.height === 0) return;
 
-  const handlePressIn = useCallback(
-    (e: any) => {
-      if (reducedMotion || disabled) return;
+      const distX = (pageX - f.pageX - f.width / 2) / (f.width / 2);
+      const distY = (pageY - f.pageY - f.height / 2) / (f.height / 2);
+      const clampUnit = (v: number) => Math.max(-1, Math.min(1, v));
 
-      setIsPressed(true);
-      const { locationX, locationY } = e.nativeEvent;
+      const tiltX = -clampUnit(distY) * maxTilt * intensity;
+      const tiltY = clampUnit(distX) * maxTilt * intensity;
 
-      const centerX = dimensions.width / 2;
-      const centerY = dimensions.height / 2;
-
-      const distX = (locationX - centerX) / centerX;
-      const distY = (locationY - centerY) / centerY;
-
-      const tiltX = -distY * maxTilt * intensity;
-      const tiltY = distX * maxTilt * intensity;
-
-      rotateX.value = withSpring(tiltX, {
-        damping: 15,
-        mass: 1,
-      });
-
-      rotateY.value = withSpring(tiltY, {
-        damping: 15,
-        mass: 1,
-      });
-
+      rotateX.value = withSpring(tiltX, SPRING_CONFIG);
+      rotateY.value = withSpring(tiltY, SPRING_CONFIG);
       onTilt?.(tiltX, tiltY);
     },
-    [maxTilt, intensity, reducedMotion, disabled, dimensions, rotateX, rotateY, onTilt],
+    [maxTilt, intensity, rotateX, rotateY, onTilt],
   );
 
-  const handlePressOut = useCallback(() => {
-    setIsPressed(false);
-    rotateX.value = withSpring(0, {
-      damping: 15,
-      mass: 1,
-    });
-    rotateY.value = withSpring(0, {
-      damping: 15,
-      mass: 1,
-    });
+  const handlePressIn = useCallback(
+    (event: GestureResponderEvent) => {
+      if (reducedMotion || disabled) return;
+      const { pageX, pageY } = event.nativeEvent;
+      lastTouch.current = { pageX, pageY };
+
+      viewRef.current?.measure((_x, _y, width, height, framePageX, framePageY) => {
+        frame.current = { pageX: framePageX, pageY: framePageY, width, height };
+        if (lastTouch.current) {
+          applyTilt(lastTouch.current.pageX, lastTouch.current.pageY);
+        }
+      });
+    },
+    [reducedMotion, disabled, applyTilt],
+  );
+
+  const handleTouchMove = useCallback(
+    (event: GestureResponderEvent) => {
+      if (reducedMotion || disabled || !lastTouch.current) return;
+      const { pageX, pageY } = event.nativeEvent;
+      lastTouch.current = { pageX, pageY };
+      applyTilt(pageX, pageY);
+    },
+    [reducedMotion, disabled, applyTilt],
+  );
+
+  const resetTilt = useCallback(() => {
+    lastTouch.current = null;
+    rotateX.value = withSpring(0, SPRING_CONFIG);
+    rotateY.value = withSpring(0, SPRING_CONFIG);
   }, [rotateX, rotateY]);
 
-  const handlePress = useCallback(() => {
-    if (!disabled) {
-      onPress?.();
-    }
-  }, [disabled, onPress]);
-
-  const animatedStyle = useAnimatedStyle(
-    () => ({
-      transform: [
-        { perspective: 1000 },
-        { rotateX: `${rotateX.value}deg` },
-        { rotateY: `${rotateY.value}deg` },
-      ],
-    }),
-    [],
-  );
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { perspective: 1000 },
+      { rotateX: `${rotateX.value}deg` },
+      { rotateY: `${rotateY.value}deg` },
+    ],
+  }));
 
   const cardStyle: ViewStyle = useMemo(
     () => ({
@@ -119,31 +121,25 @@ export function TiltedCard({
 
   return (
     <Pressable
+      {...props}
       ref={viewRef}
       disabled={disabled}
       onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      onPress={handlePress}
+      onTouchMove={handleTouchMove}
+      onPressOut={resetTilt}
+      onTouchCancel={resetTilt}
+      onPress={disabled ? undefined : onPress}
       testID={testID}
       accessible
       accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel || 'Interactive tilted card'}
-      accessibilityHint={accessibilityHint || 'Double tap to activate, move to tilt'}
+      accessibilityLabel={accessibilityLabel || strings.interactiveTiltedCard}
+      accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled }}
       style={[cardStyle, style]}
-      onLayout={handleLayout}
-      {...props}
     >
-      <AnimatedView
-        style={[
-          {
-            flex: 1,
-          },
-          !reducedMotion && animatedStyle,
-        ]}
-      >
+      <Animated.View style={[{ flex: 1 }, !reducedMotion && animatedStyle]}>
         {children}
-      </AnimatedView>
+      </Animated.View>
     </Pressable>
   );
 }

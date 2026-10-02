@@ -5,7 +5,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
-import { AccessibilityProps, getAccessibilityRole } from '@react-x2-native/core';
+import type { AccessibilityProps } from '@react-x2-native/core';
 
 export interface X2PressableProps extends PressableProps, AccessibilityProps {
   variant?: 'solid' | 'outline' | 'ghost';
@@ -29,11 +29,13 @@ export function X2Pressable({
   activeOpacity = 0.8,
   accessibilityLabel,
   accessibilityHint,
+  accessibilityState,
   ...props
 }: X2PressableProps) {
   const { colors } = useTheme();
 
   const getBackgroundColor = (): string => {
+    if (variant !== 'solid') return backgroundColor ?? 'transparent';
     if (disabled) return colors.surfaceVariant;
     return backgroundColor ?? colors.primary;
   };
@@ -49,21 +51,17 @@ export function X2Pressable({
       disabled={disabled}
       onPress={onPress}
       testID={testID}
-      accessibilityRole={getAccessibilityRole(accessibilityRole as string)}
+      accessibilityRole={accessibilityRole}
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
-      accessibilityState={{ disabled }}
+      accessibilityState={{ ...accessibilityState, disabled: accessibilityState?.disabled ?? disabled }}
       style={({ pressed }) => {
         const baseStyle: ViewStyle = {
           backgroundColor: getBackgroundColor(),
-          borderColor: borderColor ?? 'transparent',
+          borderColor: borderColor ?? (variant === 'outline' ? colors.primary : 'transparent'),
           borderWidth: variant === 'outline' ? 1 : 0,
           opacity: getOpacity(pressed),
         };
-
-        if (variant === 'ghost') {
-          baseStyle.backgroundColor = 'transparent';
-        }
 
         return [baseStyle, typeof style === 'function' ? style({ pressed }) : style];
       }}

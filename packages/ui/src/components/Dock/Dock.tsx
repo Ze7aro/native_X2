@@ -1,18 +1,16 @@
 import React, { useMemo } from 'react';
 import { View, Pressable, ViewStyle } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  runOnJS,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { X2Text } from '../../primitives';
+import { useSelectionIndicator } from '../../hooks/useSelectionIndicator';
 import { spacing } from '@react-x2-native/tokens';
 import type { DockProps } from './Dock.types';
 
-const AnimatedView = Animated.createAnimatedComponent(View);
+const ITEM_WIDTH = 60;
+const DOT_SIZE = 4;
 
 export function Dock({
   items,
@@ -26,21 +24,14 @@ export function Dock({
 }: DockProps) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
+  const reducedMotion = useReducedMotion();
 
-  const indicatorPosition = useSharedValue(0);
-  const activeIndex = items.findIndex((item) => item.id === activeId);
+  const { onItemLayout, x, width } = useSelectionIndicator(activeId, { reducedMotion });
 
-  React.useEffect(() => {
-    const position = activeIndex * 60;
-    indicatorPosition.value = withSpring(position, {
-      damping: 15,
-      mass: 1,
-    });
-  }, [activeIndex, indicatorPosition]);
-
-  const animatedIndicatorStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: indicatorPosition.value }],
-  }), []);
+  const dotStyle = useAnimatedStyle(() => ({
+    opacity: width.value > 0 ? 1 : 0,
+    transform: [{ translateX: x.value + width.value / 2 - DOT_SIZE / 2 }],
+  }));
 
   const dockStyle: ViewStyle = useMemo(
     () => ({
@@ -48,7 +39,7 @@ export function Dock({
       justifyContent: 'center',
       alignItems: showLabels ? 'flex-start' : 'center',
       paddingHorizontal: spacing.md,
-      paddingVertical: spacing.md,
+      paddingTop: spacing.md,
       paddingBottom: Math.max(spacing.md, insets.bottom),
       backgroundColor: backgroundColor ?? colors.surface,
       borderTopColor: colors.divider,
@@ -60,82 +51,63 @@ export function Dock({
 
   return (
     <View
+      {...props}
       testID={testID}
       style={[dockStyle, style]}
-      {...props}
+      accessibilityRole="tablist"
     >
-      {/* Animated indicator */}
-      <AnimatedView
+      <Animated.View
         style={[
           {
             position: 'absolute',
-            bottom: 0,
+            top: spacing.xs,
             left: 0,
-            width: 4,
-            height: 4,
-            borderRadius: 2,
+            width: DOT_SIZE,
+            height: DOT_SIZE,
+            borderRadius: DOT_SIZE / 2,
             backgroundColor: indicatorColor ?? colors.primary,
-            marginLeft: spacing.lg,
           },
-          animatedIndicatorStyle,
+          dotStyle,
         ]}
         pointerEvents="none"
       />
 
-      {/* Items */}
-      {items.map((item, index) => {
+      {items.map((item) => {
         const isActive = item.id === activeId;
 
         return (
           <Pressable
             key={item.id}
-            onPress={() => {
-              indicatorPosition.value = withSpring(index * 60, {
-                damping: 15,
-                mass: 1,
-              });
-              runOnJS(item.onPress)();
-            }}
+            onLayout={(event) => onItemLayout(item.id, event)}
+            onPress={item.onPress}
             testID={testID ? `${testID}-item-${item.id}` : undefined}
             accessible
             accessibilityRole="tab"
             accessibilityLabel={item.label}
             accessibilityState={{ selected: isActive }}
             style={{
-              width: 60,
+              width: ITEM_WIDTH,
               height: showLabels ? 70 : 48,
               justifyContent: 'center',
               alignItems: 'center',
+              gap: showLabels ? spacing.xs : 0,
               opacity: isActive ? 1 : 0.6,
             }}
           >
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: showLabels ? spacing.xs : 0,
-              }}
-            >
-              <View
+            {item.icon}
+            {showLabels && (
+              <X2Text
+                variant="labelS"
+                color={isActive ? colors.primary : colors.textSecondary}
+                numberOfLines={1}
                 style={{
-                  opacity: isActive ? 1 : 0.7,
+                  textAlign: 'center',
+                  maxWidth: ITEM_WIDTH - 10,
                 }}
               >
-                {item.icon}
-              </View>
-              {showLabels && (
-                <X2Text
-                  variant="labelS"
-                  color={isActive ? colors.primary : colors.textSecondary}
-                  style={{
-                    textAlign: 'center',
-                    maxWidth: 50,
-                  }}
-                >
-                  {item.label}
-                </X2Text>
-              )}
-            </View>
+                {item.label}
+              </X2Text>
+            )}
           </Pressable>
         );
       })}

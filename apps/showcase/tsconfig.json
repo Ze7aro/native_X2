@@ -1,8 +1,11 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "expo/tsconfig.base.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"]
+    "strict": true
   },
-  "include": ["src"]
+  "include": ["src", "index.js"],
+  "references": [
+    { "path": "../../packages/tokens" },
+    { "path": "../../packages/ui" }
+  ]
 }

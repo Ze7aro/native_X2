@@ -1,9 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
+    "composite": true,
     "rootDir": "./src",
-    "lib": ["ES2020"]
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [{ "path": "../tokens" }, { "path": "../core" }]
 }

@@ -11,10 +11,10 @@ export interface CarouselProps extends ViewProps {
   initialPage?: number;
   height?: number;
   showIndicators?: boolean;
+  showCounter?: boolean;
   indicatorColor?: string;
   activeIndicatorColor?: string;
   onPageChange?: (pageIndex: number, pageId: string) => void;
-  loop?: boolean;
   disabled?: boolean;
   testID?: string;
 }

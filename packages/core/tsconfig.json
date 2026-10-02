@@ -1,8 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "composite": true,
+    "rootDir": "./src",
     "outDir": "./dist",
-    "rootDir": "./src"
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [{ "path": "../tokens" }]
 }
