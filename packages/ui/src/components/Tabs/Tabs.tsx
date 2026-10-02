@@ -1,4 +1,3 @@
-import React from 'react';
 import { TabsVariants } from '../TabsVariants';
 import type { TabsProps } from './Tabs.types';
 

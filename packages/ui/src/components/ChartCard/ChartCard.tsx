@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View, type LayoutChangeEvent } from 'react-native';
 import { radius, spacing } from '@react-x2-native/tokens';
 import { useTheme } from '../../theme/ThemeContext';

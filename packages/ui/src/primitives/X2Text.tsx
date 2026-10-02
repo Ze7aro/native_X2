@@ -1,4 +1,3 @@
-import React from 'react';
 import { Text, TextProps as RNTextProps } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { typography } from '@react-x2-native/tokens';

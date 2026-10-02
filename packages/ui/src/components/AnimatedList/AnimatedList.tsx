@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { View, ViewStyle } from 'react-native';
 import Animated, { FadeInUp, FadeOutDown, Layout } from 'react-native-reanimated';
 import { spacing } from '@react-x2-native/tokens';

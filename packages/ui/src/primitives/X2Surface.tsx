@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, ViewProps } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { radius, elevation } from '@react-x2-native/tokens';

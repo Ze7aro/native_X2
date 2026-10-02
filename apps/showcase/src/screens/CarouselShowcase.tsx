@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
 import { Carousel, X2Surface, X2Text, X2Stack, useThemeColors } from 'react-x2-native';
 import { spacing } from '@react-x2-native/tokens';

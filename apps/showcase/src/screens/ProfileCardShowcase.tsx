@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ProfileCard, X2Surface, X2Text, X2Stack, X2Icon, useThemeColors } from 'react-x2-native';
 import { spacing } from '@react-x2-native/tokens';
 

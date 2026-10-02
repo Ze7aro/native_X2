@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { spacing } from '@react-x2-native/tokens';
 import { useTheme } from '../../theme/ThemeContext';

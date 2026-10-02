@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 import { elevation, radius, spacing } from '@react-x2-native/tokens';
 import { useTheme } from '../../theme/ThemeContext';

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { spacing } from '@react-x2-native/tokens';
 import { defaultKeyExtractor } from '../../utils/keyExtractor';

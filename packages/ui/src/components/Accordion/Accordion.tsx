@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { View, ViewStyle } from 'react-native';
 import { ExpandableCard } from '../ExpandableCard';
 import { X2Text, X2Stack, X2Icon } from '../../primitives';

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   X2Pressable,
   X2Stack,

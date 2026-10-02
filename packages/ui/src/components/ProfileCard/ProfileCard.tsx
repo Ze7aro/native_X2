@@ -1,4 +1,3 @@
-import React from 'react';
 import { View } from 'react-native';
 import { X2Surface, X2Text, X2Stack, X2Pressable, X2Divider } from '../../primitives';
 import { useTheme } from '../../theme/ThemeContext';

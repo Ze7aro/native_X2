@@ -1,4 +1,3 @@
-import React from 'react';
 import { X2Surface, X2Text, X2Stack, useThemeColors } from 'react-x2-native';
 import { spacing } from '@react-x2-native/tokens';
 

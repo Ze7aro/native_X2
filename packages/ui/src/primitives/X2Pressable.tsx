@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pressable, PressableProps, ViewStyle } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 import type { AccessibilityProps } from '@react-x2-native/core';

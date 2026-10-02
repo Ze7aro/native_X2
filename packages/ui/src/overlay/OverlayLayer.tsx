@@ -1,4 +1,4 @@
-import React, { useEffect, useId } from 'react';
+import { useEffect, useId } from 'react';
 import type { ReactNode } from 'react';
 import { Modal } from 'react-native';
 import { useOverlayStore } from './OverlayProvider';

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { View, Pressable, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useReducedMotion } from '@react-x2-native/core';

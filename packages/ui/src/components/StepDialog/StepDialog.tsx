@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { radius, spacing } from '@react-x2-native/tokens';
 import { useTheme } from '../../theme/ThemeContext';

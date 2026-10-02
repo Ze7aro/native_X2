@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { spacing, radius } from '@react-x2-native/tokens';
 import { useTheme } from '../../theme/ThemeContext';
