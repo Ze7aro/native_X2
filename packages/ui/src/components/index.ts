@@ -58,6 +58,10 @@ export type { InfiniteListProps } from './InfiniteList';
 // Phase 3 - Overlays
 export { Modal } from './Modal';
 export type { ModalProps, ModalAction } from './Modal';
+export { ConfirmDialog } from './ConfirmDialog';
+export type { ConfirmDialogProps } from './ConfirmDialog';
+export { StepDialog } from './StepDialog';
+export type { StepDialogProps, StepDialogStep } from './StepDialog';
 export { ContextMenu } from './ContextMenu';
 export type { ContextMenuProps, ContextMenuAction } from './ContextMenu';
 export { Tooltip } from './Tooltip';
