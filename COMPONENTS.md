@@ -1,8 +1,71 @@
 # Components Documentation
 
-## Phase 2: MVP Components (10 of 10) ✅ COMPLETE
+Reference for the components and providers of `react-x2-native`. Primitives (`X2Text`, `X2Surface`, `X2Pressable`, `X2Stack`, `X2Icon`, `X2Divider`) are documented in [PRIMITIVES.md](PRIMITIVES.md).
 
-Interactive components with animations, gestures, and accessibility support.
+- [Setup and theming](#setup-and-theming)
+- [Cards](#cards)
+- [Navigation](#navigation)
+- [Collections](#collections)
+- [Overlays and feedback](#overlays-and-feedback)
+- [Forms and search](#forms-and-search)
+- [Common patterns](#common-patterns)
+- [Testing](#testing)
+
+## Setup and theming
+
+### App setup (providers)
+
+Mount the providers once, near the root. Order matters:
+
+```tsx
+<GestureHandlerRootView style={{ flex: 1 }}>
+  <SafeAreaProvider>
+    <ThemeProvider theme="light">
+      <X2StringsProvider strings={esStrings}>   {/* optional: texts */}
+        <ToastProvider>                          {/* optional: global toasts */}
+          <OverlayProvider>                      {/* optional: overlays without native <Modal> */}
+            <App />
+          </OverlayProvider>
+        </ToastProvider>
+      </X2StringsProvider>
+    </ThemeProvider>
+  </SafeAreaProvider>
+</GestureHandlerRootView>
+```
+
+All three are optional. Without them every component keeps working (English texts, native `<Modal>`, local `Toast`).
+`ToastProvider` is placed outside `OverlayProvider` so toasts render above modals and sheets.
+
+### Overlays: OverlayProvider
+
+`Modal`, `BottomSheet`, `Popover`, `Tooltip`, `ContextMenu`, `SideMenu` and `CommandMenu` draw through `OverlayLayer`:
+
+- **With `OverlayProvider`:** content is portaled to a host view in the app tree. No native `<Modal>`, so overlays stack predictably, share the app's context and can be tested like normal views.
+- **Without it:** falls back to React Native's `<Modal>` (previous behavior).
+- **Android back button:** handled by the provider. Only the topmost overlay receives it, and a blocked overlay (`dismissible={false}`) still consumes it. When no overlay is open it is not intercepted, so navigation works as usual.
+
+Notes:
+
+- Mount it inside `ThemeProvider` and the safe-area provider so portaled content keeps its context.
+- Its root should fill the screen: `Popover`, `Tooltip` and `ContextMenu` position themselves from window coordinates.
+- `OverlayLayer` is exported for custom overlays: `<OverlayLayer visible={open} onRequestClose={close}>…</OverlayLayer>`.
+
+### Texts (i18n)
+
+Every fixed text in the library lives in `X2Strings` (`enStrings` is the default, `esStrings` is included).
+
+```tsx
+<X2StringsProvider strings={esStrings}>…</X2StringsProvider>
+<X2StringsProvider strings={{ clearSearch: 'Reset' }}>…</X2StringsProvider>  {/* partial is fine */}
+```
+
+A component's own prop always wins over the provider (`closeLabel`, `clearLabel`, `placeholder`, `dateLabel`, `timeLabel`, `locationLabel`, `registerLabel`, `addToCartLabel`, `unavailableLabel`, `outOfStockLabel`, …). Read strings in your own components with `useX2Strings()`.
+
+### Color tokens
+
+No component hard-codes colors. Besides the base palette, the theme provides `scrim`, `scrimStrong` (dark layers over images) and `onScrim` (text on them). A test fails if a `#hex` literal is added under `packages/ui/src/components`.
+
+## Cards
 
 ### SpotlightCard
 
@@ -178,6 +241,46 @@ import { ExpandableCard } from 'react-x2-native';
 - Screen reader announces expanded/collapsed status
 - Proper semantic structure
 
+### DashboardCard
+
+Tarjeta de aplicación para métricas, tendencias y contenido contextual.
+
+```tsx
+<DashboardCard
+  title="Monthly revenue"
+  subtitle="Compared with the previous month"
+  metric="$48,240"
+  metricLabel="Total revenue"
+  trend={{ direction: 'up', value: '+12.4%', label: 'this month' }}
+  status="ready"
+  variant="glass"
+  onRetry={reloadData}
+>
+  <RevenueSummary />
+</DashboardCard>
+```
+
+Incluye estados `ready`, `loading`, `empty` y `error`, contenido de reemplazo, retry, footer, acciones de encabezado, variantes `plain`/`outlined`/`glass` y soporte opcional de interacción.
+
+### ChartCard
+
+Tarjeta de métricas con gráficos de barras o líneas sin depender de una librería externa.
+
+```tsx
+<ChartCard
+  title="Monthly revenue"
+  data={monthlyRevenue}
+  chartType="line"
+  valueFormatter={(value) => `$${value}k`}
+  onPointPress={(point) => inspect(point)}
+  trend={{ direction: 'up', value: '+18%', label: 'vs previous period' }}
+/>
+```
+
+Soporta selección de puntos, labels, grid, límites de escala, formatter de valores, gráfico personalizado y todos los estados de `DashboardCard`.
+
+## Navigation
+
 ### Dock
 
 Horizontal navigation dock with animated active indicator and safe area support.
@@ -329,6 +432,40 @@ const options = [
 - Labels used for accessibility
 - Full keyboard navigation support
 
+### Tabs
+
+API unificada para pestañas con variantes visuales configurables.
+
+```tsx
+<Tabs
+  tabs={tabs}
+  activeTabId={activeTabId}
+  onTabPress={setActiveTabId}
+  variant="archivero"
+>
+  <ScreenContent />
+</Tabs>
+```
+
+Variantes disponibles: `underline`, `pill`, `background`, `icon-only` y `archivero`. `AnimatedTabs` y `TabsVariants` se mantienen disponibles para compatibilidad durante la transición.
+
+### Pagination
+
+Reusable page navigation for tables, lists and search results.
+
+```tsx
+<Pagination
+  page={page}
+  pageCount={totalPages}
+  onPageChange={setPage}
+  testID="users-pagination"
+/>
+```
+
+`DataTable` uses this component internally when `pageSize` is enabled, while standalone consumers can use it with any paginated data source.
+
+## Collections
+
 ### Carousel
 
 Touch-paginated carousel with indicators and page tracking.
@@ -458,28 +595,265 @@ const sections = [
 - Keyboard accessible
 - Built on ExpandableCard for smooth animations
 
-## Phase 2 Complete ✅
-Expandable/collapsible content card with smooth height animations.
+### DataTable
 
-### Dock (Phase 2 - #5)
-Horizontal navigation dock with active indicator and safe area support.
+Generic data table for application UI with sorting, selection, pagination, loading and empty states.
 
-### AnimatedTabs (Phase 2 - #6)
-Tabbed navigation with animated indicator underline.
+```tsx
+import { DataTable, DataTableColumn } from 'react-x2-native';
 
-### SegmentedControl (Phase 2 - #7)
-Compact multi-option selector with smooth animations.
+const columns: DataTableColumn<User>[] = [
+  { id: 'name', header: 'Name', accessor: (user) => user.name, sortable: true },
+  { id: 'role', header: 'Role', accessor: (user) => user.role },
+];
 
-### Carousel (Phase 2 - #8)
-Touch-paginated carousel with indicators and gesture support.
+<DataTable
+  data={users}
+  columns={columns}
+  selectionMode="multiple"
+  pageSize={10}
+  variant="glass"
+  onRowPress={(user) => openUser(user.id)}
+/>
+```
 
-### AnimatedList (Phase 2 - #9)
-List with entry/exit animations and virtualization support.
+#### Features
 
-### Accordion (Phase 2 - #10)
-Expandable sections with keyboard navigation and dynamic heights.
+- Generic `DataTable<T>` API with typed columns.
+- Custom cell renderers with `renderCell`.
+- Ascending, descending and reset sorting.
+- Single or multiple row selection.
+- Client-side pagination.
+- Loading and empty states.
+- Row actions and row press callbacks.
+- `plain`, `outlined` and `glass` variants.
+- Compact and comfortable densities.
 
-## Common Patterns
+## Overlays and feedback
+
+### Modal
+
+```tsx
+<Modal
+  isOpen={open}
+  onClose={() => setOpen(false)}
+  title="Save changes"
+  actions={[
+    { label: 'Cancel', variant: 'outline', onPress: () => setOpen(false) },
+    { label: 'Save', onPress: async () => { await api.save(); } },
+  ]}
+  onActionError={(error) => toast.error(String(error))}
+/>
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `actions[].onPress` | | May return a promise. |
+| `actions[].autoClose` | `true` | Close after `onPress` succeeds. |
+| `dismissible` | `true` | `false` blocks backdrop, back button and close button. |
+| `keyboardAvoiding` | `true` | Lifts the card above the keyboard. |
+| `onActionError` | rethrows | Called when an action throws or rejects. The modal stays open. |
+| `actions[].disabled` | `false` | Greys the action out and ignores presses. |
+| `closeLabel` | from strings | Accessible label of backdrop and close button. |
+
+Async actions: while the promise is pending the action shows a spinner, the other actions are disabled and the modal cannot be dismissed. On success it closes (unless `autoClose={false}`); on failure it stays open and calls `onActionError`.
+
+### ConfirmDialog
+
+Confirmation built on `Modal`, for actions that are destructive or hard to undo.
+
+```tsx
+<ConfirmDialog
+  isOpen={open}
+  onClose={() => setOpen(false)}
+  title="Delete project"
+  description="You are about to delete Apollo."
+  consequences={['All files are removed', 'Members lose access']}
+  requireText="Apollo"
+  destructive
+  confirmLabel="Delete"
+  onConfirm={async () => { await api.deleteProject(); }}
+  onError={(error) => toast.error(String(error))}
+/>
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `onConfirm` | required | May be async. The dialog is busy (and cannot be dismissed) until it resolves, then closes. |
+| `requireText` | | The user must type this exact text (case-sensitive, trimmed) to enable the confirm button. |
+| `consequences` | | Bullet list of what will happen. |
+| `destructive` | `false` | Styles the confirm button as destructive. |
+| `onError` | | Called when `onConfirm` throws. The dialog stays open and shows the error so the user can retry. |
+| `confirmLabel`, `cancelLabel`, `requireTextLabel` | from strings | Localized by default (`confirm`, `cancel`, `typeToConfirm`). |
+
+The typed text and the error are cleared when the dialog closes.
+
+### StepDialog
+
+Multi-step dialog (wizard) built on `Modal`, with a progress bar and "Step N of M" label.
+
+```tsx
+<StepDialog
+  isOpen={open}
+  onClose={() => setOpen(false)}
+  title="New workspace"
+  onFinish={async () => { await api.createWorkspace(); }}
+  steps={[
+    { id: 'welcome', title: 'Welcome', content: <Intro /> },
+    {
+      id: 'email',
+      title: 'Owner email',
+      canContinue: email.includes('@'),
+      onNext: async () => { await api.checkEmail(email); },
+      content: <FormField label="Email" value={email} onChangeText={setEmail} />,
+    },
+    { id: 'review', title: 'Review', content: <Summary /> },
+  ]}
+/>
+```
+
+- **Buttons:** the first step shows Cancel and Next, middle steps Back and Next, and the last step Back and Finish.
+- **`canContinue: false`** disables Next/Finish until the step is valid.
+- **`onNext`** runs before moving on (or before `onFinish` on the last step). It may be async; if it throws, the dialog stays on that step and shows the error.
+- **`onFinish`** may be async. The dialog closes when it resolves and stays open if it throws.
+- **Controlled step:** pass `step` and `onStepChange`. Without `step` the dialog manages it and returns to `initialStep` when closed.
+- **Labels:** `backLabel`, `nextLabel`, `finishLabel`, `cancelLabel` default to the localized strings (`back`, `next`, `finish`, `cancel`, `stepOf`).
+
+Both dialogs reuse `Modal` actions, so they also work with `OverlayProvider`, Android back button handling and `dismissible` locking while busy. `Modal` actions now accept `disabled`.
+
+### BottomSheet
+
+```tsx
+<BottomSheet
+  isOpen={open}
+  onClose={() => setOpen(false)}
+  snapPoints={[0.4, 0.9]}
+  initialSnapIndex={0}
+  onSnapChange={(index) => console.log(index)}
+>
+  <ScrollView>…</ScrollView>
+</BottomSheet>
+```
+
+- **Without `snapPoints`:** the sheet is sized by its content (up to the screen height) and dragging down closes it.
+- **With `snapPoints`:** fractions of the screen height. The sheet gets the largest height and can be dragged between the points (nearest point wins, using release velocity). Dragging below the lowest point closes it. Points are sorted ascending; `initialSnapIndex` and `onSnapChange` use that order. Put scrollable content in a `ScrollView`.
+- `dismissible={false}` blocks backdrop, back button and closing by drag (snapping between points still works). `keyboardAvoiding` (default `true`) lifts the sheet above the keyboard.
+
+### Toast and NotificationCenter
+
+Notifications semánticas para confirmaciones, advertencias, errores y actualizaciones informativas.
+
+```tsx
+const { notifications, notify, dismiss } = useNotificationCenter();
+
+notify({
+  title: 'Saved',
+  message: 'Your changes were saved successfully.',
+  variant: 'success',
+  action: { label: 'Undo', onPress: undoChanges },
+});
+
+<NotificationCenter
+  notifications={notifications}
+  onDismiss={dismiss}
+  position="top"
+  maxVisible={3}
+/>
+```
+
+`Toast` también puede utilizarse de forma independiente, controlada mediante `isVisible` o no controlada mediante `defaultVisible`. Incluye auto-dismiss, acción opcional, cierre accesible, variantes semánticas, safe area y reduced motion.
+
+#### Global toasts: ToastProvider and useToast
+
+```tsx
+<ToastProvider position="top" maxVisible={3}>…</ToastProvider>
+
+const { toast, success, error, warning, info, dismiss, clear } = useToast();
+success('Saved');
+error('Could not save', { action: { label: 'Retry', onPress: retry } });
+toast({ title: 'Update', message: 'New version', variant: 'info' });
+```
+
+Works from any screen: no local state or manual `NotificationCenter` needed. It stacks up to `maxVisible` toasts (extra ones wait), respects the safe area and returns the toast id from every call. Duration is 4 s, or 7 s for `error` (override with `duration`); errors use an `assertive` live region. `useToast` throws outside `ToastProvider`.
+
+### CommandMenu
+
+Menú de comandos para acciones frecuentes, búsqueda rápida y navegación por teclado.
+
+```tsx
+<CommandMenu
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  groups={[
+    {
+      id: 'navigation',
+      label: 'Navigation',
+      items: [
+        {
+          id: 'settings',
+          label: 'Open settings',
+          keywords: ['preferences'],
+          shortcut: '⌘,',
+          onPress: openSettings,
+        },
+      ],
+    },
+  ]}
+/>
+```
+
+Incluye filtrado por label, descripción, grupo y keywords; items deshabilitados o destructivos; estado vacío; acciones accesibles; y navegación mediante flechas, Enter y Escape cuando existe teclado físico.
+
+### EmptyState
+
+Reusable empty content for tables, lists, searches and first-run screens.
+
+```tsx
+<EmptyState
+  icon={<X2Icon name="◇" size={32} />}
+  title="No projects found"
+  description="Try changing the search or create a new project."
+  action={<X2Pressable onPress={createProject}>Create project</X2Pressable>}
+/>
+```
+
+## Forms and search
+
+### FormField
+
+Campo de formulario basado en `TextInput` con una API consistente para label, ayuda, errores y validación.
+
+```tsx
+<FormField
+  label="Email"
+  value={email}
+  onChangeText={setEmail}
+  required
+  validateOn="blur"
+  validate={(value) => value.includes('@') ? undefined : 'Invalid email'}
+  helperText="We will only use this for account notifications."
+/>
+```
+
+Soporta valores controlados y no controlados, validación en `change`, `blur` o `submit`, estados `disabled` y `loading`, adornos `prefix`/`suffix`, mensajes accesibles y estilos semánticos para error.
+
+### SearchField and FilterBar
+
+Reusable search and filtering controls for application UI components.
+
+```tsx
+<FilterBar
+  searchValue={query}
+  onSearchChange={setQuery}
+  searchPlaceholder="Search users"
+>
+  <SegmentedControl options={filters} selectedId={activeFilter} onSelect={setActiveFilter} />
+</FilterBar>
+```
+
+`DataTable` can render a built-in `FilterBar` with `filterable`, or consumers can compose the controls externally for custom filtering.
+
+## Common patterns
 
 ### Motion Respect
 
@@ -547,379 +921,3 @@ pnpm test
 ```
 
 It covers `FormField`, `CommandMenu`, `DataTable`, `Toast`/`ToastProvider`, the `Tabs` variant `archivero`, dialogs (`ConfirmDialog`, `StepDialog`), overlays (`OverlayProvider`, async `Modal` actions, `dismissible`, Android back button), localization and a guard against hard-coded hex colors. The suite is intentionally focused on public behavior and can be expanded as new interaction contracts are added.
-
-## DataTable
-
-Generic data table for application UI with sorting, selection, pagination, loading and empty states.
-
-```tsx
-import { DataTable, DataTableColumn } from 'react-x2-native';
-
-const columns: DataTableColumn<User>[] = [
-  { id: 'name', header: 'Name', accessor: (user) => user.name, sortable: true },
-  { id: 'role', header: 'Role', accessor: (user) => user.role },
-];
-
-<DataTable
-  data={users}
-  columns={columns}
-  selectionMode="multiple"
-  pageSize={10}
-  variant="glass"
-  onRowPress={(user) => openUser(user.id)}
-/>
-```
-
-### Features
-
-- Generic `DataTable<T>` API with typed columns.
-- Custom cell renderers with `renderCell`.
-- Ascending, descending and reset sorting.
-- Single or multiple row selection.
-- Client-side pagination.
-- Loading and empty states.
-- Row actions and row press callbacks.
-- `plain`, `outlined` and `glass` variants.
-- Compact and comfortable densities.
-
-## SearchField and FilterBar
-
-Reusable search and filtering controls for application UI components.
-
-```tsx
-<FilterBar
-  searchValue={query}
-  onSearchChange={setQuery}
-  searchPlaceholder="Search users"
->
-  <SegmentedControl options={filters} selectedId={activeFilter} onSelect={setActiveFilter} />
-</FilterBar>
-```
-
-`DataTable` can render a built-in `FilterBar` with `filterable`, or consumers can compose the controls externally for custom filtering.
-
-## EmptyState
-
-Reusable empty content for tables, lists, searches and first-run screens.
-
-```tsx
-<EmptyState
-  icon={<X2Icon name="◇" size={32} />}
-  title="No projects found"
-  description="Try changing the search or create a new project."
-  action={<X2Pressable onPress={createProject}>Create project</X2Pressable>}
-/>
-```
-
-## Pagination
-
-Reusable page navigation for tables, lists and search results.
-
-```tsx
-<Pagination
-  page={page}
-  pageCount={totalPages}
-  onPageChange={setPage}
-  testID="users-pagination"
-/>
-```
-
-`DataTable` uses this component internally when `pageSize` is enabled, while standalone consumers can use it with any paginated data source.
-
-## App setup (providers)
-
-Mount the providers once, near the root. Order matters:
-
-```tsx
-<GestureHandlerRootView style={{ flex: 1 }}>
-  <SafeAreaProvider>
-    <ThemeProvider theme="light">
-      <X2StringsProvider strings={esStrings}>   {/* optional: texts */}
-        <ToastProvider>                          {/* optional: global toasts */}
-          <OverlayProvider>                      {/* optional: overlays without native <Modal> */}
-            <App />
-          </OverlayProvider>
-        </ToastProvider>
-      </X2StringsProvider>
-    </ThemeProvider>
-  </SafeAreaProvider>
-</GestureHandlerRootView>
-```
-
-All three are optional. Without them every component keeps working (English texts, native `<Modal>`, local `Toast`).
-`ToastProvider` is placed outside `OverlayProvider` so toasts render above modals and sheets.
-
-## Overlays: OverlayProvider
-
-`Modal`, `BottomSheet`, `Popover`, `Tooltip`, `ContextMenu`, `SideMenu` and `CommandMenu` draw through `OverlayLayer`:
-
-- **With `OverlayProvider`:** content is portaled to a host view in the app tree. No native `<Modal>`, so overlays stack predictably, share the app's context and can be tested like normal views.
-- **Without it:** falls back to React Native's `<Modal>` (previous behavior).
-- **Android back button:** handled by the provider. Only the topmost overlay receives it, and a blocked overlay (`dismissible={false}`) still consumes it. When no overlay is open it is not intercepted, so navigation works as usual.
-
-Notes:
-
-- Mount it inside `ThemeProvider` and the safe-area provider so portaled content keeps its context.
-- Its root should fill the screen: `Popover`, `Tooltip` and `ContextMenu` position themselves from window coordinates.
-- `OverlayLayer` is exported for custom overlays: `<OverlayLayer visible={open} onRequestClose={close}>…</OverlayLayer>`.
-
-## Modal
-
-```tsx
-<Modal
-  isOpen={open}
-  onClose={() => setOpen(false)}
-  title="Save changes"
-  actions={[
-    { label: 'Cancel', variant: 'outline', onPress: () => setOpen(false) },
-    { label: 'Save', onPress: async () => { await api.save(); } },
-  ]}
-  onActionError={(error) => toast.error(String(error))}
-/>
-```
-
-| Prop | Default | Description |
-| --- | --- | --- |
-| `actions[].onPress` | | May return a promise. |
-| `actions[].autoClose` | `true` | Close after `onPress` succeeds. |
-| `dismissible` | `true` | `false` blocks backdrop, back button and close button. |
-| `keyboardAvoiding` | `true` | Lifts the card above the keyboard. |
-| `onActionError` | rethrows | Called when an action throws or rejects. The modal stays open. |
-| `actions[].disabled` | `false` | Greys the action out and ignores presses. |
-| `closeLabel` | from strings | Accessible label of backdrop and close button. |
-
-Async actions: while the promise is pending the action shows a spinner, the other actions are disabled and the modal cannot be dismissed. On success it closes (unless `autoClose={false}`); on failure it stays open and calls `onActionError`.
-
-## ConfirmDialog
-
-Confirmation built on `Modal`, for actions that are destructive or hard to undo.
-
-```tsx
-<ConfirmDialog
-  isOpen={open}
-  onClose={() => setOpen(false)}
-  title="Delete project"
-  description="You are about to delete Apollo."
-  consequences={['All files are removed', 'Members lose access']}
-  requireText="Apollo"
-  destructive
-  confirmLabel="Delete"
-  onConfirm={async () => { await api.deleteProject(); }}
-  onError={(error) => toast.error(String(error))}
-/>
-```
-
-| Prop | Default | Description |
-| --- | --- | --- |
-| `onConfirm` | required | May be async. The dialog is busy (and cannot be dismissed) until it resolves, then closes. |
-| `requireText` | | The user must type this exact text (case-sensitive, trimmed) to enable the confirm button. |
-| `consequences` | | Bullet list of what will happen. |
-| `destructive` | `false` | Styles the confirm button as destructive. |
-| `onError` | | Called when `onConfirm` throws. The dialog stays open and shows the error so the user can retry. |
-| `confirmLabel`, `cancelLabel`, `requireTextLabel` | from strings | Localized by default (`confirm`, `cancel`, `typeToConfirm`). |
-
-The typed text and the error are cleared when the dialog closes.
-
-## StepDialog
-
-Multi-step dialog (wizard) built on `Modal`, with a progress bar and "Step N of M" label.
-
-```tsx
-<StepDialog
-  isOpen={open}
-  onClose={() => setOpen(false)}
-  title="New workspace"
-  onFinish={async () => { await api.createWorkspace(); }}
-  steps={[
-    { id: 'welcome', title: 'Welcome', content: <Intro /> },
-    {
-      id: 'email',
-      title: 'Owner email',
-      canContinue: email.includes('@'),
-      onNext: async () => { await api.checkEmail(email); },
-      content: <FormField label="Email" value={email} onChangeText={setEmail} />,
-    },
-    { id: 'review', title: 'Review', content: <Summary /> },
-  ]}
-/>
-```
-
-- **Buttons:** the first step shows Cancel and Next, middle steps Back and Next, and the last step Back and Finish.
-- **`canContinue: false`** disables Next/Finish until the step is valid.
-- **`onNext`** runs before moving on (or before `onFinish` on the last step). It may be async; if it throws, the dialog stays on that step and shows the error.
-- **`onFinish`** may be async. The dialog closes when it resolves and stays open if it throws.
-- **Controlled step:** pass `step` and `onStepChange`. Without `step` the dialog manages it and returns to `initialStep` when closed.
-- **Labels:** `backLabel`, `nextLabel`, `finishLabel`, `cancelLabel` default to the localized strings (`back`, `next`, `finish`, `cancel`, `stepOf`).
-
-Both dialogs reuse `Modal` actions, so they also work with `OverlayProvider`, Android back button handling and `dismissible` locking while busy. `Modal` actions now accept `disabled`.
-
-## BottomSheet
-
-```tsx
-<BottomSheet
-  isOpen={open}
-  onClose={() => setOpen(false)}
-  snapPoints={[0.4, 0.9]}
-  initialSnapIndex={0}
-  onSnapChange={(index) => console.log(index)}
->
-  <ScrollView>…</ScrollView>
-</BottomSheet>
-```
-
-- **Without `snapPoints`:** the sheet is sized by its content (up to the screen height) and dragging down closes it.
-- **With `snapPoints`:** fractions of the screen height. The sheet gets the largest height and can be dragged between the points (nearest point wins, using release velocity). Dragging below the lowest point closes it. Points are sorted ascending; `initialSnapIndex` and `onSnapChange` use that order. Put scrollable content in a `ScrollView`.
-- `dismissible={false}` blocks backdrop, back button and closing by drag (snapping between points still works). `keyboardAvoiding` (default `true`) lifts the sheet above the keyboard.
-
-## Texts (i18n)
-
-Every fixed text in the library lives in `X2Strings` (`enStrings` is the default, `esStrings` is included).
-
-```tsx
-<X2StringsProvider strings={esStrings}>…</X2StringsProvider>
-<X2StringsProvider strings={{ clearSearch: 'Reset' }}>…</X2StringsProvider>  {/* partial is fine */}
-```
-
-A component's own prop always wins over the provider (`closeLabel`, `clearLabel`, `placeholder`, `dateLabel`, `timeLabel`, `locationLabel`, `registerLabel`, `addToCartLabel`, `unavailableLabel`, `outOfStockLabel`, …). Read strings in your own components with `useX2Strings()`.
-
-## Color tokens
-
-No component hard-codes colors. Besides the base palette, the theme provides `scrim`, `scrimStrong` (dark layers over images) and `onScrim` (text on them). A test fails if a `#hex` literal is added under `packages/ui/src/components`.
-
-## Toast and NotificationCenter
-
-Notifications semánticas para confirmaciones, advertencias, errores y actualizaciones informativas.
-
-```tsx
-const { notifications, notify, dismiss } = useNotificationCenter();
-
-notify({
-  title: 'Saved',
-  message: 'Your changes were saved successfully.',
-  variant: 'success',
-  action: { label: 'Undo', onPress: undoChanges },
-});
-
-<NotificationCenter
-  notifications={notifications}
-  onDismiss={dismiss}
-  position="top"
-  maxVisible={3}
-/>
-```
-
-`Toast` también puede utilizarse de forma independiente, controlada mediante `isVisible` o no controlada mediante `defaultVisible`. Incluye auto-dismiss, acción opcional, cierre accesible, variantes semánticas, safe area y reduced motion.
-
-### Global toasts: ToastProvider and useToast
-
-```tsx
-<ToastProvider position="top" maxVisible={3}>…</ToastProvider>
-
-const { toast, success, error, warning, info, dismiss, clear } = useToast();
-success('Saved');
-error('Could not save', { action: { label: 'Retry', onPress: retry } });
-toast({ title: 'Update', message: 'New version', variant: 'info' });
-```
-
-Works from any screen: no local state or manual `NotificationCenter` needed. It stacks up to `maxVisible` toasts (extra ones wait), respects the safe area and returns the toast id from every call. Duration is 4 s, or 7 s for `error` (override with `duration`); errors use an `assertive` live region. `useToast` throws outside `ToastProvider`.
-
-## FormField
-
-Campo de formulario basado en `TextInput` con una API consistente para label, ayuda, errores y validación.
-
-```tsx
-<FormField
-  label="Email"
-  value={email}
-  onChangeText={setEmail}
-  required
-  validateOn="blur"
-  validate={(value) => value.includes('@') ? undefined : 'Invalid email'}
-  helperText="We will only use this for account notifications."
-/>
-```
-
-Soporta valores controlados y no controlados, validación en `change`, `blur` o `submit`, estados `disabled` y `loading`, adornos `prefix`/`suffix`, mensajes accesibles y estilos semánticos para error.
-
-## CommandMenu
-
-Menú de comandos para acciones frecuentes, búsqueda rápida y navegación por teclado.
-
-```tsx
-<CommandMenu
-  isOpen={isOpen}
-  onClose={() => setIsOpen(false)}
-  groups={[
-    {
-      id: 'navigation',
-      label: 'Navigation',
-      items: [
-        {
-          id: 'settings',
-          label: 'Open settings',
-          keywords: ['preferences'],
-          shortcut: '⌘,',
-          onPress: openSettings,
-        },
-      ],
-    },
-  ]}
-/>
-```
-
-Incluye filtrado por label, descripción, grupo y keywords; items deshabilitados o destructivos; estado vacío; acciones accesibles; y navegación mediante flechas, Enter y Escape cuando existe teclado físico.
-
-## DashboardCard
-
-Tarjeta de aplicación para métricas, tendencias y contenido contextual.
-
-```tsx
-<DashboardCard
-  title="Monthly revenue"
-  subtitle="Compared with the previous month"
-  metric="$48,240"
-  metricLabel="Total revenue"
-  trend={{ direction: 'up', value: '+12.4%', label: 'this month' }}
-  status="ready"
-  variant="glass"
-  onRetry={reloadData}
->
-  <RevenueSummary />
-</DashboardCard>
-```
-
-Incluye estados `ready`, `loading`, `empty` y `error`, contenido de reemplazo, retry, footer, acciones de encabezado, variantes `plain`/`outlined`/`glass` y soporte opcional de interacción.
-
-## ChartCard
-
-Tarjeta de métricas con gráficos de barras o líneas sin depender de una librería externa.
-
-```tsx
-<ChartCard
-  title="Monthly revenue"
-  data={monthlyRevenue}
-  chartType="line"
-  valueFormatter={(value) => `$${value}k`}
-  onPointPress={(point) => inspect(point)}
-  trend={{ direction: 'up', value: '+18%', label: 'vs previous period' }}
-/>
-```
-
-Soporta selección de puntos, labels, grid, límites de escala, formatter de valores, gráfico personalizado y todos los estados de `DashboardCard`.
-
-## Tabs
-
-API unificada para pestañas con variantes visuales configurables.
-
-```tsx
-<Tabs
-  tabs={tabs}
-  activeTabId={activeTabId}
-  onTabPress={setActiveTabId}
-  variant="archivero"
->
-  <ScreenContent />
-</Tabs>
-```
-
-Variantes disponibles: `underline`, `pill`, `background`, `icon-only` y `archivero`. `AnimatedTabs` y `TabsVariants` se mantienen disponibles para compatibilidad durante la transición.

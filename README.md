@@ -9,11 +9,14 @@ react-X2-native/
 ├── apps/
 │   └── showcase/           # Expo app for interactive component catalog
 ├── packages/
-│   ├── tokens/            # Design tokens (colors, spacing, typography)
+│   ├── tokens/            # Design tokens (colors, spacing, typography, motion)
 │   ├── core/              # Core utilities and accessibility hooks
 │   └── ui/                # React Native components
-├── pnpm-workspace.yaml
-└── README.md
+├── tests/                 # Jest + React Native Testing Library
+├── docs/archive/          # Historical plans and review reports
+├── COMPONENTS.md          # Component and provider reference
+├── PRIMITIVES.md          # Primitive components reference
+└── pnpm-workspace.yaml
 ```
 
 ## Prerequisites
@@ -34,6 +37,9 @@ pnpm build
 
 # Type checking
 pnpm type-check
+
+# Tests
+pnpm test
 ```
 
 ## Development
@@ -78,7 +84,7 @@ npm install @react-x2-native/tokens
 ```
 
 ### @react-x2-native/core
-Core utilities and accessibility helpers.
+Core utilities and accessibility helpers (`useReducedMotion`, `useSafeAreaPadding`, `useSpacing`).
 
 ```bash
 npm install @react-x2-native/core
@@ -141,87 +147,25 @@ export function MyApp() {
 
 See [COMPONENTS.md](COMPONENTS.md#app-setup-providers) for details.
 
-## Phase 0 Progress
+## Components
 
-- [x] Initialize workspace and pnpm configuration
-- [x] Create base TypeScript configuration
-- [x] Implement design tokens package
-- [x] Implement core utilities package
-- [x] Create UI package with primitives
-- [x] Create Expo showcase app
-- [x] Configure ESLint and Prettier
-- [x] Theme provider with light/dark modes
+Primitives (`X2Text`, `X2Surface`, `X2Pressable`, `X2Stack`, `X2Icon`, `X2Divider`) are documented in [PRIMITIVES.md](PRIMITIVES.md). Everything else is documented in [COMPONENTS.md](COMPONENTS.md).
 
-## Phase 1 Progress
-
-- [x] Enhanced design tokens with motion/easing
-- [x] Refined primitive APIs:
-  - [x] testID support on all primitives
-  - [x] Improved X2Text with weight & font scaling
-  - [x] Enhanced X2Surface with borders & custom radius
-  - [x] Better X2Pressable with activeOpacity & hints
-  - [x] Flexible X2Stack with numeric gap support
-  - [x] Enhanced X2Icon with accessibility
-  - [x] Improved X2Divider with custom color
-- [x] Core utilities:
-  - [x] useSpacing hook
-  - [x] useThemeColors hook
-  - [x] Improved useReducedMotion
-  - [x] useSafeAreaPadding
-- [x] Expanded showcase with section navigation:
-  - [x] Typography showcase
-  - [x] Surfaces & elevation showcase
-  - [x] Buttons showcase
-  - [x] Color palette showcase
-- [x] Comprehensive primitives documentation
-
-See [PRIMITIVES.md](PRIMITIVES.md) for detailed API documentation.
-
-## Phase 2 Progress (MVP Components — 10 of 10) ✅ PRODUCTION READY
-
-All 10 components implemented and thoroughly reviewed. All critical issues fixed, code optimized.
-
-- [x] **SpotlightCard**: Interactive glow following touch, spring animations
-- [x] **TiltedCard**: 3D perspective tilt effect, customizable intensity
-- [x] **ProfileCard**: Composable profile with avatar, metadata, actions
-- [x] **ExpandableCard**: Expandable content with smooth height transitions
-- [x] **Dock**: Navigation dock with active indicator & safe areas
-- [x] **AnimatedTabs**: Tabbed navigation with animated indicator
-- [x] **SegmentedControl**: Compact multi-option selector
-- [x] **Carousel**: Touch-paginated carousel with indicators & animated indicators
-- [x] **AnimatedList**: List with staggered entry/exit animations, motion reduction support
-- [x] **Accordion**: Expandable sections with smooth transitions
-
-**Review Status:** 7 issues identified and fixed:
-- ✅ SpotlightCard CSS filter removed
-- ✅ Carousel indicators now properly animated with Reanimated
-- ✅ AnimatedList respects motion reduction preferences
-- ✅ Dead code removed, performance optimized
-
-See [COMPONENTS.md](COMPONENTS.md) for detailed component documentation and [PHASE2_REVIEW.md](PHASE2_REVIEW.md) for review findings.
-
-## Phase 3 Progress (Extended Families — 19 of 19) ✅ COMPLETE
-
-Extended component families across 4 categories:
-
-**Extended Cards (6):**
-- FeatureCard, StatsCard, ReviewCard, ProductCard, EventCard, GalleryCard
-
-**Extended Navigation (5):**
-- Breadcrumbs, Stepper, BottomSheet, SideMenu, TabsVariants
-
-**Extended Collections (4):**
-- Grid, Stack, Timeline, InfiniteList
-
-**Overlays (4):**
-- Modal, ContextMenu, Tooltip, Popover
-
-See [PHASE3_PLAN.md](PHASE3_PLAN.md) for complete Phase 3 specification.
+| Family | Components |
+| --- | --- |
+| Cards | `SpotlightCard`, `TiltedCard`, `ProfileCard`, `ExpandableCard`, `FeatureCard`, `StatsCard`, `ReviewCard`, `ProductCard`, `EventCard`, `GalleryCard`, `DashboardCard`, `ChartCard` |
+| Navigation | `Dock`, `Tabs` (`AnimatedTabs`, `TabsVariants`), `SegmentedControl`, `Breadcrumbs`, `Stepper`, `SideMenu`, `Pagination` |
+| Collections | `Carousel`, `AnimatedList`, `Accordion`, `Grid`, `ItemStack`, `Timeline`, `InfiniteList`, `DataTable` |
+| Overlays and feedback | `Modal`, `ConfirmDialog`, `StepDialog`, `BottomSheet`, `ContextMenu`, `Tooltip`, `Popover`, `CommandMenu`, `Toast`, `NotificationCenter`, `EmptyState` |
+| Forms and search | `FormField`, `SearchField`, `FilterBar` |
 
 ## Roadmap
 
-- **Phase 4:** Animations and advanced interactions
-- **Phase 5:** Comprehensive documentation and release 1.0.0
+- Advanced animations and interactions.
+- More test coverage for components that only have showcase screens today.
+- Comprehensive documentation and a 1.0.0 release.
+
+Past plans and review reports are kept in [docs/archive](docs/archive).
 
 ## Contributing
 
