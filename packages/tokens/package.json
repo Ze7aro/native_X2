@@ -11,7 +11,9 @@
   "scripts": {
     "build": "tsc -b",
     "type-check": "tsc -b",
-    "dev": "tsc -b --watch"
+    "dev": "tsc -b --watch",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "devDependencies": {
     "typescript": "~6.0.3"
