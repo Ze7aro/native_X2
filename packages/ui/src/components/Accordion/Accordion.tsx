@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { View, Pressable, ViewStyle } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import { ExpandableCard } from '../ExpandableCard';
 import { X2Text, X2Stack, X2Icon } from '../../primitives';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing } from '@react-x2-native/tokens';
-import type { AccordionProps, AccordionSection } from './Accordion.types';
+import type { AccordionProps } from './Accordion.types';
 
 export function Accordion({
   sections,

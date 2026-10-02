@@ -13,7 +13,6 @@ import { useReducedMotion } from '@react-x2-native/core';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
-import { X2Surface } from '../../primitives/X2Surface';
 import type { ReviewCardProps } from './ReviewCard.types';
 import { useX2Strings } from '../../i18n/X2StringsProvider';
 

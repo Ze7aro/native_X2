@@ -3,7 +3,6 @@ import {
   View,
   Pressable,
   ViewStyle,
-  ImageBackground,
 } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing, radius } from '@react-x2-native/tokens';

@@ -45,3 +45,9 @@ coverage/
 .env
 .env.local
 .env.*.local
+
+# Local packaging output and personal tooling config
+.release*/
+packages/.release*/
+*.tgz
+.claude/settings.local.json

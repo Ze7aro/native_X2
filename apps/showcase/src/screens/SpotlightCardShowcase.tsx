@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SpotlightCard, X2Surface, X2Text, X2Stack, X2Pressable, useThemeColors } from 'react-x2-native';
+import { SpotlightCard, X2Surface, X2Text, X2Stack, useThemeColors } from 'react-x2-native';
 import { spacing } from '@react-x2-native/tokens';
 
 export function SpotlightCardShowcase() {

@@ -34,8 +34,6 @@ export function GalleryCard({
     [disabled],
   );
 
-  const gridSize = Math.ceil(Math.sqrt(visibleImages.length));
-
   return (
     <View
       style={[cardStyle, style]}

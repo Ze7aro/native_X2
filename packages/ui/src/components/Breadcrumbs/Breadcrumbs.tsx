@@ -6,7 +6,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
-import { spacing, radius } from '@react-x2-native/tokens';
+import { spacing } from '@react-x2-native/tokens';
 import { X2Text } from '../../primitives/X2Text';
 import type { BreadcrumbsProps, BreadcrumbItem } from './Breadcrumbs.types';
 

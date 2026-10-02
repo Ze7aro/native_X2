@@ -30,8 +30,6 @@ export function AnimatedTabsShowcase() {
   const [activeIcons, setActiveIcons] = useState('home');
   const [activeMore, setActiveMore] = useState('tab1');
 
-  const contentKey = `${activeBasic}${activeIcons}${activeMore}`;
-
   return (
     <X2Surface style={{ paddingHorizontal: spacing.lg, paddingVertical: spacing.lg }}>
       <X2Text variant="headingL" style={{ marginBottom: spacing.md }}>

@@ -17,7 +17,7 @@ import { spacing } from '@react-x2-native/tokens';
 
 export function ExtendedCardsShowcase() {
   const colors = useThemeColors();
-  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
+  const [, setSelectedProduct] = useState<string | null>(null);
 
   return (
     <ScrollView>

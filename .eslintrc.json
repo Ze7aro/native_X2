@@ -13,8 +13,31 @@
     "es2020": true
   },
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
     "@typescript-eslint/no-explicit-any": "warn",
-    "no-console": ["warn", { "allow": ["warn", "error"] }]
-  }
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "apps/showcase/**/*.{ts,tsx}"
+      ],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ]
 }

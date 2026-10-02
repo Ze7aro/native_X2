@@ -94,7 +94,7 @@ export function CarouselShowcase() {
             testID="carousel-simple"
             pages={simplePages}
             height={250}
-            onPageChange={(idx, id) => setCurrentPage(idx)}
+            onPageChange={(idx) => setCurrentPage(idx)}
             showIndicators={true}
           />
           <X2Text variant="bodyS" color={colors.textSecondary}>
@@ -111,7 +111,7 @@ export function CarouselShowcase() {
             testID="carousel-complex"
             pages={complexPages}
             height={280}
-            onPageChange={(idx, id) => setCurrentPageComplex(idx)}
+            onPageChange={(idx) => setCurrentPageComplex(idx)}
             showIndicators={true}
             indicatorColor={colors.surfaceVariant}
             activeIndicatorColor={colors.primary}
