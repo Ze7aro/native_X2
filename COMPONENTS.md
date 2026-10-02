@@ -546,7 +546,7 @@ cd native
 pnpm test
 ```
 
-It covers `FormField`, `CommandMenu`, `DataTable`, `Toast`/`ToastProvider`, the `Tabs` variant `archivero`, overlays (`OverlayProvider`, async `Modal` actions, `dismissible`, Android back button), localization and a guard against hard-coded hex colors. The suite is intentionally focused on public behavior and can be expanded as new interaction contracts are added.
+It covers `FormField`, `CommandMenu`, `DataTable`, `Toast`/`ToastProvider`, the `Tabs` variant `archivero`, dialogs (`ConfirmDialog`, `StepDialog`), overlays (`OverlayProvider`, async `Modal` actions, `dismissible`, Android back button), localization and a guard against hard-coded hex colors. The suite is intentionally focused on public behavior and can be expanded as new interaction contracts are added.
 
 ## DataTable
 
@@ -685,9 +685,73 @@ Notes:
 | `dismissible` | `true` | `false` blocks backdrop, back button and close button. |
 | `keyboardAvoiding` | `true` | Lifts the card above the keyboard. |
 | `onActionError` | rethrows | Called when an action throws or rejects. The modal stays open. |
+| `actions[].disabled` | `false` | Greys the action out and ignores presses. |
 | `closeLabel` | from strings | Accessible label of backdrop and close button. |
 
 Async actions: while the promise is pending the action shows a spinner, the other actions are disabled and the modal cannot be dismissed. On success it closes (unless `autoClose={false}`); on failure it stays open and calls `onActionError`.
+
+## ConfirmDialog
+
+Confirmation built on `Modal`, for actions that are destructive or hard to undo.
+
+```tsx
+<ConfirmDialog
+  isOpen={open}
+  onClose={() => setOpen(false)}
+  title="Delete project"
+  description="You are about to delete Apollo."
+  consequences={['All files are removed', 'Members lose access']}
+  requireText="Apollo"
+  destructive
+  confirmLabel="Delete"
+  onConfirm={async () => { await api.deleteProject(); }}
+  onError={(error) => toast.error(String(error))}
+/>
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `onConfirm` | required | May be async. The dialog is busy (and cannot be dismissed) until it resolves, then closes. |
+| `requireText` | | The user must type this exact text (case-sensitive, trimmed) to enable the confirm button. |
+| `consequences` | | Bullet list of what will happen. |
+| `destructive` | `false` | Styles the confirm button as destructive. |
+| `onError` | | Called when `onConfirm` throws. The dialog stays open and shows the error so the user can retry. |
+| `confirmLabel`, `cancelLabel`, `requireTextLabel` | from strings | Localized by default (`confirm`, `cancel`, `typeToConfirm`). |
+
+The typed text and the error are cleared when the dialog closes.
+
+## StepDialog
+
+Multi-step dialog (wizard) built on `Modal`, with a progress bar and "Step N of M" label.
+
+```tsx
+<StepDialog
+  isOpen={open}
+  onClose={() => setOpen(false)}
+  title="New workspace"
+  onFinish={async () => { await api.createWorkspace(); }}
+  steps={[
+    { id: 'welcome', title: 'Welcome', content: <Intro /> },
+    {
+      id: 'email',
+      title: 'Owner email',
+      canContinue: email.includes('@'),
+      onNext: async () => { await api.checkEmail(email); },
+      content: <FormField label="Email" value={email} onChangeText={setEmail} />,
+    },
+    { id: 'review', title: 'Review', content: <Summary /> },
+  ]}
+/>
+```
+
+- **Buttons:** the first step shows Cancel and Next, middle steps Back and Next, and the last step Back and Finish.
+- **`canContinue: false`** disables Next/Finish until the step is valid.
+- **`onNext`** runs before moving on (or before `onFinish` on the last step). It may be async; if it throws, the dialog stays on that step and shows the error.
+- **`onFinish`** may be async. The dialog closes when it resolves and stays open if it throws.
+- **Controlled step:** pass `step` and `onStepChange`. Without `step` the dialog manages it and returns to `initialStep` when closed.
+- **Labels:** `backLabel`, `nextLabel`, `finishLabel`, `cancelLabel` default to the localized strings (`back`, `next`, `finish`, `cancel`, `stepOf`).
+
+Both dialogs reuse `Modal` actions, so they also work with `OverlayProvider`, Android back button handling and `dismissible` locking while busy. `Modal` actions now accept `disabled`.
 
 ## BottomSheet
 

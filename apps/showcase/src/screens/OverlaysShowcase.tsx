@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import {
   Modal,
+  ConfirmDialog,
+  StepDialog,
+  FormField,
   ContextMenu,
   Tooltip,
   Popover,
@@ -22,6 +25,9 @@ export function OverlaysShowcase() {
   const { success, error } = useToast();
   const [modalOpen, setModalOpen] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [stepsOpen, setStepsOpen] = useState(false);
+  const [email, setEmail] = useState('');
 
   return (
     <>
@@ -43,6 +49,30 @@ export function OverlaysShowcase() {
               >
                 <X2Text color={colors.onPrimary} style={{ textAlign: 'center' }}>
                   Open Modal
+                </X2Text>
+              </X2Pressable>
+            </X2Stack>
+
+            {/* ConfirmDialog and StepDialog */}
+            <X2Stack gap="md" align="stretch">
+              <X2Text variant="labelM" color={colors.primary}>
+                ConfirmDialog / StepDialog
+              </X2Text>
+              <X2Pressable
+                onPress={() => setConfirmOpen(true)}
+                backgroundColor={colors.error}
+                style={{ paddingVertical: spacing.md }}
+              >
+                <X2Text color={colors.onError} style={{ textAlign: 'center' }}>
+                  Delete project (type to confirm)
+                </X2Text>
+              </X2Pressable>
+              <X2Pressable
+                onPress={() => setStepsOpen(true)}
+                style={{ paddingVertical: spacing.md }}
+              >
+                <X2Text color={colors.onPrimary} style={{ textAlign: 'center' }}>
+                  Open Step Dialog
                 </X2Text>
               </X2Pressable>
             </X2Stack>
@@ -136,7 +166,62 @@ export function OverlaysShowcase() {
               </X2Stack>
             </X2Stack>
 
-            {/* Popover */}
+            <ConfirmDialog
+        isOpen={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        title="Delete project"
+        description="You are about to delete Apollo."
+        consequences={['All files are removed', 'Members lose access', 'This cannot be undone']}
+        requireText="Apollo"
+        destructive
+        confirmLabel="Delete"
+        onConfirm={async () => {
+          await wait(1200);
+          success('Project deleted');
+        }}
+        onError={(err) => error(err instanceof Error ? err.message : 'Error')}
+      />
+
+      <StepDialog
+        isOpen={stepsOpen}
+        onClose={() => setStepsOpen(false)}
+        title="New workspace"
+        onFinish={async () => {
+          await wait(1000);
+          success('Workspace created');
+        }}
+        onError={(err) => error(err instanceof Error ? err.message : 'Error')}
+        steps={[
+          {
+            id: 'welcome',
+            title: 'Welcome',
+            description: 'A quick three-step setup.',
+            content: <X2Text variant="bodyM" color={colors.text}>Create a workspace for your team.</X2Text>,
+          },
+          {
+            id: 'email',
+            title: 'Owner email',
+            description: 'Needed to continue.',
+            canContinue: email.includes('@'),
+            content: (
+              <FormField
+                label="Email"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            ),
+          },
+          {
+            id: 'review',
+            title: 'Review',
+            content: <X2Text variant="bodyM" color={colors.text}>Owner: {email}</X2Text>,
+          },
+        ]}
+      />
+
+      {/* Popover */}
             <X2Stack gap="md" align="stretch">
               <X2Text variant="labelM" color={colors.primary}>
                 Popover
