@@ -7,6 +7,8 @@ export interface ModalAction {
   variant?: 'solid' | 'outline' | 'destructive';
   /** Close the modal after `onPress` succeeds. Defaults to true. */
   autoClose?: boolean;
+  /** Greys the action out and ignores presses. */
+  disabled?: boolean;
 }
 
 export interface ModalProps {

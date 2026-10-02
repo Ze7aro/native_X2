@@ -51,6 +51,14 @@ export interface X2Strings {
   eventTime: string;
   eventLocation: string;
   registerNow: string;
+  // Dialogs
+  confirm: string;
+  cancel: string;
+  back: string;
+  next: string;
+  finish: string;
+  typeToConfirm: (text: string) => string;
+  stepOf: (step: number, total: number) => string;
 }
 
 export const enStrings: X2Strings = {
@@ -99,6 +107,13 @@ export const enStrings: X2Strings = {
   eventTime: 'Time',
   eventLocation: 'Location',
   registerNow: 'Register Now',
+  confirm: 'Confirm',
+  cancel: 'Cancel',
+  back: 'Back',
+  next: 'Next',
+  finish: 'Finish',
+  typeToConfirm: (text) => `Type "${text}" to confirm`,
+  stepOf: (step, total) => `Step ${step} of ${total}`,
 };
 
 export const esStrings: X2Strings = {
@@ -147,4 +162,11 @@ export const esStrings: X2Strings = {
   eventTime: 'Hora',
   eventLocation: 'Lugar',
   registerNow: 'Regístrate',
+  confirm: 'Confirmar',
+  cancel: 'Cancelar',
+  back: 'Atrás',
+  next: 'Siguiente',
+  finish: 'Finalizar',
+  typeToConfirm: (text) => `Escribe "${text}" para confirmar`,
+  stepOf: (step, total) => `Paso ${step} de ${total}`,
 };

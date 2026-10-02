@@ -186,7 +186,7 @@ export function Modal({
                     onPress={() => runAction(action, index)}
                     // The running action keeps its own look (a disabled solid button turns light grey,
                     // hiding the spinner); runAction already ignores presses while busy.
-                    disabled={busy && !isBusy}
+                    disabled={action.disabled || (busy && !isBusy)}
                     variant={actionColors.variant}
                     borderColor={actionColors.border}
                     accessibilityLabel={action.label}
