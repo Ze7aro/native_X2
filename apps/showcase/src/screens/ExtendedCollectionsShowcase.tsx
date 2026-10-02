@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import {
   Grid,
-  Stack,
+  ItemStack,
   Timeline,
   InfiniteList,
   X2Surface,
@@ -130,9 +130,9 @@ export function ExtendedCollectionsShowcase() {
 
         <X2Stack gap="md" align="stretch">
           <X2Text variant="labelM" color={colors.primary}>
-            Stack (Horizontal with Dividers)
+            ItemStack (Horizontal with Dividers)
           </X2Text>
-          <Stack
+          <ItemStack
             testID="stack-1"
             items={stackItems}
             direction="horizontal"
@@ -154,9 +154,9 @@ export function ExtendedCollectionsShowcase() {
 
         <X2Stack gap="md" align="stretch">
           <X2Text variant="labelM" color={colors.primary}>
-            Stack (Vertical with Dividers)
+            ItemStack (Vertical with Dividers)
           </X2Text>
-          <Stack
+          <ItemStack
             testID="stack-2"
             items={['Item 1', 'Item 2', 'Item 3']}
             direction="vertical"
@@ -199,7 +199,7 @@ export function ExtendedCollectionsShowcase() {
       </X2Text>
       <X2Stack gap="xs">
         <X2Text variant="bodyS">✓ Grid with configurable columns</X2Text>
-        <X2Text variant="bodyS">✓ Stack for vertical/horizontal layouts</X2Text>
+        <X2Text variant="bodyS">✓ ItemStack for vertical/horizontal layouts</X2Text>
         <X2Text variant="bodyS">✓ Timeline with status indicators</X2Text>
         <X2Text variant="bodyS">✓ InfiniteList with pagination</X2Text>
         <X2Text variant="bodyS">✓ Flexible rendering with custom items</X2Text>

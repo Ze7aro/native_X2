@@ -7,9 +7,9 @@ import {
 import { useTheme } from '../../theme/ThemeContext';
 import { spacing as tokens } from '@react-x2-native/tokens';
 import { X2Divider } from '../../primitives/X2Divider';
-import type { StackProps } from './Stack.types';
+import type { ItemStackProps } from './ItemStack.types';
 
-export function Stack<T>({
+export function ItemStack<T>({
   items,
   renderItem,
   direction = 'vertical',
@@ -19,7 +19,7 @@ export function Stack<T>({
   testID,
   style,
   ...props
-}: StackProps<T>) {
+}: ItemStackProps<T>) {
   const { colors } = useTheme();
 
   const isHorizontal = direction === 'horizontal';

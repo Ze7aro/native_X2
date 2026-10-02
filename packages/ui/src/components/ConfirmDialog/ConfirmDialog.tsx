@@ -3,13 +3,11 @@ import { View } from 'react-native';
 import { spacing } from '@react-x2-native/tokens';
 import { useTheme } from '../../theme/ThemeContext';
 import { useX2Strings } from '../../i18n/X2StringsProvider';
+import { errorMessage } from '../../utils/errorMessage';
 import { X2Text } from '../../primitives/X2Text';
 import { FormField } from '../FormField';
 import { Modal } from '../Modal';
 import type { ConfirmDialogProps } from './ConfirmDialog.types';
-
-const messageOf = (error: unknown, fallback: string) =>
-  error instanceof Error && error.message ? error.message : fallback;
 
 export function ConfirmDialog({
   isOpen,
@@ -51,7 +49,7 @@ export function ConfirmDialog({
     try {
       await onConfirm();
     } catch (caught) {
-      setError(messageOf(caught, strings.somethingWentWrong));
+      setError(errorMessage(caught, strings.somethingWentWrong));
       throw caught; // keeps the Modal open
     }
   };

@@ -20,6 +20,7 @@ import type {
   DataTableSort,
 } from './DataTable.types';
 import { useX2Strings } from '../../i18n/X2StringsProvider';
+import { defaultKeyExtractor } from '../../utils/keyExtractor';
 
 export function DataTable<T>({
   data,
@@ -413,14 +414,6 @@ function SelectionControl({
       </View>
     </Pressable>
   );
-}
-
-function defaultKeyExtractor<T>(item: T, index: number): string {
-  if (item !== null && typeof item === 'object' && 'id' in item) {
-    const id = (item as { id?: unknown }).id;
-    if (typeof id === 'string' || typeof id === 'number') return String(id);
-  }
-  return String(index);
 }
 
 function compareValues(left: DataTableCellValue, right: DataTableCellValue): number {

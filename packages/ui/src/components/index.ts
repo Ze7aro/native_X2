@@ -48,8 +48,8 @@ export type { TabsVariantsProps, TabItem as TabsVariantTabItem } from './TabsVar
 // Phase 3 - Extended Collections
 export { Grid } from './Grid';
 export type { GridProps } from './Grid';
-export { Stack } from './Stack';
-export type { StackProps } from './Stack';
+export { ItemStack, Stack } from './ItemStack';
+export type { ItemStackProps, StackProps } from './ItemStack';
 export { Timeline } from './Timeline';
 export type { TimelineProps, TimelineItem } from './Timeline';
 export { InfiniteList } from './InfiniteList';
